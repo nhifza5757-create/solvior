@@ -94,7 +94,7 @@ export default function Hero() {
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
               />
               <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center">
                 <ArrowRight className="h-4 w-4" />
@@ -126,7 +126,7 @@ export default function Hero() {
           <Reveal
             animation="fadeInUp"
             delay={0.4}
-            className="relative ml-auto mt-14 w-fit overflow-hidden rounded-2xl rounded-tr-none bg-primary"
+            className="relative ml-auto mt-14 w-fit overflow-hidden rounded-2xl bg-primary"
           >
             <Image
               src={HERO_STAT_BG}

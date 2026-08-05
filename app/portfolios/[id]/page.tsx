@@ -1,20 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  ArrowRight,
-  ArrowLeft,
-  Check,
-  Facebook,
-  Twitter,
-  Linkedin,
-  LayoutGrid,
-  Play,
-} from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, LayoutGrid } from "lucide-react";
 import { projects } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
+import { PlayVideoButton, ShareButtons } from "@/components/ui/MediaInteractions";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
+const WIDGET_CTA_IMAGE = "/images/widget-cta.webp";
 
 export default async function PortfolioDetailPage({
   params,
@@ -34,7 +27,7 @@ export default async function PortfolioDetailPage({
   return (
     <div>
       {/* Hero banner */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image
           src={HERO_BG}
           alt=""
@@ -48,10 +41,10 @@ export default async function PortfolioDetailPage({
             <h1 className="font-display text-4xl font-medium sm:text-5xl">{project.title}</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-accent">Home</Link>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60 active:border-accent/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-accent active:text-accent">Home</Link>
               <span>/</span>
-              <Link href="/portfolios" className="transition-colors duration-300 hover:text-accent">Portfolios</Link>
+              <Link href="/portfolios" className="transition-colors duration-300 hover:text-accent active:text-accent">Portfolios</Link>
               <span>/</span>
               <span className="text-white/70">{project.title}</span>
             </div>
@@ -101,27 +94,20 @@ export default async function PortfolioDetailPage({
                 src={project.secondaryImage}
                 alt=""
                 fill
-                className="object-cover transition duration-500 group-hover:scale-105"
+                className="object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
               />
-              <button
-                type="button"
-                aria-label="Play video"
-                data-cursor-hover
-                className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary transition hover:bg-white"
-              >
-                <Play className="h-5 w-5 fill-primary" />
-              </button>
+              <PlayVideoButton />
             </div>
 
             <h3 className="mt-10 font-display text-xl font-medium text-primary">Final result</h3>
             <p className="mt-4 text-muted-foreground">{project.finalResult}</p>
 
             {/* Prev / Next */}
-            <div className="mt-12 flex items-center justify-between rounded-2xl border border-border px-6 py-5">
+            <div className="mt-12 flex items-center justify-between rounded-none border border-border px-6 py-5">
               <Link
                 href={`/portfolios/${prevProject.id}`}
                 data-cursor-hover
-                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent"
+                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent active:text-accent"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
                   <ArrowLeft className="h-4 w-4" />
@@ -132,14 +118,14 @@ export default async function PortfolioDetailPage({
                 href="/portfolios"
                 aria-label="All portfolios"
                 data-cursor-hover
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-muted text-primary hover:bg-[#0075ff] hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-muted text-primary hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white"
               >
                 <LayoutGrid className="h-4 w-4" />
               </Link>
               <Link
                 href={`/portfolios/${nextProject.id}`}
                 data-cursor-hover
-                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent"
+                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent active:text-accent"
               >
                 Next
                 <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
@@ -151,7 +137,7 @@ export default async function PortfolioDetailPage({
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <div className="rounded-2xl border border-border p-6">
+            <div className="rounded-none border border-border p-6">
               <h4 className="font-display text-lg font-semibold text-primary">Portfolio Information</h4>
               <span className="mt-2 block h-0.5 w-8 bg-[#0075ff]" />
 
@@ -170,25 +156,15 @@ export default async function PortfolioDetailPage({
                 ))}
                 <div className="flex items-center justify-between">
                   <dt className="text-muted-foreground">Share</dt>
-                  <dd className="flex gap-2">
-                    {[Facebook, Twitter, Linkedin].map((Icon, i) => (
-                      <a
-                        key={i}
-                        href="#"
-                        aria-label="Share"
-                        data-cursor-hover
-                        className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-primary transition hover:bg-[#0075ff] hover:text-white"
-                      >
-                        <Icon className="h-3.5 w-3.5" />
-                      </a>
-                    ))}
+                  <dd>
+                    <ShareButtons title={project.title} />
                   </dd>
                 </div>
               </dl>
             </div>
 
             <div className="relative overflow-hidden bg-primary p-8 text-white">
-              <Image src={project.image} alt="" fill className="object-cover opacity-20" aria-hidden />
+              <Image src={WIDGET_CTA_IMAGE} alt="" fill className="object-cover opacity-40" aria-hidden />
               <div className="relative">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0075ff]">
                   <Check className="h-5 w-5" />
@@ -221,7 +197,9 @@ export default async function PortfolioDetailPage({
             </div>
           </div>
         </div>
-        {/* CTA banner */}
+      </section>
+
+      {/* CTA banner */}
       <section className="relative overflow-hidden bg-accent py-16">
         <span
           aria-hidden
@@ -241,21 +219,20 @@ export default async function PortfolioDetailPage({
           <Link
             href="/contact"
             data-cursor-hover
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-primary-dark transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-primary-dark transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>
         </Reveal>
-      </section>
       </section>
     </div>
   );

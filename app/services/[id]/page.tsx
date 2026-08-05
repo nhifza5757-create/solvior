@@ -1,16 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Check, LayoutGrid, Play, Zap, Award, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, LayoutGrid, Zap, Award, Sparkles } from "lucide-react";
 import { services, serviceHighlights, serviceFeatures } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
 import ServiceFAQ from "@/components/sections/ServiceFAQ";
+import { PlayVideoButton } from "@/components/ui/MediaInteractions";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
 const MAIN_IMAGE = "/images/project/h2-project-1.webp";
 const CHECKLIST_IMAGE_1 = "/images/project/h1-project-2.webp";
 const CHECKLIST_IMAGE_2 = "/images/project/h1-project-4.webp";
 const VIDEO_BG = "/images/hero/h4-hero.webp";
+const WIDGET_CTA_IMAGE = "/images/widget-cta.webp";
 
 const FEATURE_ICONS = [Zap, Award, Sparkles];
 
@@ -32,7 +34,7 @@ export default async function ServiceDetailPage({
   return (
     <div>
       {/* Hero banner */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image src={HERO_BG} alt="" fill className="animate-hero-zoom object-cover" priority />
         <div className="absolute inset-0 bg-primary-dark/70" aria-hidden />
         <div className="relative text-center text-white">
@@ -40,10 +42,10 @@ export default async function ServiceDetailPage({
             <h1 className="font-display text-4xl font-medium sm:text-5xl">{service.title}</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-2  border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-accent">Home</Link>
+            <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-2  border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60 active:border-accent/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-accent active:text-accent">Home</Link>
               <span>/</span>
-              <Link href="/services" className="transition-colors duration-300 hover:text-accent">Services</Link>
+              <Link href="/services" className="transition-colors duration-300 hover:text-accent active:text-accent">Services</Link>
               <span>/</span>
               <span className="text-white/70">{service.title}</span>
             </div>
@@ -140,12 +142,12 @@ export default async function ServiceDetailPage({
                     key={feature.title}
                     animation="fadeInUp"
                     delay={i * 0.1}
-                    className="bg-background-soft p-6 transition-colors duration-300 hover:bg-accent hover:text-white"
+                    className="bg-background-soft p-6 transition-colors duration-300 hover:bg-accent active:bg-accent hover:text-white active:text-white"
                   >
                     <span className="group flex h-11 w-11 items-center justify-center rounded-full bg-white text-accent transition-colors duration-300">
                       <Icon className="h-5 w-5" />
                     </span>
-                    <h4 className="mt-5 font-display text-base font-semibold text-primary transition-colors duration-300 group-hover:text-white">
+                    <h4 className="mt-5 font-display text-base font-semibold text-primary transition-colors duration-300 group-hover:text-white group-active:text-white">
                       {feature.title}
                     </h4>
                     <p className="mt-2 text-sm text-muted-foreground transition-colors duration-300">
@@ -162,17 +164,10 @@ export default async function ServiceDetailPage({
                 src={VIDEO_BG}
                 alt=""
                 fill
-                className="object-cover transition duration-500 group-hover:scale-105"
+                className="object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
               />
               <div className="absolute inset-0 bg-primary-dark/30" />
-              <button
-                type="button"
-                aria-label="Play video"
-                data-cursor-hover
-                className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-primary transition hover:bg-white"
-              >
-                <Play className="h-5 w-5 fill-primary" />
-              </button>
+              <PlayVideoButton />
             </div>
 
             {/* FAQ */}
@@ -184,7 +179,7 @@ export default async function ServiceDetailPage({
               <Link
                 href={`/services/${prevService.id}`}
                 data-cursor-hover
-                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent"
+                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent active:text-accent"
               >
                 <span className="flex h-9 w-9 items-center justify-center border border-border">
                   <ArrowLeft className="h-4 w-4" />
@@ -195,14 +190,14 @@ export default async function ServiceDetailPage({
                 href="/services"
                 aria-label="All services"
                 data-cursor-hover
-                className="flex h-9 w-9 items-center justify-center  bg-muted text-primary hover:bg-accent hover:text-white"
+                className="flex h-9 w-9 items-center justify-center  bg-muted text-primary hover:bg-accent active:bg-accent hover:text-white active:text-white"
               >
                 <LayoutGrid className="h-4 w-4" />
               </Link>
               <Link
                 href={`/services/${nextService.id}`}
                 data-cursor-hover
-                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent"
+                className="flex items-center gap-3 text-sm font-semibold text-primary hover:text-accent active:text-accent"
               >
                 Next
                 <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
@@ -229,12 +224,12 @@ export default async function ServiceDetailPage({
                       className={`group flex items-center justify-between  px-5 py-4 text-sm font-semibold transition-all duration-300 ${
                         isActive
                           ? "bg-accent text-white"
-                          : "bg-muted text-primary hover:bg-accent hover:text-white"
+                          : "bg-muted text-primary hover:bg-accent active:bg-accent hover:text-white active:text-white"
                       }`}
                     >
                       <span>{s.title}</span>
                       <ArrowRight
-                        className={`h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${
+                        className={`h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1 ${
                           isActive ? "" : ""
                         }`}
                       />
@@ -247,6 +242,7 @@ export default async function ServiceDetailPage({
             {/* Need help widget */}
             <Reveal animation="fadeInUp" delay={0.15}>
               <div className="relative overflow-hidden bg-primary p-8 text-white">
+                <Image src={WIDGET_CTA_IMAGE} alt="" fill className="object-cover opacity-40" aria-hidden />
                 <span
                   aria-hidden
                   className="absolute -bottom-6 -right-6 h-32 w-32 border-white/10"
@@ -317,16 +313,16 @@ export default async function ServiceDetailPage({
             <Link
               href="/contact"
               data-cursor-hover
-              className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+              className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-primary-dark transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-primary-dark transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
               />
-              <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+              <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
                 <ArrowRight className="h-4 w-4" />
               </span>
-              <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+              <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
                 Lets talk now
               </span>
             </Link>

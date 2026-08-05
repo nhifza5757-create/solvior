@@ -36,12 +36,12 @@ export default function Footer() {
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
             <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Contact us now
             </span>
           </Link>
@@ -69,7 +69,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {serviceLinks.map((s) => (
                 <li key={s}>
-                  <Link href="/services" className="text-sm text-white/70 hover:text-white">
+                  <Link href="/services" className="text-sm text-white/70 hover:text-white active:text-white">
                     {s}
                   </Link>
                 </li>
@@ -84,7 +84,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {resourceLinks.map((r) => (
                 <li key={r.label}>
-                  <Link href={r.href} className="text-sm text-white/70 hover:text-white">
+                  <Link href={r.href} className="text-sm text-white/70 hover:text-white active:text-white">
                     {r.label}
                   </Link>
                 </li>
@@ -105,10 +105,10 @@ export default function Footer() {
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/50 sm:flex-row">
           <p>© {new Date().getFullYear()} Solvior. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/contact" className="hover:text-white">
+            <Link href="/contact" className="hover:text-white active:text-white">
               Policy & privacy
             </Link>
-            <Link href="/contact" className="hover:text-white">
+            <Link href="/contact" className="hover:text-white active:text-white">
               Terms & conditions
             </Link>
           </div>

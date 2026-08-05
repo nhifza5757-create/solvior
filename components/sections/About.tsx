@@ -25,8 +25,8 @@ export default function About() {
               <div className="absolute inset-0 bg-black/10" />
             </Reveal>
 
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center lg:justify-end">
-              <div className="pointer-events-auto relative scale-75 sm:scale-90 lg:scale-100 lg:mr-[-3.5rem]">
+            <div className="pointer-events-none absolute inset-0 flex items-start justify-center lg:items-center lg:justify-end">
+              <div className="pointer-events-auto relative -translate-y-1/2 scale-75 sm:scale-90 lg:translate-y-0 lg:scale-100 lg:mr-[-3.5rem]">
                 <div aria-hidden className="absolute -inset-2 rounded-full bg-primary shadow-2xl" />
                 <div className="relative z-10">
                   <ExploreBadge />
@@ -53,7 +53,7 @@ export default function About() {
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
               />
               <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center">
                 <ArrowRight className="h-4 w-4" />

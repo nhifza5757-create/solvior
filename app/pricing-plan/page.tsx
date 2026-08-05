@@ -71,7 +71,7 @@ export default function PricingPlanPage() {
   return (
     <div>
       {/* HERO BANNER */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image
           src={HERO_BG}
           alt="Pricing background"
@@ -85,8 +85,8 @@ export default function PricingPlanPage() {
             <h1 className="font-display text-4xl font-medium sm:text-5xl">Pricing plan</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff]">
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60 active:border-[#0075ff]/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff] active:text-[#0075ff]">
                 Home
               </Link>
               <span>/</span>
@@ -120,7 +120,7 @@ export default function PricingPlanPage() {
                   className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
                     billingCycle === "monthly"
                       ? "bg-[#0a1426] text-white"
-                      : "text-[#0a1426] hover:text-[#0075ff]"
+                      : "text-[#0a1426] hover:text-[#0075ff] active:text-[#0075ff]"
                   }`}
                 >
                   Monthly
@@ -130,7 +130,7 @@ export default function PricingPlanPage() {
                   className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
                     billingCycle === "yearly"
                       ? "bg-[#0a1426] text-white"
-                      : "text-[#0a1426] hover:text-[#0075ff]"
+                      : "text-[#0a1426] hover:text-[#0075ff] active:text-[#0075ff]"
                   }`}
                 >
                   Yearly
@@ -165,10 +165,10 @@ export default function PricingPlanPage() {
               return (
                 <Reveal key={plan.id} animation="fadeInUp" delay={index * 0.1}>
                   <div
-                    className={`relative flex flex-col rounded-xl p-8 transition-all duration-300 hover:shadow-2xl ${
+                    className={`relative flex flex-col rounded-xl p-8 transition-all duration-300 hover:shadow-2xl active:shadow-2xl ${
                       isRecommended
                         ? "bg-[#0075ff] text-white shadow-xl scale-100 md:scale-105 md:z-10"
-                        : "bg-[#F0F5FF] text-[#0a1426] hover:-translate-y-1"
+                        : "bg-[#F0F5FF] text-[#0a1426] hover:-translate-y-1 active:-translate-y-1"
                     }`}
                   >
                     {/* Recommended Badge */}
@@ -221,20 +221,24 @@ export default function PricingPlanPage() {
                     <div className="mt-8">
                       {isRecommended ? (
                         // CENTER BLUE CARD BUTTON
-                        <button
-                          className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-full bg-white py-3 pl-4 pr-6 text-sm font-semibold text-[#0a1426] transition-all duration-300 hover:bg-[#0a1426] hover:text-white"
+                        <Link
+                          href={`/contact?plan=${encodeURIComponent(plan.name)}`}
+                          data-cursor-hover
+                          className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-full bg-white py-3 pl-4 pr-6 text-sm font-semibold text-[#0a1426] transition-all duration-300 hover:bg-[#0a1426] active:bg-[#0a1426] hover:text-white active:text-white"
                         >
                           <span className="mr-2">Choose package</span>
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </button>
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-active:translate-x-1" />
+                        </Link>
                       ) : (
                         // WHITE CARDS BUTTON (FIXED LIGHT BLUE HOVER)
-                        <button
-                          className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-full bg-[#0a1426] py-3 pl-4 pr-6 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#E6F2FF] hover:text-[#0a1426]"
+                        <Link
+                          href={`/contact?plan=${encodeURIComponent(plan.name)}`}
+                          data-cursor-hover
+                          className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-full bg-[#0a1426] py-3 pl-4 pr-6 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#E6F2FF] active:bg-[#E6F2FF] hover:text-[#0a1426] active:text-[#0a1426]"
                         >
                           <span className="mr-2">Choose package</span>
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </button>
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-active:translate-x-1" />
+                        </Link>
                       )}
                     </div>
                   </div>
@@ -264,16 +268,16 @@ export default function PricingPlanPage() {
           </h2>
           <Link
             href="/contact"
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>

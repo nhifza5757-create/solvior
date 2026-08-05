@@ -35,7 +35,7 @@ export default function ExploreBadge({
         </text>
       </svg>
 
-      <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-lg transition-transform group-hover:scale-105">
+      <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-accent text-white shadow-lg transition-transform group-hover:scale-105 group-active:scale-105">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path d="M8 5v14l11-7z" />
         </svg>

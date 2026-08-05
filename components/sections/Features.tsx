@@ -57,11 +57,11 @@ export default function Features() {
               key={f.id}
               animation="fadeInUp"
               delay={i * 0.1}
-              className="group relative overflow-hidden rounded-none border border-border transition-all duration-300 hover:-translate-y-1 hover:border-accent/40"
+              className="group relative overflow-hidden rounded-none border border-border transition-all duration-300 hover:-translate-y-1 active:-translate-y-1 hover:border-accent/40 active:border-accent/40"
             >
               <div
   aria-hidden
-  className="pointer-events-none absolute inset-x-0 bottom-0 h-[28rem] origin-bottom scale-y-0 opacity-0 blur-2xl transition-all duration-500 ease-out group-hover:scale-y-100 group-hover:opacity-60"
+  className="pointer-events-none absolute inset-x-0 bottom-0 h-[28rem] origin-bottom scale-y-0 opacity-0 blur-2xl transition-all duration-500 ease-out group-hover:scale-y-100 group-active:scale-y-100 group-hover:opacity-60 group-active:opacity-60"
   style={{
     backgroundImage:
       "radial-gradient(ellipse 220% 100% at bottom, rgba(125,190,255,0.9) 0%, rgba(125,190,255,0.4) 40%, rgba(125,190,255,0.15) 65%, transparent 85%)",
@@ -69,7 +69,7 @@ export default function Features() {
 />
           <div className="relative bg-gradient-to-b from-white via-muted/40 to-muted px-8 pb-12 pt-12">
   <div className="flex h-16 w-16 items-center justify-center border border-border bg-white">
-    <span className="text-primary transition group-hover:text-accent">
+    <span className="text-primary transition group-hover:text-accent group-active:text-accent">
       {icons[f.id]}
     </span>
   </div>

@@ -60,7 +60,7 @@ export default function HistoryPage() {
   return (
     <div>
       {/* HERO BANNER */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image
           src={HERO_BG}
           alt="History background"
@@ -74,8 +74,8 @@ export default function HistoryPage() {
             <h1 className="font-display text-4xl font-medium sm:text-5xl">Company history</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff]">
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60 active:border-[#0075ff]/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff] active:text-[#0075ff]">
                 Home
               </Link>
               <span>/</span>
@@ -109,13 +109,13 @@ export default function HistoryPage() {
             </p>
             <Link
               href="/contact"
-              className="group relative inline-flex w-fit items-center overflow-hidden rounded-full bg-[#0a1426] py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+              className="group relative inline-flex w-fit items-center overflow-hidden rounded-full bg-[#0a1426] py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
               />
-              <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+              <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
                 <ArrowRight className="h-4 w-4" />
               </span>
               <span className="relative z-10 ml-3">Learn more</span>
@@ -170,7 +170,7 @@ export default function HistoryPage() {
 
               {/* Card Box */}
               <div
-                className={`w-full sm:w-[calc(50%-40px)] relative border border-gray-200 bg-white p-6 sm:p-8 transition-all duration-500 hover:shadow-xl ${
+                className={`w-full sm:w-[calc(50%-40px)] relative border border-gray-200 bg-white p-6 sm:p-8 transition-all duration-500 hover:shadow-xl active:shadow-xl ${
                   step.side === "right" ? "sm:ml-auto" : "sm:mr-auto"
                 }`}
               >
@@ -189,7 +189,7 @@ export default function HistoryPage() {
                         src={step.images[0]}
                         alt={`${step.title} image 1`}
                         fill
-                        className="object-cover transition-transform duration-500 hover:scale-105"
+                        className="object-cover transition-transform duration-500 hover:scale-105 active:scale-105"
                       />
                     </div>
                     <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-gray-100">
@@ -197,7 +197,7 @@ export default function HistoryPage() {
                         src={step.images[1]}
                         alt={`${step.title} image 2`}
                         fill
-                        className="object-cover transition-transform duration-500 hover:scale-105"
+                        className="object-cover transition-transform duration-500 hover:scale-105 active:scale-105"
                       />
                     </div>
                   </div>
@@ -227,16 +227,16 @@ export default function HistoryPage() {
           </h2>
           <Link
             href="/contact"
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>

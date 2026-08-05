@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { ArrowRight, Check, MapPin } from "lucide-react";
 import Reveal from "@/components/ui/Reveal";
+import { ShareButtons } from "@/components/ui/MediaInteractions";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
 
@@ -102,11 +103,36 @@ export default function CareerDetailsClient({ jobId }: { jobId: number }) {
     }
   }
 
+  const [applyForm, setApplyForm] = useState({ name: "", email: "", phone: "", cover: "" });
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [applySubmitted, setApplySubmitted] = useState(false);
+
+  function handleApplyChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    setApplyForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  function handleApplySubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Job application: ${currentJob?.title ?? ""}`);
+    const body = encodeURIComponent(
+      `Name: ${applyForm.name}\nEmail: ${applyForm.email}\nPhone: ${applyForm.phone}\nResume: ${
+        resumeFile ? resumeFile.name + " (please attach manually)" : "Not attached"
+      }\n\nCover letter:\n${applyForm.cover}`
+    );
+    window.location.href = `mailto:careers@solvior.com?subject=${subject}&body=${body}`;
+    setApplySubmitted(true);
+    setApplyForm({ name: "", email: "", phone: "", cover: "" });
+    setResumeFile(null);
+    setTimeout(() => setApplySubmitted(false), 5000);
+  }
+
   if (!currentJob) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center bg-white">
         <h2 className="text-3xl font-bold text-[#0a1426] mb-4">Job Not Found</h2>
-        <Link href="/careers" className="text-[#0075ff] hover:underline">Go back to Careers</Link>
+        <Link href="/careers" className="text-[#0075ff] hover:underline active:underline">Go back to Careers</Link>
       </div>
     );
   }
@@ -128,8 +154,8 @@ export default function CareerDetailsClient({ jobId }: { jobId: number }) {
             <h1 className="font-display text-4xl font-medium sm:text-5xl">Careers details</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff]">
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60 active:border-[#0075ff]/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff] active:text-[#0075ff]">
                 Home
               </Link>
               <span>/</span>
@@ -227,21 +253,7 @@ export default function CareerDetailsClient({ jobId }: { jobId: number }) {
                   ))}
                 </div>
                 <div className="flex items-center gap-3 mt-4 sm:mt-0">
-                  <span className="text-sm font-medium text-[#0a1426]">Share:</span>
-                  <div className="flex gap-2">
-                    <a href="#" className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-[#0a1426] transition-colors hover:bg-[#0075ff] hover:text-white">
-                      <Facebook className="h-3 w-3" />
-                    </a>
-                    <a href="#" className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-[#0a1426] transition-colors hover:bg-[#0075ff] hover:text-white">
-                      <Twitter className="h-3 w-3" />
-                    </a>
-                    <a href="#" className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-[#0a1426] transition-colors hover:bg-[#0075ff] hover:text-white">
-                      <Instagram className="h-3 w-3" />
-                    </a>
-                    <a href="#" className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-[#0a1426] transition-colors hover:bg-[#0075ff] hover:text-white">
-                      <Linkedin className="h-3 w-3" />
-                    </a>
-                  </div>
+                  <ShareButtons title={currentJob.title} />
                 </div>
               </div>
             </Reveal>
@@ -255,11 +267,11 @@ export default function CareerDetailsClient({ jobId }: { jobId: number }) {
                   className={`group relative inline-flex items-center rounded-lg border px-6 py-3 text-sm font-semibold transition-all duration-300 ${
                     isLastJob
                       ? "border-gray-200 text-gray-400 cursor-not-allowed"
-                      : "border-gray-200 text-[#0a1426] hover:border-[#0075ff] hover:bg-[#0075ff] hover:text-white"
+                      : "border-gray-200 text-[#0a1426] hover:border-[#0075ff] active:border-[#0075ff] hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white"
                   }`}
                 >
                   <span className="mr-8">Next</span>
-                  <ArrowRight className="absolute right-4 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="absolute right-4 h-4 w-4 transition-transform group-hover:translate-x-1 group-active:translate-x-1" />
                 </button>
               </div>
             </Reveal>
@@ -306,25 +318,39 @@ export default function CareerDetailsClient({ jobId }: { jobId: number }) {
             <Reveal animation="fadeInUp" delay={0.1}>
               <div className="border border-gray-200 p-6 rounded-lg">
                 <h4 className="text-lg font-bold text-[#0a1426] mb-4 pb-2 border-b-2 border-[#0075ff] w-fit">Apply online</h4>
-                <form className="space-y-4">
-                  <input type="text" placeholder="Full name*" className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors" />
-                  <input type="email" placeholder="Enter email*" className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors" />
-                  <input type="tel" placeholder="Phone number*" className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors" />
-                  <textarea placeholder="Cover letter*" rows={3} className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors resize-none"></textarea>
+                <form onSubmit={handleApplySubmit} className="space-y-4">
+                  <input type="text" name="name" value={applyForm.name} onChange={handleApplyChange} required placeholder="Full name*" className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors" />
+                  <input type="email" name="email" value={applyForm.email} onChange={handleApplyChange} required placeholder="Enter email*" className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors" />
+                  <input type="tel" name="phone" value={applyForm.phone} onChange={handleApplyChange} required placeholder="Phone number*" className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors" />
+                  <textarea name="cover" value={applyForm.cover} onChange={handleApplyChange} required placeholder="Cover letter*" rows={3} className="w-full border border-gray-200 rounded px-4 py-2.5 text-sm focus:outline-none focus:border-[#0075ff] transition-colors resize-none"></textarea>
                   <div className="border border-gray-200 rounded p-2 flex items-center gap-3 bg-gray-50">
-                    <button type="button" className="bg-[#0075ff] text-white px-4 py-1.5 rounded text-xs font-semibold hover:bg-blue-700 transition-colors">Choose File</button>
-                    <span className="text-xs text-gray-500">No file chosen</span>
+                    <label className="bg-[#0075ff] text-white px-4 py-1.5 rounded text-xs font-semibold hover:bg-blue-700 active:bg-blue-700 transition-colors cursor-pointer">
+                      Choose File
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => setResumeFile(e.target.files?.[0] ?? null)}
+                      />
+                    </label>
+                    <span className="text-xs text-gray-500">{resumeFile ? resumeFile.name : "No file chosen"}</span>
                   </div>
-                  <button className="group relative inline-flex w-fit items-center overflow-hidden rounded-full bg-[#0a1426] py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl">
-                    <span
-                      aria-hidden
-                      className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
-                    />
-                    <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
-                      <ArrowRight className="h-4 w-4" />
-                    </span>
-                    <span className="relative z-10 ml-3">Submit now</span>
-                  </button>
+                  <div className="flex items-center gap-4">
+                    <button type="submit" data-cursor-hover className="group relative inline-flex w-fit items-center overflow-hidden rounded-full bg-[#0a1426] py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl">
+                      <span
+                        aria-hidden
+                        className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
+                      />
+                      <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
+                        <ArrowRight className="h-4 w-4" />
+                      </span>
+                      <span className="relative z-10 ml-3">Submit now</span>
+                    </button>
+                    {applySubmitted && (
+                      <span className="flex items-center gap-1.5 text-sm font-medium text-[#0075ff]">
+                        <Check className="h-4 w-4" /> Opening your email client...
+                      </span>
+                    )}
+                  </div>
                 </form>
               </div>
             </Reveal>
@@ -351,16 +377,16 @@ export default function CareerDetailsClient({ jobId }: { jobId: number }) {
           </h2>
           <Link
             href="/contact"
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>

@@ -8,6 +8,7 @@ import { blogCategories, blogPosts, blogTags } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
+const WIDGET_CTA_IMAGE = "/images/widget-cta.webp";
 const POSTS_PER_PAGE = 3;
 
 export default function BlogSidebarPage() {
@@ -40,7 +41,7 @@ export default function BlogSidebarPage() {
   return (
     <div>
       {/* HERO BANNER - exact match to portfolios page */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image
           src={HERO_BG}
           alt="Blog background"
@@ -54,8 +55,8 @@ export default function BlogSidebarPage() {
             <h1 className="font-display text-4xl font-medium sm:text-5xl">Blog with sidebar</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-accent">Home</Link>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60 active:border-accent/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-accent active:text-accent">Home</Link>
               <span>/</span>
               <span className="text-white/70">Blog with sidebar</span>
             </div>
@@ -74,7 +75,7 @@ export default function BlogSidebarPage() {
 
             {paginated.map((post, i) => (
               <Reveal key={post.id} animation="fadeInUp" delay={i * 0.1}>
-                <article className="group overflow-hidden border-border bg-background transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/10">
+                <article className="group overflow-hidden border-border bg-background transition-shadow duration-300 hover:shadow-2xl active:shadow-2xl hover:shadow-black/10 active:shadow-black/10">
                   {/* Image */}
                   <Link
                     href={`/blogs/${post.id}`}
@@ -85,9 +86,9 @@ export default function BlogSidebarPage() {
                       src={post.image}
                       alt={post.title}
                       fill
-                      className="object-cover transition duration-700 ease-out group-hover:scale-110"
+                      className="object-cover transition duration-700 ease-out group-hover:scale-110 group-active:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100" />
 
                     {/* Date badge */}
                     <div className="absolute left-5 top-5 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-center leading-tight text-white backdrop-blur-md">
@@ -96,7 +97,7 @@ export default function BlogSidebarPage() {
                     </div>
 
                     {/* Slide-in arrow icon, appears on hover */}
-                    <span className="absolute right-5 top-5 flex h-10 w-10 -translate-y-3 items-center justify-center rounded-full bg-[#0075ff] text-white opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                    <span className="absolute right-5 top-5 flex h-10 w-10 -translate-y-3 items-center justify-center rounded-full bg-[#0075ff] text-white opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-active:translate-y-0 group-hover:opacity-100 group-active:opacity-100">
                       <ArrowUpRight className="h-4 w-4" />
                     </span>
                   </Link>
@@ -107,7 +108,7 @@ export default function BlogSidebarPage() {
                       <button
                         type="button"
                         onClick={() => handleCategoryClick(post.category)}
-                        className="text-[#0075ff] transition-colors duration-300 hover:text-blue-800"
+                        className="text-[#0075ff] transition-colors duration-300 hover:text-blue-800 active:text-blue-800"
                       >
                         {post.category}
                       </button>
@@ -116,7 +117,7 @@ export default function BlogSidebarPage() {
                     </div>
 
                     <Link href={`/blogs/${post.id}`} data-cursor-hover>
-                      <h3 className="font-display text-xl font-semibold text-[#0a1426] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#0075ff] sm:text-2xl">
+                      <h3 className="font-display text-xl font-semibold text-[#0a1426] transition-all duration-300 group-hover:translate-x-1 group-active:translate-x-1 group-hover:text-[#0075ff] group-active:text-[#0075ff] sm:text-2xl">
                         {post.title}
                       </h3>
                     </Link>
@@ -159,7 +160,7 @@ export default function BlogSidebarPage() {
                       className={`flex h-11 w-11 items-center justify-center rounded-full border text-sm font-semibold transition-all duration-300 ${
                         isActive
                           ? "border-[#0075ff] bg-[#0075ff] text-white"
-                          : "border-border text-[#0a1426] hover:border-[#0075ff] hover:bg-[#0075ff] hover:text-white"
+                          : "border-border text-[#0a1426] hover:border-[#0075ff] active:border-[#0075ff] hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white"
                       }`}
                     >
                       {String(num).padStart(2, "0")}
@@ -171,7 +172,7 @@ export default function BlogSidebarPage() {
                   data-cursor-hover
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   aria-label="Next page"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-[#0a1426] transition-all duration-300 hover:border-[#0075ff] hover:bg-[#0075ff] hover:text-white"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-[#0a1426] transition-all duration-300 hover:border-[#0075ff] active:border-[#0075ff] hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white"
                 >
                   <ArrowRight className="h-4 w-4" />
                 </button>
@@ -221,11 +222,11 @@ export default function BlogSidebarPage() {
                         src={post.image}
                         alt={post.title}
                         fill
-                        className="object-cover transition duration-500 group-hover:scale-110"
+                        className="object-cover transition duration-500 group-hover:scale-110 group-active:scale-110"
                       />
                     </span>
                     <span>
-                      <span className="line-clamp-2 text-sm font-semibold leading-snug text-[#0a1426] transition-colors duration-300 group-hover:text-[#0075ff]">
+                      <span className="line-clamp-2 text-sm font-semibold leading-snug text-[#0a1426] transition-colors duration-300 group-hover:text-[#0075ff] group-active:text-[#0075ff]">
                         {post.title}
                       </span>
                       <span className="mt-1 block text-xs text-gray-500">
@@ -255,12 +256,12 @@ export default function BlogSidebarPage() {
                       className={`flex items-center justify-between rounded-xl border px-5 py-3 text-sm font-medium transition-all duration-300 ${
                         isActive
                           ? "border-[#0075ff] bg-[#0075ff] text-white"
-                          : "border-gray-200 text-[#0a1426] hover:border-[#0075ff] hover:bg-[#0075ff] hover:text-white"
+                          : "border-gray-200 text-[#0a1426] hover:border-[#0075ff] active:border-[#0075ff] hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white"
                       }`}
                     >
                       <span>{cat.name}</span>
                       <span
-                        className={`text-xs ${isActive ? "text-white/80" : "text-gray-500 group-hover:text-white/80"}`}
+                        className={`text-xs ${isActive ? "text-white/80" : "text-gray-500 group-hover:text-white/80 group-active:text-white/80"}`}
                       >
                         ({cat.count})
                       </span>
@@ -283,7 +284,7 @@ export default function BlogSidebarPage() {
                     type="button"
                     data-cursor-hover
                     onClick={() => handleCategoryClick(tag)}
-                    className="rounded-full border border-gray-200 px-4 py-2 text-xs font-medium text-[#0a1426] transition-all duration-300 hover:border-[#0075ff] hover:bg-[#0075ff] hover:text-white"
+                    className="rounded-full border border-gray-200 px-4 py-2 text-xs font-medium text-[#0a1426] transition-all duration-300 hover:border-[#0075ff] active:border-[#0075ff] hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white"
                   >
                     {tag}
                   </button>
@@ -294,6 +295,7 @@ export default function BlogSidebarPage() {
             {/* Contact widget */}
             <Reveal animation="fadeInUp" delay={0.25}>
               <div className="relative overflow-hidden bg-[#0a1426] p-8 text-white">
+                <Image src={WIDGET_CTA_IMAGE} alt="" fill className="object-cover opacity-40" aria-hidden />
                 <div
                   aria-hidden
                   className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#0075ff]/20"
@@ -343,16 +345,16 @@ export default function BlogSidebarPage() {
           </h2>
           <Link
             href="/contact"
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>

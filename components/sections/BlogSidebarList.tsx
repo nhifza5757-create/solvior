@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { blogCategories, blogPosts, blogTags } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
@@ -10,9 +11,15 @@ import Reveal from "@/components/ui/Reveal";
 const POSTS_PER_PAGE = 3;
 
 export default function BlogSidebarList() {
+  const searchParams = useSearchParams();
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  useEffect(() => {
+    const urlQuery = searchParams.get("search");
+    if (urlQuery) setQuery(urlQuery);
+  }, [searchParams]);
 
   const filtered = useMemo(() => {
     return blogPosts.filter((post) => {
@@ -47,7 +54,7 @@ export default function BlogSidebarList() {
 
           {paginated.map((post, i) => (
             <Reveal key={post.id} animation="fadeInUp" delay={i * 0.1}>
-              <article className="group overflow-hidden  border-border bg-background transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/10">
+              <article className="group overflow-hidden  border-border bg-background transition-shadow duration-300 hover:shadow-2xl active:shadow-2xl hover:shadow-black/10 active:shadow-black/10">
                 {/* Image */}
                 <Link
                   href={`/blogs/${post.id}`}
@@ -58,9 +65,9 @@ export default function BlogSidebarList() {
                     src={post.image}
                     alt={post.title}
                     fill
-                    className="object-cover transition duration-700 ease-out group-hover:scale-110"
+                    className="object-cover transition duration-700 ease-out group-hover:scale-110 group-active:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100" />
 
                   {/* Date badge */}
                   <div className="absolute left-5 top-5 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-center leading-tight text-white backdrop-blur-md">
@@ -69,7 +76,7 @@ export default function BlogSidebarList() {
                   </div>
 
                   {/* Slide-in arrow icon, appears on hover */}
-                  <span className="absolute right-5 top-5 flex h-10 w-10 -translate-y-3 items-center justify-center rounded-full bg-accent text-white opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                  <span className="absolute right-5 top-5 flex h-10 w-10 -translate-y-3 items-center justify-center rounded-full bg-accent text-white opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-active:translate-y-0 group-hover:opacity-100 group-active:opacity-100">
                     <ArrowUpRight className="h-4 w-4" />
                   </span>
                 </Link>
@@ -80,7 +87,7 @@ export default function BlogSidebarList() {
                     <button
                       type="button"
                       onClick={() => handleCategoryClick(post.category)}
-                      className="text-accent transition-colors duration-300 hover:text-accent-dark"
+                      className="text-accent transition-colors duration-300 hover:text-accent-dark active:text-accent-dark"
                     >
                       {post.category}
                     </button>
@@ -89,7 +96,7 @@ export default function BlogSidebarList() {
                   </div>
 
                   <Link href={`/blogs/${post.id}`} data-cursor-hover>
-                    <h3 className="font-display text-xl font-semibold text-primary transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent sm:text-2xl">
+                    <h3 className="font-display text-xl font-semibold text-primary transition-all duration-300 group-hover:translate-x-1 group-active:translate-x-1 group-hover:text-accent group-active:text-accent sm:text-2xl">
                       {post.title}
                     </h3>
                   </Link>
@@ -132,7 +139,7 @@ export default function BlogSidebarList() {
                     className={`flex h-11 w-11 items-center justify-center rounded-full border text-sm font-semibold transition-all duration-300 ${
                       isActive
                         ? "border-accent bg-accent text-white"
-                        : "border-border text-primary hover:border-accent hover:bg-accent hover:text-white"
+                        : "border-border text-primary hover:border-accent active:border-accent hover:bg-accent active:bg-accent hover:text-white active:text-white"
                     }`}
                   >
                     {String(num).padStart(2, "0")}
@@ -144,7 +151,7 @@ export default function BlogSidebarList() {
                 data-cursor-hover
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 aria-label="Next page"
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition-all duration-300 hover:border-accent active:border-accent hover:bg-accent active:bg-accent hover:text-white active:text-white"
               >
                 <ArrowRight className="h-4 w-4" />
               </button>
@@ -194,11 +201,11 @@ export default function BlogSidebarList() {
                       src={post.image}
                       alt={post.title}
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-110"
+                      className="object-cover transition duration-500 group-hover:scale-110 group-active:scale-110"
                     />
                   </span>
                   <span>
-                    <span className="line-clamp-2 text-sm font-semibold leading-snug text-primary transition-colors duration-300 group-hover:text-accent">
+                    <span className="line-clamp-2 text-sm font-semibold leading-snug text-primary transition-colors duration-300 group-hover:text-accent group-active:text-accent">
                       {post.title}
                     </span>
                     <span className="mt-1 block text-xs text-muted-foreground">
@@ -228,12 +235,12 @@ export default function BlogSidebarList() {
                     className={`flex items-center justify-between rounded-xl border px-5 py-3 text-sm font-medium transition-all duration-300 ${
                       isActive
                         ? "border-accent bg-accent text-white"
-                        : "border-border text-primary hover:border-accent hover:bg-accent hover:text-white"
+                        : "border-border text-primary hover:border-accent active:border-accent hover:bg-accent active:bg-accent hover:text-white active:text-white"
                     }`}
                   >
                     <span>{cat.name}</span>
                     <span
-                      className={`text-xs ${isActive ? "text-white/80" : "text-muted-foreground group-hover:text-white/80"}`}
+                      className={`text-xs ${isActive ? "text-white/80" : "text-muted-foreground group-hover:text-white/80 group-active:text-white/80"}`}
                     >
                       ({cat.count})
                     </span>
@@ -256,7 +263,7 @@ export default function BlogSidebarList() {
                   type="button"
                   data-cursor-hover
                   onClick={() => handleCategoryClick(tag)}
-                  className="rounded-full border border-border px-4 py-2 text-xs font-medium text-primary transition-all duration-300 hover:border-accent hover:bg-accent hover:text-white"
+                  className="rounded-full border border-border px-4 py-2 text-xs font-medium text-primary transition-all duration-300 hover:border-accent active:border-accent hover:bg-accent active:bg-accent hover:text-white active:text-white"
                 >
                   {tag}
                 </button>

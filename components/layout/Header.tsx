@@ -3,14 +3,13 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ChevronDown,
   Search,
   LayoutGrid,
   ArrowRight,
   X,
-  Menu as MenuIcon,
   Settings2,
   Grid2x2,
   Users,
@@ -49,16 +48,37 @@ function Badge({ text }: { text: string }) {
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const isHomePage = pathname === "/";
-  
+
   const isScrolled = useScrollHeader(40);
-  const { isOpen, toggle, close } = useMobileMenu();
+  const { close } = useMobileMenu();
   const [searchOpen, setSearchOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [panelSearchQuery, setPanelSearchQuery] = useState("");
+  const [openPanelItem, setOpenPanelItem] = useState<string | null>(null);
   const lastScrollY = useRef(0);
 
   const isDark = (!isHomePage || isScrolled);
+
+  const runSearch = (query: string) => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    setSearchOpen(false);
+    setPanelOpen(false);
+    router.push(`/blogs?search=${encodeURIComponent(trimmed)}`);
+  };
+
+  const togglePanelItem = (label: string) => {
+    setOpenPanelItem((prev) => (prev === label ? null : label));
+  };
+
+  const closePanel = () => {
+    setPanelOpen(false);
+    close();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,7 +106,7 @@ export default function Header() {
         <div className="hidden sm:flex items-center justify-between bg-[#0075ff] px-4 py-2 text-[10px] text-white lg:px-8 relative z-40">
           <div className="flex items-center gap-1">
             <span>Trusted partner in business excellence</span>
-            <span className="font-bold underline cursor-pointer hover:no-underline">Join us now</span>
+            <span className="font-bold underline cursor-pointer hover:no-underline active:no-underline">Join us now</span>
             <ArrowRight className="h-3 w-3" />
           </div>
           <div className="flex items-center gap-4">
@@ -111,7 +131,7 @@ export default function Header() {
           isDark 
             ? (isScrolled 
                 ? "sticky top-0 z-50 bg-[#0a1426]/95 backdrop-blur-md shadow-lg py-2 lg:py-3" 
-                : "absolute top-[30px] left-0 z-30 bg-transparent py-2 lg:py-3" 
+                : "absolute top-[8px] sm:top-[30px] left-0 z-30 bg-transparent py-2 lg:py-3" 
               )
             : "sticky top-0 z-50 px-4 pt-4" 
         } ${
@@ -123,7 +143,7 @@ export default function Header() {
             className={`flex items-center justify-between transition-all duration-300 ${
               isDark
                 ? "w-full" 
-                : "rounded-full bg-white/95 px-4 py-2.5 shadow-[0_2px_20px_rgba(5,18,41,0.08)] backdrop-blur lg:px-6" 
+                : "-mx-5 sm:mx-0 rounded-full bg-white/95 px-4 py-2.5 shadow-[0_2px_20px_rgba(5,18,41,0.08)] backdrop-blur lg:px-6" 
             }`}
           >
             {/* LOGO */}
@@ -149,18 +169,18 @@ export default function Header() {
                   <div key={item.label} className="group relative">
                     <Link
                       href={item.href}
-                      className={`flex items-center gap-1 text-sm font-medium transition-colors group-hover:text-accent ${
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors group-hover:text-accent group-active:text-accent ${
                         isDark ? "text-white/80" : "text-foreground/80"
                       }`}
                     >
                       {item.label}
                       {showCaret && (
-                        <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
+                        <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180 group-active:rotate-180" />
                       )}
                     </Link>
 
                     {isPages && (
-                      <div className="invisible absolute left-0 top-full w-[680px] max-w-[85vw] translate-y-2 overflow-hidden rounded-3xl border border-border bg-background opacity-0 shadow-2xl transition-all group-hover:visible group-hover:translate-y-3 group-hover:opacity-100">
+                      <div className="invisible absolute left-0 top-full w-[680px] max-w-[85vw] translate-y-2 overflow-hidden rounded-3xl border border-border bg-background opacity-0 shadow-2xl transition-all group-hover:visible group-active:visible group-hover:translate-y-3 group-active:translate-y-3 group-hover:opacity-100 group-active:opacity-100">
                         <span className="absolute inset-x-0 top-0 h-[3px] rounded-t-3xl bg-accent" aria-hidden />
                         <div className="grid grid-cols-[0.8fr_0.8fr_1fr] gap-6 p-8">
                           {item.megaMenu!.columns.map((col) => (
@@ -173,7 +193,7 @@ export default function Header() {
                                   <Link
                                     key={link.label}
                                     href={link.href}
-                                    className="flex items-center text-sm text-foreground/70 transition hover:text-accent"
+                                    className="flex items-center text-sm text-foreground/70 transition hover:text-accent active:text-accent"
                                   >
                                     {link.label}
                                     {link.badge && <Badge text={link.badge} />}
@@ -228,7 +248,7 @@ export default function Header() {
 
                     {item.children && (
                       <div
-                        className={`invisible absolute left-0 top-full min-w-[220px] translate-y-2 overflow-hidden rounded-lg border border-border bg-background opacity-0 shadow-lg transition-all group-hover:visible group-hover:translate-y-3 group-hover:opacity-100 ${
+                        className={`invisible absolute left-0 top-full min-w-[220px] translate-y-2 overflow-hidden rounded-lg border border-border bg-background opacity-0 shadow-lg transition-all group-hover:visible group-active:visible group-hover:translate-y-3 group-active:translate-y-3 group-hover:opacity-100 group-active:opacity-100 ${
                           isServices ? "min-w-[280px] p-2" : "p-3"
                         }`}
                       >
@@ -242,7 +262,7 @@ export default function Header() {
                                 <Link
                                   key={child.label}
                                   href={child.href}
-                                  className="flex items-center gap-4 rounded-md px-3 py-3 transition hover:bg-muted"
+                                  className="flex items-center gap-4 rounded-md px-3 py-3 transition hover:bg-muted active:bg-muted"
                                 >
                                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-muted text-accent">
                                     <Icon className="h-5 w-5" />
@@ -259,7 +279,7 @@ export default function Header() {
                             <Link
                               key={child.label}
                               href={child.href}
-                              className="block rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted hover:text-accent"
+                              className="block rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted active:bg-muted hover:text-accent active:text-accent"
                             >
                               {child.label}
                             </Link>
@@ -281,7 +301,7 @@ export default function Header() {
                   aria-label="Search"
                   data-cursor-hover
                   onClick={() => setSearchOpen(true)}
-                  className="flex items-center gap-1.5 transition-colors hover:text-accent"
+                  className="flex items-center gap-1.5 transition-colors hover:text-accent active:text-accent"
                 >
                   {isDark ? "Explore" : "Search"}
                   <Search className="h-4 w-4" />
@@ -294,7 +314,7 @@ export default function Header() {
                   aria-label="Open menu panel"
                   data-cursor-hover
                   onClick={() => setPanelOpen(true)}
-                  className="flex items-center gap-1.5 transition-colors hover:text-accent"
+                  className="flex items-center gap-1.5 transition-colors hover:text-accent active:text-accent"
                 >
                   Menu
                   <LayoutGrid className="h-4 w-4" />
@@ -311,7 +331,7 @@ export default function Header() {
 >
   <span
     aria-hidden
-    className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+    className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
   />
   <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white">
     <ArrowRight className="h-4 w-4" />
@@ -321,68 +341,23 @@ export default function Header() {
   </span>
 </Link>
 
-              {/* Mobile Menu Toggle */}
+              {/* Mobile Menu Toggle -> opens the same slide panel as desktop */}
               <button
                 aria-label="Toggle menu"
-                onClick={toggle}
-                className={`flex h-10 w-10 items-center justify-center rounded-full border lg:hidden ${
-                  isDark ? "border-white/30 text-white" : "border-border text-foreground"
+                onClick={() => setPanelOpen((prev) => !prev)}
+                className={`flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-accent active:text-accent lg:hidden ${
+                  isDark ? "text-white/80" : "text-foreground/80"
                 }`}
               >
-                {isOpen ? <X className="h-4 w-4" /> : <MenuIcon className="h-4 w-4" />}
+                {panelOpen ? "Close" : "Menu"}
+                {panelOpen ? <X className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}
               </button>
             </div>
           </div>
-
-          {isOpen && (
-            <div className="lg:hidden mt-2 rounded-2xl border border-border bg-background px-5 py-4 shadow-lg">
-              <nav className="flex flex-col gap-1">
-                {mainNav.map((item) => (
-                  <div key={item.label}>
-                    <Link
-                      href={item.href}
-                      onClick={close}
-                      className="block rounded-md px-2 py-2.5 text-sm font-medium text-foreground/80 hover:bg-muted"
-                    >
-                      {item.label}
-                    </Link>
-                    {item.children && (
-                      <div className="ml-3 flex flex-col border-l border-border pl-3">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.label}
-                            href={child.href}
-                            onClick={close}
-                            className="rounded-md px-2 py-2 text-sm text-muted-foreground hover:text-accent"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                    {"megaMenu" in item && item.megaMenu && (
-                      <div className="ml-3 flex flex-col gap-3 border-l border-border pl-3 pt-2">
-                        {item.megaMenu.columns.flatMap((col) => col.items).map((link) => (
-                          <Link
-                            key={link.label}
-                            href={link.href}
-                            onClick={close}
-                            className="rounded-md py-1 text-sm text-muted-foreground hover:text-accent"
-                          >
-                            {link.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </nav>
-            </div>
-          )}
         </div>
       </header>
 
-      {/* SEARCH OVERLAY & PANEL CODE - Same as before */}
+      {/* SEARCH OVERLAY */}
       <div
         className={`fixed inset-x-0 top-0 z-[60] overflow-hidden bg-primary transition-all duration-500 ease-out ${
           searchOpen ? "h-[280px] opacity-100" : "h-0 opacity-0"
@@ -396,7 +371,7 @@ export default function Header() {
             <button
               aria-label="Close search"
               onClick={() => setSearchOpen(false)}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition hover:bg-white/10"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition hover:bg-white/10 active:bg-white/10"
             >
               <X className="h-5 w-5" />
             </button>
@@ -404,10 +379,19 @@ export default function Header() {
           <div className="flex items-center border-b border-white/20 pb-4">
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && runSearch(searchQuery)}
               placeholder="Search here..."
               className="w-full bg-transparent text-lg text-white placeholder:text-white/40 focus:outline-none"
             />
-            <button aria-label="Submit search" className="shrink-0 text-white">
+            <button
+              type="button"
+              aria-label="Submit search"
+              data-cursor-hover
+              onClick={() => runSearch(searchQuery)}
+              className="shrink-0 text-white"
+            >
               <Search className="h-5 w-5" />
             </button>
           </div>
@@ -420,13 +404,21 @@ export default function Header() {
         />
       )}
 
+      {/* SLIDE PANEL (used on both desktop "Menu" click and mobile hamburger click) */}
       <div
-        className={`fixed inset-y-0 right-0 z-[70] w-full max-w-md bg-primary p-8 text-white transition-transform duration-500 ease-out sm:p-10 ${
+        className={`fixed inset-y-0 right-0 z-[70] w-full max-w-md overflow-y-auto overscroll-contain bg-primary p-8 text-white transition-transform duration-500 ease-out sm:p-10 ${
           panelOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(255,255,255,0.25) transparent" }}
+        data-lenis-prevent
+        onWheel={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          e.currentTarget.scrollTop += e.deltaY;
+        }}
       >
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2" onClick={() => setPanelOpen(false)}>
+          <Link href="/" className="flex items-center gap-2" onClick={closePanel}>
             <Image
               src={PANEL_LOGO_SRC}
               alt="Solvior logo"
@@ -437,8 +429,8 @@ export default function Header() {
           </Link>
           <button
             aria-label="Close menu"
-            onClick={() => setPanelOpen(false)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition hover:bg-white/10"
+            onClick={closePanel}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition hover:bg-white/10 active:bg-white/10"
           >
             <X className="h-4 w-4" />
           </button>
@@ -447,11 +439,96 @@ export default function Header() {
         <div className="mt-10 flex items-center gap-3 border-b border-white/15 pb-4">
           <input
             type="text"
+            value={panelSearchQuery}
+            onChange={(e) => setPanelSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && runSearch(panelSearchQuery)}
             placeholder="Search here"
             className="w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
           />
-          <Search className="h-4 w-4 shrink-0 text-white/60" />
+          <button
+            type="button"
+            aria-label="Submit search"
+            data-cursor-hover
+            onClick={() => runSearch(panelSearchQuery)}
+            className="shrink-0"
+          >
+            <Search className="h-4 w-4 text-white/60" />
+          </button>
         </div>
+
+        {/* NAV LINKS (accordion) — mobile/tablet only; desktop already has the horizontal nav bar */}
+        <nav className="mt-6 flex flex-col lg:hidden">
+          {mainNav.map((item) => {
+            const isActive = pathname === item.href;
+            const hasChildren = Boolean(item.children) || ("megaMenu" in item && Boolean(item.megaMenu));
+            const isItemOpen = openPanelItem === item.label;
+
+            const childLinks: Array<{ label: string; href: string; badge?: string }> = item.children
+              ? item.children
+              : "megaMenu" in item && item.megaMenu
+              ? item.megaMenu.columns.flatMap(
+                  (col) =>
+                    col.items as Array<{
+                      label: string;
+                      href: string;
+                      badge?: string;
+                    }>,
+                )
+              : [];
+
+            return (
+              <div key={item.label} className="border-b border-white/15">
+                <div className="flex items-center justify-between py-4">
+                  <Link
+                    href={item.href}
+                    onClick={closePanel}
+                    className={`font-display text-lg font-medium transition-colors hover:text-accent active:text-accent ${
+                      isActive ? "text-accent" : "text-white"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                  {hasChildren && (
+                    <button
+                      type="button"
+                      aria-label={`Toggle ${item.label} submenu`}
+                      onClick={() => togglePanelItem(item.label)}
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 transition hover:bg-white/10 active:bg-white/10"
+                    >
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform duration-300 ${
+                          isItemOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  )}
+                </div>
+
+                {hasChildren && (
+                  <div
+                    className={`grid overflow-hidden transition-all duration-300 ${
+                      isItemOpen ? "grid-rows-[1fr] pb-4 opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="flex flex-col gap-1 overflow-hidden pl-2">
+                      {childLinks.map((link) => (
+                        <Link
+                          key={link.label}
+                          href={link.href}
+                          onClick={closePanel}
+                          className="flex items-center rounded-md py-2 text-sm text-white/70 transition hover:text-accent active:text-accent"
+                        >
+                          {link.label}
+                          {"badge" in link && link.badge && <Badge text={link.badge} />}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </nav>
 
         <h3 className="mt-10 font-display text-2xl font-medium">Contact info</h3>
         <div className="mt-4 space-y-6 border-t border-white/15 pt-6">
@@ -476,12 +553,20 @@ export default function Header() {
 
         <h3 className="mt-10 font-display text-2xl font-medium">Follow us</h3>
         <div className="mt-4 flex items-center gap-3 border-t border-white/15 pt-6">
-          {[Facebook, Instagram, Linkedin, Twitter].map((Icon, i) => (
+          {[
+            { Icon: Facebook, href: siteConfig.socials.facebook, label: "Facebook" },
+            { Icon: Instagram, href: siteConfig.socials.instagram, label: "Instagram" },
+            { Icon: Linkedin, href: siteConfig.socials.linkedin, label: "LinkedIn" },
+            { Icon: Twitter, href: siteConfig.socials.twitter, label: "Twitter" },
+          ].map(({ Icon, href, label }) => (
             <a
-              key={i}
-              href="#"
-              aria-label="Social link"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition hover:bg-white/10"
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              data-cursor-hover
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 transition hover:bg-white/10 active:bg-white/10"
             >
               <Icon className="h-4 w-4" />
             </a>
@@ -491,7 +576,7 @@ export default function Header() {
       {panelOpen && (
         <div
           className="fixed inset-0 z-[65] bg-black/40 backdrop-blur-sm"
-          onClick={() => setPanelOpen(false)}
+          onClick={closePanel}
         />
       )}
     </>

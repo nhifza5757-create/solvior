@@ -121,7 +121,7 @@ export default function CareersPage() {
   return (
     <div>
       {/* HERO BANNER */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image
           src={HERO_BG}
           alt="Careers background"
@@ -135,8 +135,8 @@ export default function CareersPage() {
             <h1 className="font-display text-4xl font-medium sm:text-5xl">Careers</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff]">
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60 active:border-[#0075ff]/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff] active:text-[#0075ff]">
                 Home
               </Link>
               <span>/</span>
@@ -153,44 +153,44 @@ export default function CareersPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentItems.map((job, index) => (
               <Reveal key={job.id} animation="fadeInUp" delay={index * 0.1}>
-                <div className="group relative flex flex-col border border-gray-200 bg-white p-8 transition-all duration-500 hover:bg-[#0a1426] hover:shadow-xl hover:-translate-y-1">
+                <div className="group relative flex flex-col border border-gray-200 bg-white p-8 transition-all duration-500 hover:bg-[#0a1426] active:bg-[#0a1426] hover:shadow-xl active:shadow-xl hover:-translate-y-1 active:-translate-y-1">
                   
                   {/* Icon */}
-                  <div className="mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#F0F5FF] transition-colors duration-500 group-hover:bg-white">
+                  <div className="mb-4 flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#F0F5FF] transition-colors duration-500 group-hover:bg-white group-active:bg-white">
                     {job.icon}
                   </div>
 
                   {/* Tags */}
                   <div className="mb-4 flex flex-wrap gap-2">
-                    <span className="rounded-full border border-gray-200 px-3 py-1 text-[10px] font-medium text-gray-500 transition-colors duration-500 group-hover:border-white/30 group-hover:text-white/70">
+                    <span className="rounded-full border border-gray-200 px-3 py-1 text-[10px] font-medium text-gray-500 transition-colors duration-500 group-hover:border-white/30 group-active:border-white/30 group-hover:text-white/70 group-active:text-white/70">
                       {job.type}
                     </span>
-                    <span className="rounded-full border border-gray-200 px-3 py-1 text-[10px] font-medium text-gray-500 transition-colors duration-500 group-hover:border-white/30 group-hover:text-white/70">
+                    <span className="rounded-full border border-gray-200 px-3 py-1 text-[10px] font-medium text-gray-500 transition-colors duration-500 group-hover:border-white/30 group-active:border-white/30 group-hover:text-white/70 group-active:text-white/70">
                       {job.tag}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="mb-2 text-xl font-bold text-[#0a1426] transition-colors duration-500 group-hover:text-white">
+                  <h3 className="mb-2 text-xl font-bold text-[#0a1426] transition-colors duration-500 group-hover:text-white group-active:text-white">
                     {job.title}
                   </h3>
 
                   {/* Salary */}
-                  <p className="mb-6 text-sm font-semibold text-[#0075ff] transition-colors duration-500 group-hover:text-blue-300">
+                  <p className="mb-6 text-sm font-semibold text-[#0075ff] transition-colors duration-500 group-hover:text-blue-300 group-active:text-blue-300">
                     {job.salary}
                   </p>
 
                   {/* Footer: Location & Apply Link */}
-                  <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4 transition-colors duration-500 group-hover:border-white/10">
-                    <span className="flex items-center gap-1 text-xs text-gray-500 transition-colors duration-500 group-hover:text-white/70">
+                  <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4 transition-colors duration-500 group-hover:border-white/10 group-active:border-white/10">
+                    <span className="flex items-center gap-1 text-xs text-gray-500 transition-colors duration-500 group-hover:text-white/70 group-active:text-white/70">
                       <MapPin className="h-3 w-3" /> {job.location}
                     </span>
                     <Link
                       href={job.link}
-                      className="text-xs font-bold text-[#0a1426] transition-colors duration-500 group-hover:text-white flex items-center gap-1"
+                      className="text-xs font-bold text-[#0a1426] transition-colors duration-500 group-hover:text-white group-active:text-white flex items-center gap-1"
                     >
                       Apply now
-                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1 group-active:translate-x-1" />
                     </Link>
                   </div>
                 </div>
@@ -210,8 +210,8 @@ export default function CareersPage() {
                   onClick={() => setCurrentPage(pageNum)}
                   className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold transition-colors duration-300 cursor-pointer ${
                     isActive
-                      ? "bg-[#0075ff] text-white hover:bg-blue-700"
-                      : "border border-gray-200 text-[#0a1426] hover:bg-gray-50"
+                      ? "bg-[#0075ff] text-white hover:bg-blue-700 active:bg-blue-700"
+                      : "border border-gray-200 text-[#0a1426] hover:bg-gray-50 active:bg-gray-50"
                   }`}
                 >
                   {String(pageNum).padStart(2, "0")}
@@ -223,7 +223,7 @@ export default function CareersPage() {
             {currentPage < totalPages && (
               <button
                 onClick={() => setCurrentPage((prev) => prev + 1)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-[#0a1426] transition-colors hover:bg-gray-50 cursor-pointer"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-[#0a1426] transition-colors hover:bg-gray-50 active:bg-gray-50 cursor-pointer"
               >
                 <ArrowRight className="h-4 w-4" />
               </button>
@@ -251,16 +251,16 @@ export default function CareersPage() {
           </h2>
           <Link
             href="/contact"
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>

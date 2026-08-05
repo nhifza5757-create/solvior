@@ -93,7 +93,7 @@ export default function Services() {
               aria-label="Previous"
               data-cursor-hover
               onClick={() => scrollToIndex(Math.max(0, active - 1))}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition hover:border-accent hover:text-accent"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition hover:border-accent active:border-accent hover:text-accent active:text-accent"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -104,7 +104,7 @@ export default function Services() {
               aria-label="Next"
               data-cursor-hover
               onClick={() => scrollToIndex(Math.min(services.length - 1, active + 1))}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition hover:border-accent hover:text-accent"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-primary transition hover:border-accent active:border-accent hover:text-accent active:text-accent"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -126,7 +126,7 @@ export default function Services() {
               as="div"
               className="w-[85%] shrink-0 snap-start sm:w-[46%] lg:w-[calc(33.333%-1.1rem)]"
             >
-              <Link href={`/services/${s.id}`} data-cursor-hover className="group block border border-border shadow-sm transition-shadow duration-300 hover:shadow-md">
+              <Link href={`/services/${s.id}`} data-cursor-hover className="group block border border-border shadow-sm transition-shadow duration-300 hover:shadow-md active:shadow-md">
                 <div className="relative">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
@@ -134,10 +134,10 @@ export default function Services() {
                       alt={s.title}
                       fill
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 46vw, 85vw"
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
                     />
                   </div>
-                  <span className="absolute -bottom-6 left-6 flex h-12 w-12 items-center justify-center rounded-full bg-white text-accent shadow-md transition-colors duration-300 group-hover:bg-accent group-hover:text-white">
+                  <span className="absolute -bottom-6 left-6 flex h-12 w-12 items-center justify-center rounded-full bg-white text-accent shadow-md transition-colors duration-300 group-hover:bg-accent group-active:bg-accent group-hover:text-white group-active:text-white">
                     {ICONS[s.id] ?? ICONS[1]}
                   </span>
                 </div>
@@ -145,7 +145,7 @@ export default function Services() {
                   <h3 className="font-display text-xl font-medium leading-snug text-primary">
                     {s.title}
                   </h3>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition group-hover:bg-accent">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition group-hover:bg-accent group-active:bg-accent">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
                       <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

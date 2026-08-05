@@ -22,7 +22,7 @@ export default function Blog() {
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
             <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center">
               <ArrowRight className="h-4 w-4" />
@@ -45,7 +45,7 @@ export default function Blog() {
                   alt={post.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition duration-500 group-hover:scale-105"
+                  className="object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
                 />
 
                 {/* Dark gradient overlay for text readability */}
@@ -76,7 +76,7 @@ export default function Blog() {
                   </h3>
 
                   {/* Read more — hidden by default, slides in on hover */}
-                  <span className="mt-3 flex max-h-0 items-center gap-2 overflow-hidden text-sm font-semibold text-white opacity-0 transition-all duration-500 ease-out group-hover:mt-4 group-hover:max-h-8 group-hover:opacity-100">
+                  <span className="mt-3 flex max-h-0 items-center gap-2 overflow-hidden text-sm font-semibold text-white opacity-0 transition-all duration-500 ease-out group-hover:mt-4 group-active:mt-4 group-hover:max-h-8 group-active:max-h-8 group-hover:opacity-100 group-active:opacity-100">
                     Read more
                     <ArrowRight className="h-4 w-4" />
                   </span>

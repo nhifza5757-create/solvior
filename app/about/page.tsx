@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Play } from "lucide-react";
@@ -43,12 +44,24 @@ const featureIcons: Record<string, React.ReactNode> = {
   ),
 };
 const HERO_BG = "/images/project/pheader-bg.webp";
+const EVOLUTION_VIDEO_IMAGE = "/images/project/h1-project-2.webp";
 
 export default function AboutPage() {
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const testimonial = testimonials[activeTestimonial] ?? testimonials[0];
+  const [aboutVideoOpen, setAboutVideoOpen] = useState(false);
+
+  function prevTestimonial() {
+    setActiveTestimonial((i) => (i - 1 + testimonials.length) % testimonials.length);
+  }
+  function nextTestimonial() {
+    setActiveTestimonial((i) => (i + 1) % testimonials.length);
+  }
+
   return (
     <div>
       {/* HERO BANNER */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image
           src={HERO_BG}
           alt="About background"
@@ -62,8 +75,8 @@ export default function AboutPage() {
             <h1 className="font-display text-4xl font-medium sm:text-5xl">About</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff]">Home</Link>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60 active:border-[#0075ff]/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff] active:text-[#0075ff]">Home</Link>
               <span>/</span>
               <span className="text-white/70">About</span>
             </div>
@@ -95,13 +108,13 @@ export default function AboutPage() {
             </p>
             <Link
               href="/contact"
-              className="group relative inline-flex w-fit items-center overflow-hidden rounded-full bg-[#0a1426] py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+              className="group relative inline-flex w-fit items-center overflow-hidden rounded-full bg-[#0a1426] py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
               />
-              <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+              <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
                 <ArrowRight className="h-4 w-4" />
               </span>
               <span className="relative z-10 ml-3">Learn more</span>
@@ -113,10 +126,10 @@ export default function AboutPage() {
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     {features.map((feature, index) => (
       <Reveal key={feature.id} animation="fadeInUp" delay={index * 0.1}>
-        <div className="group relative overflow-hidden rounded-none border border-gray-100 transition-all duration-300 hover:-translate-y-1 hover:border-[#0075ff]/40">
+        <div className="group relative overflow-hidden rounded-none border border-gray-100 transition-all duration-300 hover:-translate-y-1 active:-translate-y-1 hover:border-[#0075ff]/40 active:border-[#0075ff]/40">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-[28rem] origin-bottom scale-y-0 opacity-0 blur-2xl transition-all duration-500 ease-out group-hover:scale-y-100 group-hover:opacity-60"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[28rem] origin-bottom scale-y-0 opacity-0 blur-2xl transition-all duration-500 ease-out group-hover:scale-y-100 group-active:scale-y-100 group-hover:opacity-60 group-active:opacity-60"
             style={{
               backgroundImage:
                 "radial-gradient(ellipse 220% 100% at bottom, rgba(125,190,255,0.9) 0%, rgba(125,190,255,0.4) 40%, rgba(125,190,255,0.15) 65%, transparent 85%)",
@@ -124,7 +137,7 @@ export default function AboutPage() {
           />
           <div className="relative bg-gradient-to-b from-white via-gray-50/40 to-gray-50 px-8 pb-12 pt-12">
             <div className="flex h-16 w-16 items-center justify-center border border-gray-200 bg-white">
-              <span className="text-[#0a1426] transition group-hover:text-[#0075ff]">
+              <span className="text-[#0a1426] transition group-hover:text-[#0075ff] group-active:text-[#0075ff]">
                 {featureIcons[feature.id]}
               </span>
             </div>
@@ -176,14 +189,20 @@ export default function AboutPage() {
 
           <Reveal animation="fadeInUp" delay={0.1} className="relative lg:w-[40%] h-[400px] lg:h-auto overflow-hidden group">
             <Image
-              src={testimonialMainImage || "/images/testimonial/h2-test-1.webp"}
+              src={EVOLUTION_VIDEO_IMAGE}
               alt="Our evolution video"
               fill
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-[#0a1426]/40 group-hover:bg-[#0a1426]/30 transition-colors duration-300" />
+            <div className="absolute inset-0 bg-[#0a1426]/40 group-hover:bg-[#0a1426]/30 group-active:bg-[#0a1426]/30 transition-colors duration-300" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white p-6">
-              <button className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-4 hover:scale-110 transition-transform duration-300">
+              <button
+                type="button"
+                aria-label="Play video"
+                data-cursor-hover
+                onClick={() => setAboutVideoOpen(true)}
+                className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-4 hover:scale-110 active:scale-110 transition-transform duration-300"
+              >
                 <Play className="ml-1 h-6 w-6 fill-white" />
               </button>
               <span className="text-white/80 text-xs tracking-wider uppercase mb-1">Click for watch</span>
@@ -192,6 +211,31 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
+
+      {aboutVideoOpen && (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setAboutVideoOpen(false)}
+        >
+          <div className="relative aspect-video w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              aria-label="Close video"
+              onClick={() => setAboutVideoOpen(false)}
+              className="absolute -top-10 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 active:bg-white/20"
+            >
+              ✕
+            </button>
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Video"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              className="h-full w-full rounded-xl"
+            />
+          </div>
+        </div>
+      )}
 
       {/* TEAM SECTION */}
       <section className="py-20 lg:py-28 bg-white">
@@ -214,7 +258,7 @@ export default function AboutPage() {
                       src={member.image}
                       alt={member.name}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105 group-active:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a1426] via-transparent to-transparent opacity-90" />
                   </div>
@@ -293,27 +337,39 @@ export default function AboutPage() {
             </Reveal>
 
             <Reveal animation="fadeInUp" delay={0.1} className="flex flex-col relative">
-              <div className="absolute -top-10 -left-6 text-[#0075ff] opacity-20 text-8xl font-bold">“</div>
+              <div className="absolute -top-10 -left-6 text-[#0075ff] opacity-20 text-8xl font-bold">"</div>
               <p className="text-gray-700 text-lg leading-relaxed relative z-10 mb-8">
-                {testimonials[0]?.quote || "Partnering with Solvior has been a transformative experience for our organization."}
+                {testimonial?.quote || "Partnering with Solvior has been a transformative experience for our organization."}
               </p>
               
               <div className="flex items-center justify-between pt-6 border-t border-gray-200">
                 <div className="flex items-center gap-4">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                     <Image src={testimonials[0]?.avatar || "/images/testimonial/h1-test-2.webp"} alt={testimonials[0]?.author || "Author"} fill className="object-cover" />
+                     <Image src={testimonial?.avatar || "/images/testimonial/h1-test-2.webp"} alt={testimonial?.author || "Author"} fill className="object-cover" />
                   </div>
                   <div>
                      <div className="flex text-[#0075ff] text-xs mb-0.5">★★★★★</div>
-                     <h5 className="font-bold text-[#0a1426]">{testimonials[0]?.author || "Natalie Harry"}</h5>
-                     <p className="text-xs text-gray-500">{testimonials[0]?.role || "Sr. Executive"}</p>
+                     <h5 className="font-bold text-[#0a1426]">{testimonial?.author || "Natalie Harry"}</h5>
+                     <p className="text-xs text-gray-500">{testimonial?.role || "Sr. Executive"}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-[#0075ff] hover:text-white hover:border-[#0075ff] transition-colors duration-300">
+                  <button
+                    type="button"
+                    aria-label="Previous testimonial"
+                    data-cursor-hover
+                    onClick={prevTestimonial}
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white hover:border-[#0075ff] active:border-[#0075ff] transition-colors duration-300"
+                  >
                     <ArrowRight className="h-4 w-4 rotate-180" />
                   </button>
-                  <button className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-[#0075ff] hover:text-white hover:border-[#0075ff] transition-colors duration-300">
+                  <button
+                    type="button"
+                    aria-label="Next testimonial"
+                    data-cursor-hover
+                    onClick={nextTestimonial}
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:bg-[#0075ff] active:bg-[#0075ff] hover:text-white active:text-white hover:border-[#0075ff] active:border-[#0075ff] transition-colors duration-300"
+                  >
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
@@ -342,16 +398,16 @@ export default function AboutPage() {
           </h2>
           <Link
             href="/contact"
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-[#0a1426] transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>

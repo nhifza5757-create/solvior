@@ -36,7 +36,7 @@ export default function Testimonials() {
   }, [goNext]);
 
   return (
-    <section className="bg-white py-20 text-dark lg:py-28">
+    <section id="testimonials" className="bg-white py-20 text-dark lg:py-28">
       <div className="container-custom grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
         {/* Left: FIXED main image with animated + blurry badge */}
         <Reveal animation="fadeInUp" className="relative">
@@ -104,14 +104,14 @@ export default function Testimonials() {
                 <button
                   onClick={goPrev}
                   aria-label="Previous testimonial"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0a1e42] bg-[#0a1e42] text-white transition hover:border-[#0075ff] hover:bg-[#0075ff]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0a1e42] bg-[#0a1e42] text-white transition hover:border-[#0075ff] active:border-[#0075ff] hover:bg-[#0075ff] active:bg-[#0075ff]"
                 >
                   ←
                 </button>
                 <button
                   onClick={goNext}
                   aria-label="Next testimonial"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0a1e42] bg-[#0a1e42] text-white transition hover:border-[#0075ff] hover:bg-[#0075ff]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[#0a1e42] bg-[#0a1e42] text-white transition hover:border-[#0075ff] active:border-[#0075ff] hover:bg-[#0075ff] active:bg-[#0075ff]"
                 >
                   →
                 </button>

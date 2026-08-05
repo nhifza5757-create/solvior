@@ -44,7 +44,7 @@ export default function Marquee() {
           </div>
         </div>
 
-        <div className="absolute bottom-6 right-6 flex gap-6 rounded-2xl border border-white/10 bg-primary/30 px-6 py-6 shadow-xl backdrop-blur-xl sm:bottom-10 sm:right-10 sm:gap-10 sm:px-10">
+        <div className="absolute bottom-6 right-6 flex gap-6 rounded-none border border-white/10 bg-primary/30 px-6 py-6 shadow-xl backdrop-blur-xl sm:bottom-10 sm:right-10 sm:gap-10 sm:px-10">
           <CircularStat percent={88} label="Business consultants" />
           <CircularStat percent={75} label="Clients communication" />
         </div>

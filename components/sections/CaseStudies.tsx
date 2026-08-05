@@ -27,7 +27,7 @@ export default function CaseStudies() {
             >
               <span
                 aria-hidden
-                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
               />
               <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center">
                 <ArrowRight className="h-4 w-4" />
@@ -75,7 +75,7 @@ export default function CaseStudies() {
                             src={p.image}
                             alt={p.title}
                             fill
-                            className="object-cover transition duration-500 group-hover:scale-105"
+                            className="object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
                           />
                           <span className="absolute bottom-4 right-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent text-center text-xs font-semibold text-white">
                             View

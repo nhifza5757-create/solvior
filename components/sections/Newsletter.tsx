@@ -45,7 +45,7 @@ export default function Newsletter() {
             <button
               type="submit"
               data-cursor-hover
-              className="rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white hover:text-primary-dark"
+              className="rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white active:bg-white hover:text-primary-dark active:text-primary-dark"
             >
               Subscribe
             </button>

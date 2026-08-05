@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -5,12 +8,26 @@ import { blogPosts } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
+const POSTS_PER_PAGE = 6;
 
 export default function BlogGridPage() {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(blogPosts.length / POSTS_PER_PAGE);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const paginatedPosts = blogPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+  const goToPage = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    // scroll back to top of the grid section smoothly
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div>
       {/* HERO BANNER - exact match to portfolios page */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[500px]">
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
         <Image
           src={HERO_BG}
           alt="Blog background"
@@ -24,8 +41,8 @@ export default function BlogGridPage() {
             <h1 className="font-display text-4xl font-medium sm:text-5xl">Blog grid</h1>
           </Reveal>
           <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-accent">Home</Link>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60 active:border-accent/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-accent active:text-accent">Home</Link>
               <span>/</span>
               <span className="text-white/70">Blog grid</span>
             </div>
@@ -37,10 +54,10 @@ export default function BlogGridPage() {
       <section className="py-20 lg:py-28 bg-[#F8F9FA]">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {blogPosts.map((post) => (
+            {paginatedPosts.map((post) => (
               <div
                 key={post.id}
-                className="group flex flex-col overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:shadow-xl"
+                className="group flex flex-col overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:shadow-xl active:shadow-xl"
               >
                 {/* Image Section with Date Badge */}
                 <div className="relative block aspect-[4/3] overflow-hidden">
@@ -49,10 +66,10 @@ export default function BlogGridPage() {
                       src={post.image}
                       alt={post.title}
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
                     />
                   </Link>
-                  
+
                   {/* Date Badge Overlay (Exactly like screenshot) */}
                   <div className="absolute bottom-4 right-4 flex flex-col items-center justify-center bg-[#1b2a4a] px-3 py-2 text-center text-white shadow-md">
                     <span className="text-2xl font-bold leading-none">{post.date}</span>
@@ -71,7 +88,7 @@ export default function BlogGridPage() {
 
                   {/* Title */}
                   <Link href={`/blogs/${post.id}`}>
-                    <h3 className="mb-3 text-xl font-bold text-gray-900 transition-colors duration-300 hover:text-[#0066FF]">
+                    <h3 className="mb-3 text-xl font-bold text-gray-900 transition-colors duration-300 hover:text-[#0066FF] active:text-[#0066FF]">
                       {post.title}
                     </h3>
                   </Link>
@@ -84,28 +101,45 @@ export default function BlogGridPage() {
                   {/* Read More Link */}
                   <Link
                     href={`/blogs/${post.id}`}
-                    className="inline-flex items-center text-sm font-bold text-gray-900 transition-colors duration-300 hover:text-[#0066FF]"
+                    className="inline-flex items-center text-sm font-bold text-gray-900 transition-colors duration-300 hover:text-[#0066FF] active:text-[#0066FF]"
                   >
                     Read more
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-active:translate-x-1" />
                   </Link>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* PAGINATION (Exact match to screenshot) */}
-          <div className="mt-14 flex items-center justify-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0066FF] text-sm font-semibold text-white transition-colors hover:bg-blue-700">
-              01
-            </span>
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-sm font-semibold text-gray-600 transition-colors hover:bg-gray-100">
-              02
-            </span>
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-colors hover:bg-gray-100">
-              <ArrowRight className="h-4 w-4" />
-            </span>
-          </div>
+          {/* PAGINATION - now functional */}
+          {totalPages > 1 && (
+            <div className="mt-14 flex items-center justify-center gap-3">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => goToPage(page)}
+                  aria-current={currentPage === page ? "page" : undefined}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold transition-colors ${
+                    currentPage === page
+                      ? "bg-[#0066FF] text-white hover:bg-blue-700 active:bg-blue-700"
+                      : "border border-gray-200 text-gray-600 hover:bg-gray-100 active:bg-gray-100"
+                  }`}
+                >
+                  {String(page).padStart(2, "0")}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                aria-label="Next page"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-colors hover:bg-gray-100 active:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -128,16 +162,16 @@ export default function BlogGridPage() {
           </h2>
           <Link
             href="/contact"
-            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
             <span
               aria-hidden
-              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)]"
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0a1426] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
             />
-            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
               <ArrowRight className="h-4 w-4" />
             </span>
-            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white">
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
               Lets talk now
             </span>
           </Link>
