@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 
-const VIDEO_URL = "https://www.youtube.com/watch?v=eEzD-Y97ges"; // Replace with your video URL
+const VIDEO_URL = "https://www.youtube.com/watch?v=eEzD-Y97ges"; // Apni video URL yahan lagayein
 
 type Comment = {
   id: number;
