@@ -24,9 +24,7 @@ const libreFranklin = Libre_Franklin({
 export const metadata: Metadata = {
   title: "Solvior - Business Consulting Next.js Template",
   description: "Tailored consulting for the modern business.",
-icons: {
-    icon: '/favicon.webp',
-  },
+ 
 };
 
 export default function RootLayout({
