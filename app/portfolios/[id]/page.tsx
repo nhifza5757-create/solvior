@@ -7,7 +7,7 @@ import Reveal from "@/components/ui/Reveal";
 import { PlayVideoButton, ShareButtons } from "@/components/ui/MediaInteractions";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
-const WIDGET_CTA_IMAGE = "/images/widget-cta.webp";
+const NEED_HELP_BG = "/images/widget-cta.webp";
 
 export default async function PortfolioDetailPage({
   params,
@@ -26,32 +26,62 @@ export default async function PortfolioDetailPage({
 
   return (
     <div>
-      {/* Hero banner */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
-        <Image
-          src={HERO_BG}
-          alt=""
-          fill
-          className="animate-hero-zoom object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-primary-dark/70" aria-hidden />
-        <div className="relative text-center text-white">
-          <Reveal animation="fadeInUp">
-            <h1 className="font-display text-4xl font-medium sm:text-5xl">{project.title}</h1>
-          </Reveal>
-          <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60 active:border-accent/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-accent active:text-accent">Home</Link>
-              <span>/</span>
-              <Link href="/portfolios" className="transition-colors duration-300 hover:text-accent active:text-accent">Portfolios</Link>
-              <span>/</span>
-              <span className="text-white/70">{project.title}</span>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+     {/* Hero Banner */}
+<section className="relative -mt-[104px] flex min-h-[500px] sm:h-[550px] items-center justify-center overflow-hidden pt-[104px]">
 
+  <Image
+    src={HERO_BG}
+    alt={`${project.title} background`}
+    fill
+    priority
+    className="animate-hero-zoom object-cover object-center"
+  />
+
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-[#0a1426]/65" />
+
+  {/* Content */}
+  <div className="relative z-10 flex w-full items-center justify-center px-5 sm:px-6">
+    <div className="max-w-4xl text-center text-white">
+
+      <Reveal animation="fadeInUp">
+        <h1 className="font-display text-[34px] font-bold leading-tight sm:text-5xl lg:text-6xl">
+          {project.title}
+        </h1>
+      </Reveal>
+
+      <Reveal animation="fadeInUp" delay={0.15}>
+        <div className="mt-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2 text-xs text-white backdrop-blur-md sm:text-sm">
+
+          <Link
+            href="/"
+            className="transition hover:text-[#0075ff]"
+          >
+            Home
+          </Link>
+
+          <span>/</span>
+
+          <Link
+            href="/portfolios"
+            className="transition hover:text-[#0075ff]"
+          >
+            Portfolio
+          </Link>
+
+          <span>/</span>
+
+          <span className="text-white/80">
+            {project.title}
+          </span>
+
+        </div>
+      </Reveal>
+
+    </div>
+  </div>
+
+</section>
       {/* Content */}
       <section className="py-20 lg:py-28">
         <div className="container-custom grid grid-cols-1 gap-10 lg:grid-cols-[1.6fr_1fr]">
@@ -164,7 +194,7 @@ export default async function PortfolioDetailPage({
             </div>
 
             <div className="relative overflow-hidden bg-primary p-8 text-white">
-              <Image src={WIDGET_CTA_IMAGE} alt="" fill className="object-cover opacity-40" aria-hidden />
+              <Image src={NEED_HELP_BG} alt="" fill className="object-cover opacity-20" aria-hidden />
               <div className="relative">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0075ff]">
                   <Check className="h-5 w-5" />
@@ -197,9 +227,7 @@ export default async function PortfolioDetailPage({
             </div>
           </div>
         </div>
-      </section>
-
-      {/* CTA banner */}
+        {/* CTA banner */}
       <section className="relative overflow-hidden bg-accent py-16">
         <span
           aria-hidden
@@ -233,6 +261,7 @@ export default async function PortfolioDetailPage({
             </span>
           </Link>
         </Reveal>
+      </section>
       </section>
     </div>
   );

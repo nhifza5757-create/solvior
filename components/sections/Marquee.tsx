@@ -13,7 +13,7 @@ export default function Marquee() {
 
   return (
     <section ref={ref} className="relative overflow-hidden">
-      <div className="relative h-[420px] w-full sm:h-[480px] lg:h-[560px]">
+      <div className="relative h-[320px] w-full sm:h-[480px] lg:h-[560px]">
         {/* Parallax background layer — oversized so it never shows edges while translating */}
         <div
           className="absolute inset-0 -top-[15%] -bottom-[15%] will-change-transform"
@@ -44,7 +44,7 @@ export default function Marquee() {
           </div>
         </div>
 
-        <div className="absolute bottom-6 right-6 flex gap-6 rounded-none border border-white/10 bg-primary/30 px-6 py-6 shadow-xl backdrop-blur-xl sm:bottom-10 sm:right-10 sm:gap-10 sm:px-10">
+        <div className="absolute bottom-3 left-1/2 flex w-fit -translate-x-1/2 justify-center gap-3 border border-white/10 bg-primary/30 px-5 py-1.5 shadow-xl backdrop-blur-xl sm:inset-x-auto sm:bottom-10 sm:left-auto sm:right-10 sm:w-auto sm:translate-x-0 sm:justify-start sm:gap-10 sm:px-10 sm:py-6">
           <CircularStat percent={88} label="Business consultants" />
           <CircularStat percent={75} label="Clients communication" />
         </div>

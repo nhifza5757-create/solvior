@@ -15,7 +15,7 @@ import Reveal from "@/components/ui/Reveal";
 import { PlayVideoButton, ShareButtons, CommentsSection } from "./BlogInteractive";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
-const WIDGET_CTA_IMAGE = "/images/widget-cta.webp";
+const NEED_HELP_BG = "/images/widget-cta.webp";
 
 export default async function BlogDetailsPage({
   params,
@@ -286,7 +286,13 @@ export default async function BlogDetailsPage({
             {/* Contact widget */}
             <Reveal animation="fadeInUp" delay={0.25}>
               <div className="relative overflow-hidden bg-primary p-8 text-white">
-                <Image src={WIDGET_CTA_IMAGE} alt="" fill className="object-cover opacity-40" aria-hidden />
+                <Image
+                  src={NEED_HELP_BG}
+                  alt=""
+                  fill
+                  className="object-cover opacity-20"
+                  aria-hidden
+                />
                 <span
                   aria-hidden
                   className="shape-zoominout absolute -right-10 -top-10 h-32 w-32 rounded-full bg-accent/20"

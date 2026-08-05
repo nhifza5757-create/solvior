@@ -124,7 +124,7 @@ export default function Services() {
               animation="fadeInUp"
               delay={i * 0.1}
               as="div"
-              className="w-[85%] shrink-0 snap-start sm:w-[46%] lg:w-[calc(33.333%-1.1rem)]"
+              className="w-full shrink-0 snap-start sm:w-[46%] lg:w-[calc(33.333%-1.1rem)]"
             >
               <Link href={`/services/${s.id}`} data-cursor-hover className="group block border border-border shadow-sm transition-shadow duration-300 hover:shadow-md active:shadow-md">
                 <div className="relative">
@@ -137,15 +137,15 @@ export default function Services() {
                       className="object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
                     />
                   </div>
-                  <span className="absolute -bottom-6 left-6 flex h-12 w-12 items-center justify-center rounded-full bg-white text-accent shadow-md transition-colors duration-300 group-hover:bg-accent group-active:bg-accent group-hover:text-white group-active:text-white">
+                  <span className="absolute -bottom-7 left-5 flex h-14 w-14 items-center justify-center rounded-full bg-white text-accent shadow-md transition-colors duration-300 group-hover:bg-accent group-active:bg-accent group-hover:text-white group-active:text-white sm:-bottom-6 sm:left-6 sm:h-12 sm:w-12">
                     {ICONS[s.id] ?? ICONS[1]}
                   </span>
                 </div>
-                <div className="mt-11 flex items-start justify-between gap-3 px-5 pb-5">
-                  <h3 className="font-display text-xl font-medium leading-snug text-primary">
+                <div className="mt-9 flex items-start justify-between gap-2 px-4 pb-4 sm:mt-11 sm:gap-3 sm:px-5 sm:pb-5">
+                  <h3 className="font-display text-lg font-medium leading-snug text-primary sm:text-xl">
                     {s.title}
                   </h3>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition group-hover:bg-accent group-active:bg-accent">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-white transition group-hover:bg-accent group-active:bg-accent sm:h-9 sm:w-9">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
                       <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

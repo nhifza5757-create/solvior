@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import SmoothScrollProvider from "@/components/layout/SmoothScrollProvider";
 import CustomCursor from "@/components/ui/CustomCursor";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import { HeaderThemeProvider } from "@/context/HeaderThemeContext";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -24,7 +25,9 @@ const libreFranklin = Libre_Franklin({
 export const metadata: Metadata = {
   title: "Solvior - Business Consulting Next.js Template",
   description: "Tailored consulting for the modern business.",
- 
+icons: {
+    icon: '/favicon.webp',
+  },
 };
 
 export default function RootLayout({
@@ -37,8 +40,10 @@ export default function RootLayout({
       <body className="antialiased">
         <SmoothScrollProvider>
           <CustomCursor />
-          <Header />
-          <main>{children}</main>
+          <HeaderThemeProvider>
+            <Header />
+            <main>{children}</main>
+          </HeaderThemeProvider>
           <Footer />
           <ScrollToTop />
         </SmoothScrollProvider>

@@ -120,31 +120,50 @@ export default function CareersPage() {
 
   return (
     <div>
-      {/* HERO BANNER */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
-        <Image
-          src={HERO_BG}
-          alt="Careers background"
-          fill
-          className="animate-hero-zoom object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-[#0a1426]/70" aria-hidden />
-        <div className="relative text-center text-white">
-          <Reveal animation="fadeInUp">
-            <h1 className="font-display text-4xl font-medium sm:text-5xl">Careers</h1>
-          </Reveal>
-          <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60 active:border-[#0075ff]/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff] active:text-[#0075ff]">
-                Home
-              </Link>
-              <span>/</span>
-              <span className="text-white/70">Careers</span>
-            </div>
-          </Reveal>
+    {/* HERO BANNER */}
+<section className="relative -mt-[104px] flex min-h-[500px] sm:h-[550px] items-center justify-center overflow-hidden pt-[104px]">
+
+  <Image
+    src={HERO_BG}
+    alt="Careers background"
+    fill
+    priority
+    className="animate-hero-zoom object-cover object-center"
+  />
+
+  <div className="absolute inset-0 bg-[#0a1426]/65" />
+
+  <div className="relative z-10 flex w-full items-center justify-center px-5 sm:px-6">
+
+    <div className="max-w-4xl text-center text-white">
+
+      <Reveal animation="fadeInUp">
+        <h1 className="font-display text-[34px] font-bold leading-tight sm:text-5xl lg:text-6xl">
+          Careers
+        </h1>
+      </Reveal>
+
+      <Reveal animation="fadeInUp" delay={0.15}>
+        <div className="mt-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2 text-xs text-white backdrop-blur-md sm:text-sm">
+
+          <Link href="/" className="transition hover:text-[#0075ff]">
+            Home
+          </Link>
+
+          <span>/</span>
+
+          <span className="text-white/80">
+            Careers
+          </span>
+
         </div>
-      </section>
+      </Reveal>
+
+    </div>
+
+  </div>
+
+</section>
 
       {/* CAREERS GRID SECTION */}
       <section className="py-20 lg:py-28 bg-white">

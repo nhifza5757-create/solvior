@@ -12,7 +12,7 @@ const MAIN_IMAGE = "/images/project/h2-project-1.webp";
 const CHECKLIST_IMAGE_1 = "/images/project/h1-project-2.webp";
 const CHECKLIST_IMAGE_2 = "/images/project/h1-project-4.webp";
 const VIDEO_BG = "/images/hero/h4-hero.webp";
-const WIDGET_CTA_IMAGE = "/images/widget-cta.webp";
+const NEED_HELP_BG = "/images/widget-cta.webp";
 
 const FEATURE_ICONS = [Zap, Award, Sparkles];
 
@@ -33,26 +33,60 @@ export default async function ServiceDetailPage({
 
   return (
     <div>
-      {/* Hero banner */}
-      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
-        <Image src={HERO_BG} alt="" fill className="animate-hero-zoom object-cover" priority />
-        <div className="absolute inset-0 bg-primary-dark/70" aria-hidden />
-        <div className="relative text-center text-white">
-          <Reveal animation="fadeInUp">
-            <h1 className="font-display text-4xl font-medium sm:text-5xl">{service.title}</h1>
-          </Reveal>
-          <Reveal animation="fadeInUp" delay={0.15}>
-            <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-2  border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-accent/60 active:border-accent/60">
-              <Link href="/" className="transition-colors duration-300 hover:text-accent active:text-accent">Home</Link>
-              <span>/</span>
-              <Link href="/services" className="transition-colors duration-300 hover:text-accent active:text-accent">Services</Link>
-              <span>/</span>
-              <span className="text-white/70">{service.title}</span>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+{/* Hero banner */}
+<section className="relative -mt-[104px] flex min-h-[500px] sm:h-[550px] items-center justify-center overflow-hidden pt-[104px]">
 
+  <Image
+    src={HERO_BG}
+    alt=""
+    fill
+    priority
+    className="object-cover object-center md:object-center"
+  />
+
+  <div className="absolute inset-0 bg-primary-dark/65" />
+
+  <div className="relative z-10 flex w-full items-center justify-center px-5 sm:px-6">
+    <div className="text-center text-white max-w-4xl">
+
+      <Reveal animation="fadeInUp">
+        <h1 className="font-display text-[34px] leading-tight font-bold sm:text-5xl lg:text-6xl">
+          {service.title}
+        </h1>
+      </Reveal>
+
+      <Reveal animation="fadeInUp" delay={0.15}>
+        <div className="mt-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2 text-xs text-white backdrop-blur-md sm:text-sm">
+
+          <Link
+            href="/"
+            className="transition hover:text-accent"
+          >
+            Home
+          </Link>
+
+          <span>/</span>
+
+          <Link
+            href="/services"
+            className="hidden sm:inline transition hover:text-accent"
+          >
+            Services
+          </Link>
+
+          <span className="hidden sm:inline">/</span>
+
+          <span className="text-white/80">
+            {service.title}
+          </span>
+
+        </div>
+      </Reveal>
+
+    </div>
+  </div>
+
+</section>
       {/* Content */}
       <section className="py-20 lg:py-28">
         <div className="container-custom grid grid-cols-1 gap-10 lg:grid-cols-[1.6fr_1fr]">
@@ -242,7 +276,13 @@ export default async function ServiceDetailPage({
             {/* Need help widget */}
             <Reveal animation="fadeInUp" delay={0.15}>
               <div className="relative overflow-hidden bg-primary p-8 text-white">
-                <Image src={WIDGET_CTA_IMAGE} alt="" fill className="object-cover opacity-40" aria-hidden />
+                <Image
+                  src={NEED_HELP_BG}
+                  alt=""
+                  fill
+                  className="object-cover opacity-20"
+                  aria-hidden
+                />
                 <span
                   aria-hidden
                   className="absolute -bottom-6 -right-6 h-32 w-32 border-white/10"

@@ -1,7 +1,27 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useHeaderTheme } from "@/context/HeaderThemeContext";
 
 export default function NotFound() {
+  const { setForceLight } = useHeaderTheme();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setForceLight(window.scrollY < 40);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      setForceLight(false);
+    };
+  }, [setForceLight]);
+
   return (
     <section className="flex min-h-[70vh] items-center justify-center py-24">
       <div className="container-custom text-center">

@@ -8,6 +8,7 @@ import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { blogCategories, blogPosts, blogTags } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
 
+const NEED_HELP_BG = "/images/widget-cta.webp";
 const POSTS_PER_PAGE = 3;
 
 export default function BlogSidebarList() {
@@ -274,30 +275,39 @@ export default function BlogSidebarList() {
           {/* Contact widget */}
           <Reveal animation="fadeInUp" delay={0.25}>
             <div className="relative overflow-hidden bg-primary p-8 text-white">
+              <Image
+                src={NEED_HELP_BG}
+                alt=""
+                fill
+                className="object-cover opacity-20"
+                aria-hidden
+              />
               <div
                 aria-hidden
                 className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-accent/20 shape-zoominout"
               />
-              <h4 className="font-display text-xl font-semibold">
-                Need help? Feel free contact us
-              </h4>
-              <p className="mt-3 text-sm text-white/70">
-                Our mission is to empowers businesses off all size in an businesses.
-              </p>
-              <Link
-                href="/contact"
-                data-cursor-hover
-                className="group/btn relative z-10 mt-6 inline-flex items-center overflow-hidden rounded-full bg-white/10 py-2 pl-3 pr-7 text-sm font-semibold text-white backdrop-blur-md"
-              >
-                <span
-                  aria-hidden
-                  className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover/btn:w-[calc(100%-24px)]"
-                />
-                <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center">
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-                <span className="relative z-10 ml-3">Get in touch</span>
-              </Link>
+              <div className="relative">
+                <h4 className="font-display text-xl font-semibold">
+                  Need help? Feel free contact us
+                </h4>
+                <p className="mt-3 text-sm text-white/70">
+                  Our mission is to empowers businesses off all size in an businesses.
+                </p>
+                <Link
+                  href="/contact"
+                  data-cursor-hover
+                  className="group/btn relative z-10 mt-6 inline-flex items-center overflow-hidden rounded-full bg-white/10 py-2 pl-3 pr-7 text-sm font-semibold text-white backdrop-blur-md"
+                >
+                  <span
+                    aria-hidden
+                    className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-accent transition-all duration-500 ease-out group-hover/btn:w-[calc(100%-24px)]"
+                  />
+                  <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center">
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                  <span className="relative z-10 ml-3">Get in touch</span>
+                </Link>
+              </div>
             </div>
           </Reveal>
         </aside>

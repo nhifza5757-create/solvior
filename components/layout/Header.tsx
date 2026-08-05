@@ -27,6 +27,7 @@ import {
 import { useScrollHeader } from "@/hooks/useScrollHeader";
 import { useMobileMenu } from "@/hooks/useMobileMenu";
 import { mainNav, siteConfig } from "@/data/site";
+import { useHeaderTheme } from "@/context/HeaderThemeContext";
 
 const SERVICE_ICONS = [Settings2, Grid2x2, Users, Sparkles, Target, ArrowUpRight];
 
@@ -53,6 +54,7 @@ export default function Header() {
 
   const isScrolled = useScrollHeader(40);
   const { close } = useMobileMenu();
+  const { forceLight } = useHeaderTheme();
   const [searchOpen, setSearchOpen] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(true);
@@ -61,7 +63,7 @@ export default function Header() {
   const [openPanelItem, setOpenPanelItem] = useState<string | null>(null);
   const lastScrollY = useRef(0);
 
-  const isDark = (!isHomePage || isScrolled);
+  const isDark = (!isHomePage || isScrolled) && !forceLight;
 
   const runSearch = (query: string) => {
     const trimmed = query.trim();
@@ -102,7 +104,7 @@ export default function Header() {
   return (
     <>
       {/* TOP BAR (Only visible on non-Home pages when not scrolled) */}
-      {!isHomePage && !isScrolled && (
+      {!isHomePage && !isScrolled && !forceLight && (
         <div className="hidden sm:flex items-center justify-between bg-[#0075ff] px-4 py-2 text-[10px] text-white lg:px-8 relative z-40">
           <div className="flex items-center gap-1">
             <span>Trusted partner in business excellence</span>
@@ -131,7 +133,7 @@ export default function Header() {
           isDark 
             ? (isScrolled 
                 ? "sticky top-0 z-50 bg-[#0a1426]/95 backdrop-blur-md shadow-lg py-2 lg:py-3" 
-                : "absolute top-[8px] sm:top-[30px] left-0 z-30 bg-transparent py-2 lg:py-3" 
+                : "absolute top-[4px] sm:top-[30px] left-0 z-30 bg-transparent py-2 lg:py-3" 
               )
             : "sticky top-0 z-50 px-4 pt-4" 
         } ${
@@ -460,12 +462,14 @@ export default function Header() {
         <nav className="mt-6 flex flex-col lg:hidden">
           {mainNav.map((item) => {
             const isActive = pathname === item.href;
-            const hasChildren = Boolean(item.children) || ("megaMenu" in item && Boolean(item.megaMenu));
+            const isServices = item.label === "Services";
+            const isPages = item.label === "Pages" && "megaMenu" in item;
+            const hasChildren = Boolean(item.children) || (isPages && Boolean(item.megaMenu));
             const isItemOpen = openPanelItem === item.label;
 
             const childLinks: Array<{ label: string; href: string; badge?: string }> = item.children
               ? item.children
-              : "megaMenu" in item && item.megaMenu
+              : isPages && item.megaMenu
               ? item.megaMenu.columns.flatMap(
                   (col) =>
                     col.items as Array<{
@@ -511,17 +515,67 @@ export default function Header() {
                     }`}
                   >
                     <div className="flex flex-col gap-1 overflow-hidden pl-2">
-                      {childLinks.map((link) => (
-                        <Link
-                          key={link.label}
-                          href={link.href}
-                          onClick={closePanel}
-                          className="flex items-center rounded-md py-2 text-sm text-white/70 transition hover:text-accent active:text-accent"
-                        >
-                          {link.label}
-                          {"badge" in link && link.badge && <Badge text={link.badge} />}
-                        </Link>
-                      ))}
+                      {childLinks.map((link, i) => {
+                        const Icon = isServices ? SERVICE_ICONS[i % SERVICE_ICONS.length] : null;
+                        return (
+                          <Link
+                            key={link.label}
+                            href={link.href}
+                            onClick={closePanel}
+                            className="flex items-center gap-3 rounded-md py-2 text-sm text-white/70 transition hover:text-accent active:text-accent"
+                          >
+                            {Icon && (
+                              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-accent">
+                                <Icon className="h-4 w-4" />
+                              </span>
+                            )}
+                            <span className="flex items-center">
+                              {link.label}
+                              {"badge" in link && link.badge && <Badge text={link.badge} />}
+                            </span>
+                          </Link>
+                        );
+                      })}
+
+                      {isPages && (
+                        <div className="relative mt-4 h-[190px] overflow-hidden bg-[#0a1426] p-5 text-white">
+                          <Image
+                            src="/images/widget-cta.webp"
+                            alt=""
+                            fill
+                            className="object-cover opacity-30"
+                            aria-hidden
+                          />
+                          <div className="relative">
+                            <span className="mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-accent">
+                              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                                <path d="M6 12L10 16L18 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
+                            <h5 className="font-display text-base font-medium leading-tight">
+                              Need help?
+                              <br />
+                              Feel free contact us
+                            </h5>
+                            <Link
+                              href="/contact"
+                              onClick={closePanel}
+                              className="group/btn relative mt-4 inline-flex items-center overflow-hidden rounded-full bg-white py-1.5 pl-2.5 pr-5 text-xs font-semibold text-primary"
+                            >
+                              <span
+                                aria-hidden
+                                className="absolute inset-y-0 left-2.5 z-0 my-auto h-6 w-6 rounded-full bg-accent transition-all duration-500 ease-out group-hover/btn:w-[calc(100%-20px)]"
+                              />
+                              <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center text-white">
+                                <ArrowRight className="h-3 w-3" />
+                              </span>
+                              <span className="relative z-10 ml-2.5 whitespace-nowrap transition group-hover/btn:text-white">
+                                Get in touch
+                              </span>
+                            </Link>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
