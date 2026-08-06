@@ -162,7 +162,7 @@ export default function Hero() {
           </div>
           {/* Foreground: couple/tablet photo — overlaid on top, offset down-left so the
               background peeks out on the top, right, and bottom edges */}
-          <div className="absolute left-0 bottom-[-1] top-0 z-10 h-[500px] w-[81%] shadow-2xl">
+          <div className="absolute left-0 bottom-[-1] top-0 z-10 h-[495px] w-[81%] shadow-2xl">
             <Image
               src={HERO_IMAGE}
               alt="Business consulting team reviewing data on a tablet"
