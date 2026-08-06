@@ -332,42 +332,42 @@ export default async function ServiceDetailPage({
             </Reveal>
           </div>
         </div>
+      </section>
 
-        {/* CTA banner */}
-        <section className="relative mt-20 overflow-hidden bg-accent py-16 lg:mt-28">
-          <span
-            aria-hidden
-            className="shape-zoominout absolute -left-10 top-1/1 h-40 w-40 -translate-y-1/2 border-white/20"
-          />
-          <span
-            aria-hidden
-            className="shape-move absolute -right-10 top-1/2 h-56 w-56 -translate-y-1/2  border-white/20"
-          />
-          <Reveal
-            animation="fadeInUp"
-            className="container-custom relative flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center"
+      {/* CTA banner */}
+      <section className="relative overflow-hidden bg-accent py-16">
+        <span
+          aria-hidden
+          className="shape-zoominout absolute -left-10 top-1/1 h-40 w-40 -translate-y-1/2 border-white/20"
+        />
+        <span
+          aria-hidden
+          className="shape-move absolute -right-10 top-1/2 h-56 w-56 -translate-y-1/2  border-white/20"
+        />
+        <Reveal
+          animation="fadeInUp"
+          className="container-custom relative flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center"
+        >
+          <h2 className="font-display text-4xl font-bold uppercase leading-tight text-white sm:text-5xl lg:text-6xl">
+            Get consultant now!
+          </h2>
+          <Link
+            href="/contact"
+            data-cursor-hover
+            className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
           >
-            <h2 className="font-display text-4xl font-bold uppercase leading-tight text-white sm:text-5xl lg:text-6xl">
-              Get consultant now!
-            </h2>
-            <Link
-              href="/contact"
-              data-cursor-hover
-              className="group relative inline-flex shrink-0 items-center overflow-hidden rounded-full bg-white py-2 pl-3 pr-7 text-sm font-semibold text-primary-dark transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-xl active:shadow-xl"
-            >
-              <span
-                aria-hidden
-                className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-primary-dark transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
-              />
-              <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
-                <ArrowRight className="h-4 w-4" />
-              </span>
-              <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
-                Lets talk now
-              </span>
-            </Link>
-          </Reveal>
-        </section>
+            <span
+              aria-hidden
+              className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-primary-dark transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
+            />
+            <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
+              <ArrowRight className="h-4 w-4" />
+            </span>
+            <span className="relative z-10 ml-3 transition-colors duration-300 group-hover:text-white group-active:text-white">
+              Lets talk now
+            </span>
+          </Link>
+        </Reveal>
       </section>
     </div>
   );
