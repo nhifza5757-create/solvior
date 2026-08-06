@@ -227,7 +227,9 @@ export default async function PortfolioDetailPage({
             </div>
           </div>
         </div>
-        {/* CTA banner */}
+      </section>
+
+      {/* CTA banner */}
       <section className="relative overflow-hidden bg-accent py-16">
         <span
           aria-hidden
@@ -261,7 +263,6 @@ export default async function PortfolioDetailPage({
             </span>
           </Link>
         </Reveal>
-      </section>
       </section>
     </div>
   );

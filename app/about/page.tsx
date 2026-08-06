@@ -45,6 +45,15 @@ const featureIcons: Record<string, React.ReactNode> = {
 };
 const HERO_BG = "/images/project/pheader-bg.webp";
 
+const COMPANY_LOGOS: { name: string; icon?: string; subtitle?: string; badge?: string }[] = [
+  { name: "monceau", icon: "m" },
+  { name: "tse", subtitle: "Energie de confiance" },
+  { name: "coudac" },
+  { name: "WEGLOT" },
+  { name: "flomodia" },
+  { name: "Influence", badge: "4You" },
+];
+
 export default function AboutPage() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const testimonial = testimonials[activeTestimonial] ?? testimonials[0];
@@ -59,51 +68,29 @@ export default function AboutPage() {
 
   return (
     <div>
-     {/* HERO BANNER */}
-<section className="relative -mt-[104px] flex min-h-[500px] sm:h-[550px] items-center justify-center overflow-hidden pt-[104px]">
-
-  <Image
-    src={HERO_BG}
-    alt="About background"
-    fill
-    priority
-    className="animate-hero-zoom object-cover object-center md:object-center"
-  />
-
-  <div className="absolute inset-0 bg-[#0a1426]/65" />
-
-  <div className="relative z-10 flex w-full items-center justify-center px-5 sm:px-6">
-    <div className="text-center text-white max-w-4xl">
-
-      <Reveal animation="fadeInUp">
-        <h1 className="font-display text-[34px] font-bold leading-tight sm:text-5xl lg:text-6xl">
-          About
-        </h1>
-      </Reveal>
-
-      <Reveal animation="fadeInUp" delay={0.15}>
-        <div className="mt-6 inline-flex max-w-full flex-wrap items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2 text-xs text-white backdrop-blur-md sm:text-sm">
-
-          <Link
-            href="/"
-            className="transition hover:text-[#0075ff]"
-          >
-            Home
-          </Link>
-
-          <span>/</span>
-
-          <span className="text-white/80">
-            About
-          </span>
-
+      {/* HERO BANNER */}
+      <section className="relative -mt-[104px] flex h-[360px] items-center justify-center overflow-hidden pt-[104px] sm:h-[550px]">
+        <Image
+          src={HERO_BG}
+          alt="About background"
+          fill
+          className="animate-hero-zoom object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-[#0a1426]/70" aria-hidden />
+        <div className="relative text-center text-white">
+          <Reveal animation="fadeInUp">
+            <h1 className="font-display text-4xl font-medium sm:text-5xl">About</h1>
+          </Reveal>
+          <Reveal animation="fadeInUp" delay={0.15}>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-1.5 text-sm transition-colors duration-300 hover:border-[#0075ff]/60 active:border-[#0075ff]/60">
+              <Link href="/" className="transition-colors duration-300 hover:text-[#0075ff] active:text-[#0075ff]">Home</Link>
+              <span>/</span>
+              <span className="text-white/70">About</span>
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
-
-    </div>
-  </div>
-
-</section>
+      </section>
 
       {/* ABOUT COMPANY SECTION */}
       <section className="py-20 lg:py-28 bg-white">
@@ -339,7 +326,7 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left side image with ANIMATED stats */}
-            <Reveal animation="fadeInUp" className="relative h-[400px] lg:h-[500px] rounded-lg overflow-hidden shadow-xl">
+            <Reveal animation="fadeInUp" className="relative h-[400px] lg:h-[500px] overflow-hidden shadow-xl">
               <Image
                 src={testimonialMainImage || "/images/testimonial/h2-test-1.webp"}
                 alt="Testimonial"
@@ -348,7 +335,7 @@ export default function AboutPage() {
               />
               
               {/* ANIMATED 3.8 K+ CARD */}
-              <div className="absolute left-6 bottom-6 bg-[#0a1426]/80 backdrop-blur-sm p-5 text-white rounded-lg min-w-[140px]">
+              <div className="absolute left-6 bottom-6 bg-[#0a1426]/80 backdrop-blur-sm p-5 text-white min-w-[140px]">
                 <div className="flex items-end gap-1">
                   <StatNumber end={3.8} decimals={1} className="text-3xl font-bold" />
                   <span className="text-xl font-bold mb-1">K+</span>
@@ -396,6 +383,59 @@ export default function AboutPage() {
                 </div>
               </div>
             </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* JOIN 1000+ COMPANIES LOGO MARQUEE */}
+      <section className="bg-white py-16 overflow-hidden">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="flex items-center justify-center gap-6">
+            <span className="h-px flex-1 bg-gray-200" />
+            <span className="whitespace-nowrap rounded-full bg-[#F0F4FF] px-6 py-2 text-sm font-medium text-[#0a1426]">
+              Join the <span className="font-semibold text-[#0075ff]">1000+</span> companies benefiting from solvior
+            </span>
+            <span className="h-px flex-1 bg-gray-200" />
+          </div>
+
+          <div
+            className="mt-10 overflow-hidden"
+            style={{
+              maskImage:
+                "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+            }}
+          >
+            <div className="animate-marquee flex w-max gap-6">
+              {[...COMPANY_LOGOS, ...COMPANY_LOGOS].map((logo, i) => (
+                <span
+                  key={`${logo.name}-${i}`}
+                  className="flex h-20 min-w-[180px] items-center justify-center gap-2 bg-[#F5F7FA] px-8 text-lg font-semibold text-gray-800"
+                >
+                  {logo.icon && (
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#0a1426] text-xs font-bold text-white">
+                      {logo.icon}
+                    </span>
+                  )}
+                  <span className="flex flex-col leading-tight">
+                    <span>
+                      {logo.name}
+                      {logo.badge && (
+                        <span className="ml-1 rounded-full border border-gray-300 px-2 py-0.5 text-[10px] font-medium text-gray-400">
+                          {logo.badge}
+                        </span>
+                      )}
+                    </span>
+                    {logo.subtitle && (
+                      <span className="text-[9px] font-normal uppercase tracking-wide text-gray-400">
+                        {logo.subtitle}
+                      </span>
+                    )}
+                  </span>
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

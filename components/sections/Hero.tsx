@@ -71,7 +71,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="container-custom relative grid grid-cols-1 gap-1 py-10 lg:grid-cols-[1.15fr_1fr] lg:gap-1 lg:py-14">
+      <div className="container-custom relative mx-auto grid max-w-[1440px] grid-cols-1 gap-1 py-10 lg:grid-cols-[1.15fr_1fr] lg:gap-1 lg:py-14">
         <div className="relative flex flex-col justify-center py-6 lg:py-10">
           <AnimatedTitle
             text="Tailored consulting for the modern business"
@@ -126,7 +126,7 @@ export default function Hero() {
           <Reveal
             animation="fadeInUp"
             delay={0.4}
-            className="relative ml-auto mt-14 w-fit overflow-hidden rounded-2xl bg-primary"
+            className="relative ml-auto mt-14 w-fit overflow-hidden rounded-2xl rounded-tr-none bg-primary"
           >
             <Image
               src={HERO_STAT_BG}
