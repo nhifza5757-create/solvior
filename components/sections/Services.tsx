@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { services } from "@/data/site";
+import { getServices, type Service } from "@/lib/api";
 import Reveal from "@/components/ui/Reveal";
 
 const ICONS: Record<number, ReactNode> = {
@@ -48,6 +48,15 @@ const ICONS: Record<number, ReactNode> = {
 export default function Services() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getServices()
+      .then((data) => setServices(data))
+      .catch((err) => console.error("Failed to load services:", err))
+      .finally(() => setLoading(false));
+  }, []);
 
   const scrollToIndex = (i: number) => {
     const track = trackRef.current;
@@ -75,6 +84,14 @@ export default function Services() {
     });
     setActive(closest);
   };
+
+  if (loading) {
+    return (
+      <section className="py-20 lg:py-28">
+        <div className="container-custom text-center text-muted">Loading services...</div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 lg:py-28">
@@ -126,11 +143,11 @@ export default function Services() {
               as="div"
               className="w-full shrink-0 snap-start sm:w-[46%] lg:w-[calc(33.333%-1.1rem)]"
             >
-              <Link href={`/services/${s.id}`} data-cursor-hover className="group block border border-border shadow-sm transition-shadow duration-300 hover:shadow-md active:shadow-md">
+              <Link href={`/services/${s.slug}`} data-cursor-hover className="group block border border-border shadow-sm transition-shadow duration-300 hover:shadow-md active:shadow-md">
                 <div className="relative">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
-                      src={s.image}
+                      src={s.image || "/images/service/h1-service-1.webp"}
                       alt={s.title}
                       fill
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 46vw, 85vw"
@@ -138,7 +155,7 @@ export default function Services() {
                     />
                   </div>
                   <span className="absolute -bottom-7 left-5 flex h-14 w-14 items-center justify-center rounded-full bg-white text-accent shadow-md transition-colors duration-300 group-hover:bg-accent group-active:bg-accent group-hover:text-white group-active:text-white sm:-bottom-6 sm:left-6 sm:h-12 sm:w-12">
-                    {ICONS[s.id] ?? ICONS[1]}
+                    {ICONS[s.order] ?? ICONS[1]}
                   </span>
                 </div>
                 <div className="mt-9 flex items-start justify-between gap-2 px-4 pb-4 sm:mt-11 sm:gap-3 sm:px-5 sm:pb-5">
