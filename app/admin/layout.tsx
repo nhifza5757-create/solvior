@@ -41,53 +41,73 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.push('/admin/login');
   };
 
-  // Login page: render without sidebar
+  // This hides the site's main header on every /admin/* page
+  const hideHeader = (
+    <style jsx global>{`
+      header {
+        display: none !important;
+      }
+    `}</style>
+  );
+
+  // Login page: render without sidebar, but still hide header
   if (pathname === '/admin/login') {
-    return <>{children}</>;
+    return (
+      <>
+        {hideHeader}
+        {children}
+      </>
+    );
   }
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
-      </div>
+      <>
+        {hideHeader}
+        <div className="min-h-screen flex items-center justify-center">
+          <p>Loading...</p>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      {/* Sidebar */}
-      <aside className="w-64 bg-gray-900 text-white flex flex-col">
-        <div className="p-4 text-xl font-bold border-b border-gray-700">
-          Solvior Admin
-        </div>
-        <nav className="flex-1 p-4 space-y-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`block px-3 py-2 rounded-md text-sm ${
-                pathname === item.href
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-800'
-              }`}
+    <>
+      {hideHeader}
+      <div className="min-h-screen flex bg-gray-50">
+        {/* Sidebar */}
+        <aside className="w-64 bg-gray-900 text-white flex flex-col">
+          <div className="p-4 text-xl font-bold border-b border-gray-700">
+            Solvior Admin
+          </div>
+          <nav className="flex-1 p-4 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`block px-3 py-2 rounded-md text-sm ${
+                  pathname === item.href
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="p-4 border-t border-gray-700">
+            <button
+              onClick={handleLogout}
+              className="w-full text-left px-3 py-2 rounded-md text-sm text-red-400 hover:bg-gray-800"
             >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="p-4 border-t border-gray-700">
-          <button
-            onClick={handleLogout}
-            className="w-full text-left px-3 py-2 rounded-md text-sm text-red-400 hover:bg-gray-800"
-          >
-            Logout
-          </button>
-        </div>
-      </aside>
+              Logout
+            </button>
+          </div>
+        </aside>
 
-      {/* Main content */}
-      <main className="flex-1 p-8">{children}</main>
-    </div>
+        {/* Main content */}
+        <main className="flex-1 p-8">{children}</main>
+      </div>
+    </>
   );
 }

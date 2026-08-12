@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
       const data = await res.json();
 
       // Save token so we can use it for future admin requests
-      localStorage.setItem('admin_token', data.access_token);
+   localStorage.setItem('admin_token', data.accessToken);
 
       // Redirect to dashboard
       router.push('/admin/dashboard');
