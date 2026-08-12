@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useHeaderTheme } from '@/context/HeaderThemeContext';
 
 export default function AdminLoginPage() {
@@ -48,12 +49,21 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0b0f1a] px-4">
-      <div className="w-full max-w-sm">
+    <div
+      className="relative flex min-h-screen items-center justify-center bg-[#0b0f1a] bg-cover bg-center px-4"
+      style={{ backgroundImage: "url('/images/hero/h4-hero-side.jpg')" }}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[#0b0f1a]/90" />
+
+      <div className="relative w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
-          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white">
-            S
-          </div>
+          <Image
+            src="/images/logo-2.png"
+            alt="Solvior"
+            width={44}
+            height={44}
+            className="mb-4 h-11 w-11 object-contain"
+          />
           <h1 className="font-display text-xl font-semibold text-white">Solvior Admin</h1>
           <p className="mt-1 text-sm text-gray-500">Sign in to manage your site</p>
         </div>
