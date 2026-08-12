@@ -50,33 +50,52 @@ export default function AdminCareersPage() {
       />
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
-      {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm text-left">
-            <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
-              <tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Department</th><th className="px-4 py-3">Location</th><th className="px-4 py-3">Type</th><th className="px-4 py-3">Active</th><th className="px-4 py-3 text-right">Actions</th></tr>
-            </thead>
-            <tbody>
-              {jobs.length === 0 && <tr><td colSpan={6} className="px-4 py-12 text-center text-sm text-gray-400">No jobs yet.</td></tr>}
-              {jobs.map((j) => (
-                <tr key={j.id} className="border-t border-gray-100 hover:bg-primary/[0.03] transition-colors">
-                  <td className="px-4 py-3 font-medium">{j.title}</td>
-                  <td className="px-4 py-3 text-gray-500">{j.department || '-'}</td>
-                  <td className="px-4 py-3 text-gray-500">{j.location || '-'}</td>
-                  <td className="px-4 py-3 text-gray-500">{j.type || '-'}</td>
-                  <td className="px-4 py-3">{j.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</td>
-                  <td className="px-4 py-3 text-right space-x-3 whitespace-nowrap">
-                    <Link href={`/admin/careers/${j.id}`} className="text-primary hover:text-accent transition-colors">Edit</Link>
-                    <Link href={`/admin/careers/${j.id}/applications`} className="text-violet-600 hover:text-violet-700 transition-colors">Applications</Link>
-                    <button onClick={() => handleDelete(j.id, j.title)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
+      {!loading && !error && jobs.length === 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-12 text-center text-sm text-gray-400">
+          No jobs yet.
         </div>
+      )}
+
+      {!loading && !error && jobs.length > 0 && (
+        <>
+          {/* Mobile card view */}
+          <div className="space-y-3 md:hidden">
+            {jobs.map((j) => (
+              <div key={j.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-gray-900 truncate">{j.title}</p>
+                    <p className="mt-0.5 text-xs text-gray-500 truncate">{j.department || '-'} &middot; {j.location || '-'} &middot; {j.type || '-'}</p>
+                  </div>
+                  {j.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}
+                </div>
+                <div className="mt-3 flex justify-end space-x-3">
+                  <Link href={`/admin/careers/${j.id}`} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
+                  <Link href={`/admin/careers/${j.id}/applications`} className="text-violet-600 hover:text-violet-700 transition-colors text-sm">Applications</Link>
+                  <button onClick={() => handleDelete(j.id, j.title)} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop horizontal card view */}
+          <div className="hidden md:block space-y-3">
+            {jobs.map((j) => (
+              <div key={j.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 truncate">{j.title}</p>
+                  <p className="mt-0.5 text-sm text-gray-500 truncate">{j.department || '-'} &middot; {j.location || '-'} &middot; {j.type || '-'}</p>
+                </div>
+                <div className="shrink-0">{j.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</div>
+                <div className="flex shrink-0 items-center gap-4 pl-2">
+                  <Link href={`/admin/careers/${j.id}`} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
+                  <Link href={`/admin/careers/${j.id}/applications`} className="text-sm text-violet-600 hover:text-violet-700 transition-colors">Applications</Link>
+                  <button onClick={() => handleDelete(j.id, j.title)} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

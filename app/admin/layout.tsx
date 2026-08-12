@@ -63,10 +63,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.push('/admin/login');
   };
 
-  // This hides the site's main header on every /admin/* page
+  // This hides the site's main header and footer on every /admin/* page
   const hideHeader = (
     <style jsx global>{`
-      header {
+      header,
+      footer {
         display: none !important;
       }
     `}</style>

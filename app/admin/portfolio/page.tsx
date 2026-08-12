@@ -50,31 +50,54 @@ export default function AdminPortfolioPage() {
       />
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
-      {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm text-left">
-            <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
-              <tr><th className="px-4 py-3">Order</th><th className="px-4 py-3">Title</th><th className="px-4 py-3">Category</th><th className="px-4 py-3">Active</th><th className="px-4 py-3 text-right">Actions</th></tr>
-            </thead>
-            <tbody>
-              {items.length === 0 && <tr><td colSpan={5} className="px-4 py-12 text-center text-sm text-gray-400">No portfolio items yet.</td></tr>}
-              {items.map((p) => (
-                <tr key={p.id} className="border-t border-gray-100 hover:bg-primary/[0.03] transition-colors">
-                  <td className="px-4 py-3">{p.order}</td>
-                  <td className="px-4 py-3 font-medium">{p.title}</td>
-                  <td className="px-4 py-3 text-gray-500">{p.category || '-'}</td>
-                  <td className="px-4 py-3">{p.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</td>
-                  <td className="px-4 py-3 text-right space-x-3 whitespace-nowrap">
-                    <Link href={`/admin/portfolio/${p.id}`} className="text-primary hover:text-accent transition-colors">Edit</Link>
-                    <button onClick={() => handleDelete(p.id, p.title)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
+      {!loading && !error && items.length === 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-12 text-center text-sm text-gray-400">
+          No portfolio items yet.
         </div>
+      )}
+
+      {!loading && !error && items.length > 0 && (
+        <>
+          {/* Mobile card view */}
+          <div className="space-y-3 md:hidden">
+            {items.map((p) => (
+              <div key={p.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-gray-900 truncate">{p.title}</p>
+                    <p className="mt-0.5 text-xs text-gray-500 truncate">{p.category || '-'}</p>
+                  </div>
+                  {p.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  <span className="text-xs text-gray-400">Order {p.order}</span>
+                  <div className="space-x-3">
+                    <Link href={`/admin/portfolio/${p.id}`} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
+                    <button onClick={() => handleDelete(p.id, p.title)} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop horizontal card view */}
+          <div className="hidden md:block space-y-3">
+            {items.map((p) => (
+              <div key={p.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+                <span className="w-8 shrink-0 text-sm text-gray-400">{p.order}</span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 truncate">{p.title}</p>
+                  <p className="mt-0.5 text-sm text-gray-500 truncate">{p.category || '-'}</p>
+                </div>
+                <div className="shrink-0">{p.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</div>
+                <div className="flex shrink-0 items-center gap-4 pl-2">
+                  <Link href={`/admin/portfolio/${p.id}`} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
+                  <button onClick={() => handleDelete(p.id, p.title)} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

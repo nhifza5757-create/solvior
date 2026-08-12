@@ -76,40 +76,60 @@ export default function AdminContactPage() {
       />
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
-      {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm text-left">
-            <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
-              <tr><th className="px-4 py-3">Name</th><th className="px-4 py-3">Email</th><th className="px-4 py-3">Subject</th><th className="px-4 py-3">Status</th><th className="px-4 py-3 text-right">Actions</th></tr>
-            </thead>
-            <tbody>
-              {items.length === 0 && <tr><td colSpan={5} className="px-4 py-12 text-center text-sm text-gray-400">No messages yet.</td></tr>}
-              {items.map((c) => (
-                <tr key={c.id} className="border-t border-gray-100 align-top hover:bg-primary/[0.03] transition-colors">
-                  <td className="px-4 py-3 font-medium">{c.name}</td>
-                  <td className="px-4 py-3 text-gray-500">{c.email}</td>
-                  <td className="px-4 py-3 text-gray-500">{c.subject || '-'}</td>
-                  <td className="px-4 py-3">
-                    <select
-                      value={c.status}
-                      onChange={(e) => handleStatusChange(c.id, e.target.value as ContactStatus)}
-                      className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusColor(c.status)}`}
-                    >
-                      {STATUS_OPTIONS.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                  </td>
-                  <td className="px-4 py-3 text-right space-x-3 whitespace-nowrap">
-                    <button onClick={() => handleDelete(c.id, c.name)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
+      {!loading && !error && items.length === 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-12 text-center text-sm text-gray-400">
+          No messages yet.
         </div>
+      )}
+
+      {!loading && !error && items.length > 0 && (
+        <>
+          {/* Mobile card view */}
+          <div className="space-y-3 md:hidden">
+            {items.map((c) => (
+              <div key={c.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+                <p className="font-medium text-gray-900 truncate">{c.name}</p>
+                <p className="mt-0.5 text-xs text-gray-500 truncate">{c.email}</p>
+                <p className="mt-0.5 text-xs text-gray-500 truncate">{c.subject || '-'}</p>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                  <select
+                    value={c.status}
+                    onChange={(e) => handleStatusChange(c.id, e.target.value as ContactStatus)}
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusColor(c.status)}`}
+                  >
+                    {STATUS_OPTIONS.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                  <button onClick={() => handleDelete(c.id, c.name)} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop horizontal card view */}
+          <div className="hidden md:block space-y-3">
+            {items.map((c) => (
+              <div key={c.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 truncate">{c.name}</p>
+                  <p className="mt-0.5 text-sm text-gray-500 truncate">{c.email}</p>
+                </div>
+                <span className="w-40 shrink-0 text-sm text-gray-500 truncate">{c.subject || '-'}</span>
+                <select
+                  value={c.status}
+                  onChange={(e) => handleStatusChange(c.id, e.target.value as ContactStatus)}
+                  className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold ${statusColor(c.status)}`}
+                >
+                  {STATUS_OPTIONS.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+                <button onClick={() => handleDelete(c.id, c.name)} className="shrink-0 text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

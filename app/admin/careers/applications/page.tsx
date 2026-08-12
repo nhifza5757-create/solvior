@@ -77,40 +77,60 @@ export default function AdminJobApplicationsPage() {
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
 
-      {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm text-left">
-            <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
-              <tr><th className="px-4 py-3">Name</th><th className="px-4 py-3">Email</th><th className="px-4 py-3">Phone</th><th className="px-4 py-3">Resume</th><th className="px-4 py-3">Status</th></tr>
-            </thead>
-            <tbody>
-              {apps.length === 0 && <tr><td colSpan={5} className="px-4 py-12 text-center text-sm text-gray-400">No applications yet.</td></tr>}
-              {apps.map((a) => (
-                <tr key={a.id} className="border-t border-gray-100 align-top hover:bg-primary/[0.03] transition-colors">
-                  <td className="px-4 py-3 font-medium">{a.name}</td>
-                  <td className="px-4 py-3 text-gray-500">{a.email}</td>
-                  <td className="px-4 py-3 text-gray-500">{a.phone || '-'}</td>
-                  <td className="px-4 py-3">
-                    <a href={a.resumeUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent transition-colors">View</a>
-                  </td>
-                  <td className="px-4 py-3">
-                    <select
-                      value={a.status}
-                      onChange={(e) => handleStatusChange(a.id, e.target.value as AppStatus)}
-                      className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusColor(a.status)}`}
-                    >
-                      {STATUS_OPTIONS.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
+      {!loading && !error && apps.length === 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-12 text-center text-sm text-gray-400">
+          No applications yet.
         </div>
+      )}
+
+      {!loading && !error && apps.length > 0 && (
+        <>
+          {/* Mobile card view */}
+          <div className="space-y-3 md:hidden">
+            {apps.map((a) => (
+              <div key={a.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+                <p className="font-medium text-gray-900 truncate">{a.name}</p>
+                <p className="mt-0.5 text-xs text-gray-500 truncate">{a.email}</p>
+                <p className="mt-0.5 text-xs text-gray-500 truncate">{a.phone || '-'}</p>
+                <div className="mt-3 flex items-center justify-between gap-2">
+                  <a href={a.resumeUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-accent transition-colors text-sm">View resume</a>
+                  <select
+                    value={a.status}
+                    onChange={(e) => handleStatusChange(a.id, e.target.value as AppStatus)}
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusColor(a.status)}`}
+                  >
+                    {STATUS_OPTIONS.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop horizontal card view */}
+          <div className="hidden md:block space-y-3">
+            {apps.map((a) => (
+              <div key={a.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-gray-900 truncate">{a.name}</p>
+                  <p className="mt-0.5 text-sm text-gray-500 truncate">{a.email}</p>
+                </div>
+                <span className="w-32 shrink-0 text-sm text-gray-500 truncate">{a.phone || '-'}</span>
+                <a href={a.resumeUrl} target="_blank" rel="noopener noreferrer" className="shrink-0 text-sm text-primary hover:text-accent transition-colors">View resume</a>
+                <select
+                  value={a.status}
+                  onChange={(e) => handleStatusChange(a.id, e.target.value as AppStatus)}
+                  className={`shrink-0 rounded-full border px-3 py-1 text-xs font-semibold ${statusColor(a.status)}`}
+                >
+                  {STATUS_OPTIONS.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

@@ -46,29 +46,44 @@ export default function AdminNewsletterPage() {
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
 
-      {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm text-left">
-            <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
-              <tr><th className="px-4 py-3">Email</th><th className="px-4 py-3">Subscribed At</th><th className="px-4 py-3">Status</th><th className="px-4 py-3 text-right whitespace-nowrap">Actions</th></tr>
-            </thead>
-            <tbody>
-              {subs.length === 0 && <tr><td colSpan={4} className="px-4 py-12 text-center text-sm text-gray-400">No subscribers yet.</td></tr>}
-              {subs.map((s) => (
-                <tr key={s.id} className="border-t border-gray-100 hover:bg-primary/[0.03] transition-colors">
-                  <td className="px-4 py-3 font-medium">{s.email}</td>
-                  <td className="px-4 py-3 text-gray-500">{new Date(s.subscribedAt).toLocaleDateString()}</td>
-                  <td className="px-4 py-3">{s.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Unsubscribed" tone="neutral" />}</td>
-                  <td className="px-4 py-3 text-right whitespace-nowrap">
-                    <button onClick={() => handleDelete(s.id, s.email)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
+      {!loading && !error && subs.length === 0 && (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 px-4 py-12 text-center text-sm text-gray-400">
+          No subscribers yet.
         </div>
+      )}
+
+      {!loading && !error && subs.length > 0 && (
+        <>
+          {/* Mobile card view */}
+          <div className="space-y-3 md:hidden">
+            {subs.map((s) => (
+              <div key={s.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-gray-900 truncate">{s.email}</p>
+                    <p className="mt-0.5 text-xs text-gray-500">{new Date(s.subscribedAt).toLocaleDateString()}</p>
+                  </div>
+                  {s.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Unsubscribed" tone="neutral" />}
+                </div>
+                <div className="mt-3 flex justify-end">
+                  <button onClick={() => handleDelete(s.id, s.email)} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop horizontal card view */}
+          <div className="hidden md:block space-y-3">
+            {subs.map((s) => (
+              <div key={s.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+                <p className="min-w-0 flex-1 truncate font-medium text-gray-900">{s.email}</p>
+                <span className="shrink-0 text-sm text-gray-500">{new Date(s.subscribedAt).toLocaleDateString()}</span>
+                <div className="shrink-0">{s.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Unsubscribed" tone="neutral" />}</div>
+                <button onClick={() => handleDelete(s.id, s.email)} className="shrink-0 text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
