@@ -37,7 +37,7 @@ export default function AddFaqPage() {
         </div>
         <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Add FAQ</h1>
       </div>
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-7 shadow-sm border border-gray-100">
+      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-4 shadow-sm border border-gray-100 sm:p-7">
         {error && <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">{error}</p>}
         <div>
           <label className="mb-1.5 block text-sm font-medium text-gray-600">Question</label>
@@ -51,7 +51,7 @@ export default function AddFaqPage() {
           <label className="mb-1.5 block text-sm font-medium text-gray-600">Category</label>
           <input type="text" value={form.category} onChange={(e) => set('category', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
-        <div className="flex gap-5">
+        <div className="flex flex-wrap gap-5">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-600">Order</label>
             <input type="number" value={form.order} onChange={(e) => set('order', Number(e.target.value))} className="w-28 rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />

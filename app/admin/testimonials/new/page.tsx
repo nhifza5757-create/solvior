@@ -37,13 +37,13 @@ export default function AddTestimonialPage() {
         </div>
         <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Add Testimonial</h1>
       </div>
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-7 shadow-sm border border-gray-100">
+      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-4 shadow-sm border border-gray-100 sm:p-7">
         {error && <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">{error}</p>}
         <div>
           <label className="mb-1.5 block text-sm font-medium text-gray-600">Name</label>
           <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-600">Position</label>
             <input type="text" value={form.position} onChange={(e) => set('position', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
@@ -61,7 +61,7 @@ export default function AddTestimonialPage() {
           <label className="mb-1.5 block text-sm font-medium text-gray-600">Image URL</label>
           <input type="text" value={form.image} onChange={(e) => set('image', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
-        <div className="flex gap-5">
+        <div className="flex flex-wrap gap-5">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-600">Rating (1-5)</label>
             <input type="number" min={1} max={5} value={form.rating} onChange={(e) => set('rating', Number(e.target.value))} className="w-28 rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />

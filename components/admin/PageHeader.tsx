@@ -14,7 +14,7 @@ export default function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex items-center justify-between border-b border-gray-100 pb-5">
+    <div className="mb-6 flex flex-col gap-4 border-b border-gray-100 pb-5 lg:flex-row lg:items-center lg:justify-between lg:gap-0">
       <div className="flex items-center gap-3.5">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
           <Icon className="h-5 w-5" />
@@ -31,7 +31,11 @@ export default function PageHeader({
           {subtitle && <p className="mt-0.5 text-sm text-gray-500">{subtitle}</p>}
         </div>
       </div>
-      {action}
+      {action && (
+        <div className="w-full transition-transform duration-200 hover:scale-[1.02] active:scale-95 lg:w-auto">
+          {action}
+        </div>
+      )}
     </div>
   );
 }

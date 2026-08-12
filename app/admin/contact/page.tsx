@@ -77,8 +77,9 @@ export default function AdminContactPage() {
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
       {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <table className="w-full text-sm text-left">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm text-left">
             <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
               <tr><th className="px-4 py-3">Name</th><th className="px-4 py-3">Email</th><th className="px-4 py-3">Subject</th><th className="px-4 py-3">Status</th><th className="px-4 py-3 text-right">Actions</th></tr>
             </thead>
@@ -100,13 +101,14 @@ export default function AdminContactPage() {
                       ))}
                     </select>
                   </td>
-                  <td className="px-4 py-3 text-right space-x-3">
+                  <td className="px-4 py-3 text-right space-x-3 whitespace-nowrap">
                     <button onClick={() => handleDelete(c.id, c.name)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

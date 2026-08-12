@@ -7,7 +7,7 @@ import Image from 'next/image';
 import {
   LayoutDashboard, Briefcase, Users, FolderKanban, Newspaper,
   MessageSquareQuote, DollarSign, HelpCircle, GraduationCap,
-  Mail, MailPlus, LogOut,
+  Mail, MailPlus, LogOut, Menu, X,
 } from 'lucide-react';
 
 const navItems = [
@@ -28,6 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const pathname = usePathname();
   const [checking, setChecking] = useState(true);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     // Login page doesn't need auth check
@@ -43,6 +44,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       setChecking(false);
     }
   }, [pathname, router]);
+
+  // Close the mobile drawer automatically whenever the route changes
+  useEffect(() => {
+    setMobileNavOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll while the mobile drawer is open
+  useEffect(() => {
+    document.body.style.overflow = mobileNavOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileNavOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
@@ -85,18 +99,60 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <>
       {hideHeader}
-      <div className="min-h-screen flex bg-gray-50">
-        {/* Sidebar */}
-        <aside className="w-64 flex flex-col bg-[#0b0f1a] text-gray-300">
-          <div className="border-b border-white/10 px-5 py-5">
-            <Image
-              src="/images/primary-logo.webp"
-              alt="Solvior"
-              width={140}
-              height={36}
-              className="h-8 w-auto object-contain"
-            />
-            <p className="mt-1.5 text-[11px] uppercase tracking-wider text-gray-500">Admin Panel</p>
+      <div className="min-h-screen bg-gray-50 lg:flex">
+        {/* Mobile top bar — visible below lg, holds the hamburger toggle */}
+        <div className="sticky top-0 z-30 flex items-center justify-between border-b border-gray-200 bg-[#0b0f1a] px-4 py-3 lg:hidden">
+          <Image
+            src="/images/primary-logo.webp"
+            alt="Solvior"
+            width={120}
+            height={30}
+            className="h-7 w-auto object-contain"
+          />
+          <button
+            type="button"
+            onClick={() => setMobileNavOpen(true)}
+            aria-label="Open menu"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-300 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Backdrop for mobile drawer */}
+        {mobileNavOpen && (
+          <div
+            onClick={() => setMobileNavOpen(false)}
+            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+            aria-hidden="true"
+          />
+        )}
+
+        {/* Sidebar — off-canvas drawer on mobile, static column on lg+ */}
+        <aside
+          className={`fixed inset-y-0 left-0 z-50 flex w-72 max-w-[85vw] transform flex-col bg-[#0b0f1a] text-gray-300 transition-transform duration-300 ease-in-out lg:static lg:z-auto lg:w-64 lg:max-w-none lg:translate-x-0 ${
+            mobileNavOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
+            <div>
+              <Image
+                src="/images/primary-logo.webp"
+                alt="Solvior"
+                width={140}
+                height={36}
+                className="h-8 w-auto object-contain"
+              />
+              <p className="mt-1.5 text-[11px] uppercase tracking-wider text-gray-500">Admin Panel</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(false)}
+              aria-label="Close menu"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-white/10 hover:text-white lg:hidden"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
           <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
@@ -132,7 +188,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 p-8">{children}</main>
+        <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
       </div>
     </>
   );

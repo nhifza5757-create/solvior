@@ -73,8 +73,9 @@ export default function AdminTeamPage() {
       {error && <p className="text-red-600">{error}</p>}
 
       {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <table className="w-full text-sm text-left">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm text-left">
             <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
               <tr>
                 <th className="px-4 py-3">Order</th>
@@ -94,7 +95,7 @@ export default function AdminTeamPage() {
                   <td className="px-4 py-3 font-medium">{m.name}</td>
                   <td className="px-4 py-3 text-gray-500">{m.position}</td>
                   <td className="px-4 py-3">{m.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</td>
-                  <td className="px-4 py-3 text-right space-x-3">
+                  <td className="px-4 py-3 text-right space-x-3 whitespace-nowrap">
                     <Link href={`/admin/team/${m.id}`} className="text-primary hover:text-accent transition-colors">Edit</Link>
                     <button onClick={() => handleDelete(m.id, m.name)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
                   </td>
@@ -102,6 +103,7 @@ export default function AdminTeamPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

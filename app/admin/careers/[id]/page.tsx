@@ -59,7 +59,7 @@ export default function EditJobPage() {
         </div>
         <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Edit Job</h1>
       </div>
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-7 shadow-sm border border-gray-100">
+      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-4 shadow-sm border border-gray-100 sm:p-7">
         {error && <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">{error}</p>}
         <div>
           <label className="mb-1.5 block text-sm font-medium text-gray-600">Title</label>
@@ -69,7 +69,7 @@ export default function EditJobPage() {
           <label className="mb-1.5 block text-sm font-medium text-gray-600">Slug</label>
           <input type="text" value={form.slug} onChange={(e) => set('slug', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-600">Department</label>
             <input type="text" value={form.department} onChange={(e) => set('department', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />

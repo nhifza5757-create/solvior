@@ -47,10 +47,11 @@ export default function AdminNewsletterPage() {
       {error && <p className="text-red-600">{error}</p>}
 
       {!loading && !error && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <table className="w-full text-sm text-left">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm text-left">
             <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
-              <tr><th className="px-4 py-3">Email</th><th className="px-4 py-3">Subscribed At</th><th className="px-4 py-3">Status</th><th className="px-4 py-3 text-right">Actions</th></tr>
+              <tr><th className="px-4 py-3">Email</th><th className="px-4 py-3">Subscribed At</th><th className="px-4 py-3">Status</th><th className="px-4 py-3 text-right whitespace-nowrap">Actions</th></tr>
             </thead>
             <tbody>
               {subs.length === 0 && <tr><td colSpan={4} className="px-4 py-12 text-center text-sm text-gray-400">No subscribers yet.</td></tr>}
@@ -59,13 +60,14 @@ export default function AdminNewsletterPage() {
                   <td className="px-4 py-3 font-medium">{s.email}</td>
                   <td className="px-4 py-3 text-gray-500">{new Date(s.subscribedAt).toLocaleDateString()}</td>
                   <td className="px-4 py-3">{s.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Unsubscribed" tone="neutral" />}</td>
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-right whitespace-nowrap">
                     <button onClick={() => handleDelete(s.id, s.email)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </div>

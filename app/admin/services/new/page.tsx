@@ -86,7 +86,7 @@ export default function AddServicePage() {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-xl space-y-5 rounded-xl bg-white p-7 shadow-sm border border-gray-100"
+        className="max-w-xl space-y-5 rounded-xl bg-white p-4 shadow-sm border border-gray-100 sm:p-7"
       >
         {error && (
           <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">
@@ -133,7 +133,7 @@ export default function AddServicePage() {
           />
         </div>
 
-        <div className="flex gap-5">
+        <div className="flex flex-wrap gap-5">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-600">
               Order

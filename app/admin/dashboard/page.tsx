@@ -106,21 +106,21 @@ export default function AdminDashboardPage() {
 
 {/* Header band — background image with dark overlay for text readability */}
       <div
-        className="relative mb-8 overflow-hidden rounded-2xl bg-primary bg-cover bg-center px-7 py-7"
+        className="relative mb-6 overflow-hidden rounded-2xl bg-primary bg-cover bg-center px-5 py-5 sm:mb-8 sm:px-7 sm:py-7"
         style={{ backgroundImage: "url('/images/home-4/cta/h4-cta-bg.webp')" }}
       >
         <div className="pointer-events-none absolute inset-0 bg-primary/85" />
         <div className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-20 right-24 h-40 w-40 rounded-full bg-white/5" />
-        <div className="relative flex items-end justify-between">
-          <div>
-            <p className="text-sm text-white/70">{today}</p>
-            <h1 className="mt-1 text-2xl font-display font-semibold text-white tracking-tight">{getGreeting()}, Admin</h1>
-            <p className="mt-1 text-sm text-white/70">
+        <div className="relative flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-xs text-white/70 sm:text-sm">{today}</p>
+            <h1 className="mt-1 text-xl font-display font-semibold text-white tracking-tight sm:text-2xl">{getGreeting()}, Admin</h1>
+            <p className="mt-1 text-xs text-white/70 sm:text-sm">
               {totalItems} items across {MODULES.length} modules on Solvior.
             </p>
           </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-sm font-semibold text-white ring-1 ring-white/20">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15 text-sm font-semibold text-white ring-1 ring-white/20 sm:h-11 sm:w-11">
             A
           </div>
         </div>
