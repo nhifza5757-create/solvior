@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Briefcase } from 'lucide-react';
+import PageHeader from '@/components/admin/PageHeader';
+import StatusBadge from '@/components/admin/StatusBadge';
 
 interface Service {
   id: string;
@@ -66,31 +68,36 @@ export default function AdminServicesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Services</h1>
-        <Link
-          href="/admin/services/new"
-          data-cursor-hover
-          className="group relative inline-flex items-center overflow-hidden rounded-full bg-primary py-1.5 pl-2.5 pr-5 text-xs font-semibold text-white"
-        >
-          <span
-            aria-hidden
-            className="absolute inset-y-0 left-2.5 z-0 my-auto h-7 w-7 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-20px)] group-active:w-[calc(100%-20px)]"
-          />
-          <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center">
-            <ArrowRight className="h-3.5 w-3.5" />
-          </span>
-          <span className="relative z-10 ml-2.5">Add Service</span>
-        </Link>
-      </div>
+      <PageHeader
+        icon={Briefcase}
+        title="Services"
+        subtitle="Manage the services shown on your website."
+        count={services.length}
+        action={
+          <Link
+            href="/admin/services/new"
+            data-cursor-hover
+            className="group relative inline-flex items-center overflow-hidden rounded-full bg-primary py-1.5 pl-2.5 pr-5 text-xs font-semibold text-white"
+          >
+            <span
+              aria-hidden
+              className="absolute inset-y-0 left-2.5 z-0 my-auto h-7 w-7 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-20px)] group-active:w-[calc(100%-20px)]"
+            />
+            <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center">
+              <ArrowRight className="h-3.5 w-3.5" />
+            </span>
+            <span className="relative z-10 ml-2.5">Add Service</span>
+          </Link>
+        }
+      />
 
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
 
       {!loading && !error && (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-100 text-gray-600">
+            <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
               <tr>
                 <th className="px-4 py-3">Order</th>
                 <th className="px-4 py-3">Title</th>
@@ -102,33 +109,29 @@ export default function AdminServicesPage() {
             <tbody>
               {services.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
+                  <td colSpan={5} className="px-4 py-12 text-center text-sm text-gray-400">
                     No services yet.
                   </td>
                 </tr>
               )}
               {services.map((service) => (
-                <tr key={service.id} className="border-t">
+                <tr key={service.id} className="border-t border-gray-100 hover:bg-primary/[0.03] transition-colors">
                   <td className="px-4 py-3">{service.order}</td>
                   <td className="px-4 py-3 font-medium">{service.title}</td>
                   <td className="px-4 py-3 text-gray-500">{service.slug}</td>
                   <td className="px-4 py-3">
-                    {service.isActive ? (
-                      <span className="text-green-600">Yes</span>
-                    ) : (
-                      <span className="text-gray-400">No</span>
-                    )}
+                    {service.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}
                   </td>
                   <td className="px-4 py-3 text-right space-x-3">
                     <Link
                       href={`/admin/services/${service.id}`}
-                      className="text-blue-600 hover:underline"
+                      className="text-primary hover:text-accent transition-colors"
                     >
                       Edit
                     </Link>
                     <button
                       onClick={() => handleDelete(service.id, service.title)}
-                      className="text-red-600 hover:underline"
+                      className="text-red-500 hover:text-red-700 transition-colors"
                     >
                       Delete
                     </button>

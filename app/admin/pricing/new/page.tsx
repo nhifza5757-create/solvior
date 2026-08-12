@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, DollarSign } from 'lucide-react';
 
 export default function AddPricingPlanPage() {
   const router = useRouter();
@@ -34,45 +34,48 @@ export default function AddPricingPlanPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-3">
-        <Link href="/admin/pricing" className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100"><ArrowLeft className="h-4 w-4" /></Link>
-        <h1 className="text-2xl font-bold">Add Pricing Plan</h1>
+      <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-5">
+        <Link href="/admin/pricing" className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:border-primary hover:text-primary hover:bg-primary/5"><ArrowLeft className="h-4 w-4" /></Link>
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <DollarSign className="h-5 w-5" />
+        </div>
+        <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Add Pricing Plan</h1>
       </div>
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-lg bg-white p-6 shadow">
-        {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-7 shadow-sm border border-gray-100">
+        {error && <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">{error}</p>}
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Plan Name</label>
-          <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Plan Name</label>
+          <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Price</label>
-            <input type="number" step="0.01" value={form.price} onChange={(e) => set('price', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Price</label>
+            <input type="number" step="0.01" value={form.price} onChange={(e) => set('price', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Billing Cycle</label>
-            <select value={form.billingCycle} onChange={(e) => set('billingCycle', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none">
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Billing Cycle</label>
+            <select value={form.billingCycle} onChange={(e) => set('billingCycle', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
               <option value="monthly">Monthly</option>
               <option value="yearly">Yearly</option>
             </select>
           </div>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Features (one per line)</label>
-          <textarea value={form.featuresText} onChange={(e) => set('featuresText', e.target.value)} rows={5} placeholder={'Unlimited projects\n24/7 support\nCustom domain'} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Features (one per line)</label>
+          <textarea value={form.featuresText} onChange={(e) => set('featuresText', e.target.value)} rows={5} placeholder={'Unlimited projects\n24/7 support\nCustom domain'} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div className="flex gap-5">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Order</label>
-            <input type="number" value={form.order} onChange={(e) => set('order', Number(e.target.value))} className="w-28 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Order</label>
+            <input type="number" value={form.order} onChange={(e) => set('order', Number(e.target.value))} className="w-28 rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
           <div className="flex items-end gap-4 pb-2">
             <label className="flex items-center gap-2 text-sm text-gray-700">
-              <input type="checkbox" checked={form.isPopular} onChange={(e) => set('isPopular', e.target.checked)} className="h-4 w-4 rounded border-gray-300" />
+              <input type="checkbox" checked={form.isPopular} onChange={(e) => set('isPopular', e.target.checked)} className="h-4 w-4 rounded border-gray-400 text-primary focus:ring-primary" />
               Popular
             </label>
             <label className="flex items-center gap-2 text-sm text-gray-700">
-              <input type="checkbox" checked={form.isActive} onChange={(e) => set('isActive', e.target.checked)} className="h-4 w-4 rounded border-gray-300" />
+              <input type="checkbox" checked={form.isActive} onChange={(e) => set('isActive', e.target.checked)} className="h-4 w-4 rounded border-gray-400 text-primary focus:ring-primary" />
               Active
             </label>
           </div>
@@ -83,7 +86,7 @@ export default function AddPricingPlanPage() {
             <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center"><ArrowRight className="h-3.5 w-3.5" /></span>
             <span className="relative z-10 ml-2.5">{loading ? 'Saving...' : 'Save Plan'}</span>
           </button>
-          <Link href="/admin/pricing" className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-100 hover:text-gray-900">Cancel</Link>
+          <Link href="/admin/pricing" className="rounded-md border border-gray-400 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-100 hover:text-gray-900">Cancel</Link>
         </div>
       </form>
     </div>

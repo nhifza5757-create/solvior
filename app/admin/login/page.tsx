@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
       const data = await res.json();
 
       // Save token so we can use it for future admin requests
-   localStorage.setItem('admin_token', data.accessToken);
+      localStorage.setItem('admin_token', data.accessToken);
 
       // Redirect to dashboard
       router.push('/admin/dashboard');
@@ -48,47 +48,62 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
-        <h1 className="text-2xl font-bold mb-6 text-center">Admin Login</h1>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="admin@example.com"
-            />
+    <div className="flex min-h-screen items-center justify-center bg-[#0b0f1a] px-4">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-lg font-bold text-white">
+            S
           </div>
+          <h1 className="font-display text-xl font-semibold text-white">Solvior Admin</h1>
+          <p className="mt-1 text-sm text-gray-500">Sign in to manage your site</p>
+        </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="••••••••"
-            />
-          </div>
-
+        <div className="rounded-2xl border border-white/10 bg-white p-7 shadow-xl">
           {error && (
-            <p className="text-red-600 text-sm">{error}</p>
+            <p className="mb-4 rounded-lg border border-red-100 bg-red-50 px-3.5 py-2.5 text-sm text-red-600">
+              {error}
+            </p>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-600">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                placeholder="admin@solvior.com"
+              />
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-600">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              data-cursor-hover
+              className="group relative mt-2 flex w-full items-center justify-center overflow-hidden rounded-full bg-primary py-2.5 text-sm font-semibold text-white transition-opacity disabled:opacity-60"
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+        </div>
+
+        <p className="mt-6 text-center text-xs text-gray-600">
+          Solvior Business Consulting © {new Date().getFullYear()}
+        </p>
       </div>
     </div>
   );

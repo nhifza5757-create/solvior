@@ -3,17 +3,25 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
+import {
+  LayoutDashboard, Briefcase, Users, FolderKanban, Newspaper,
+  MessageSquareQuote, DollarSign, HelpCircle, GraduationCap,
+  Mail, MailPlus, LogOut,
+} from 'lucide-react';
 
 const navItems = [
-  { label: 'Dashboard', href: '/admin/dashboard' },
-  { label: 'Services', href: '/admin/services' },
-  { label: 'Team', href: '/admin/team' },
-  { label: 'Portfolio', href: '/admin/portfolio' },
-  { label: 'Blog', href: '/admin/blog' },
-  { label: 'Testimonials', href: '/admin/testimonials' },
-  { label: 'FAQ', href: '/admin/faq' },
-  { label: 'Careers', href: '/admin/careers' },
-  { label: 'Contact Messages', href: '/admin/contact' },
+  { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+  { label: 'Services', href: '/admin/services', icon: Briefcase },
+  { label: 'Team', href: '/admin/team', icon: Users },
+  { label: 'Portfolio', href: '/admin/portfolio', icon: FolderKanban },
+  { label: 'Blog', href: '/admin/blog', icon: Newspaper },
+  { label: 'Testimonials', href: '/admin/testimonials', icon: MessageSquareQuote },
+  { label: 'Pricing', href: '/admin/pricing', icon: DollarSign },
+  { label: 'FAQ', href: '/admin/faq', icon: HelpCircle },
+  { label: 'Careers', href: '/admin/careers', icon: GraduationCap },
+  { label: 'Contact Messages', href: '/admin/contact', icon: Mail },
+  { label: 'Newsletter', href: '/admin/newsletter', icon: MailPlus },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -64,8 +72,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
       <>
         {hideHeader}
-        <div className="min-h-screen flex items-center justify-center">
-          <p>Loading...</p>
+        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+          <div className="flex items-center gap-3 text-sm text-gray-400">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
+            Loading...
+          </div>
         </div>
       </>
     );
@@ -76,30 +87,45 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {hideHeader}
       <div className="min-h-screen flex bg-gray-50">
         {/* Sidebar */}
-        <aside className="w-64 bg-gray-900 text-white flex flex-col">
-          <div className="p-4 text-xl font-bold border-b border-gray-700">
-            Solvior Admin
+        <aside className="w-64 flex flex-col bg-[#0b0f1a] text-gray-300">
+          <div className="border-b border-white/10 px-5 py-5">
+            <Image
+              src="/images/primary-logo.webp"
+              alt="Solvior"
+              width={140}
+              height={36}
+              className="h-8 w-auto object-contain"
+            />
+            <p className="mt-1.5 text-[11px] uppercase tracking-wider text-gray-500">Admin Panel</p>
           </div>
-          <nav className="flex-1 p-4 space-y-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`block px-3 py-2 rounded-md text-sm ${
-                  pathname === item.href
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-300 hover:bg-gray-800'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+
+          <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                    isActive
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                  }`}
+                >
+                  <Icon className="h-4 w-4 shrink-0" />
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
-          <div className="p-4 border-t border-gray-700">
+
+          <div className="border-t border-white/10 p-3">
             <button
               onClick={handleLogout}
-              className="w-full text-left px-3 py-2 rounded-md text-sm text-red-400 hover:bg-gray-800"
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-400 transition-colors hover:bg-red-500/10 hover:text-red-400"
             >
+              <LogOut className="h-4 w-4" />
               Logout
             </button>
           </div>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Users } from 'lucide-react';
 
 export default function AddTeamMemberPage() {
   const router = useRouter();
@@ -37,56 +37,59 @@ export default function AddTeamMemberPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-3">
-        <Link href="/admin/team" className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100"><ArrowLeft className="h-4 w-4" /></Link>
-        <h1 className="text-2xl font-bold">Add Team Member</h1>
+      <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-5">
+        <Link href="/admin/team" className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:border-primary hover:text-primary hover:bg-primary/5"><ArrowLeft className="h-4 w-4" /></Link>
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <Users className="h-5 w-5" />
+        </div>
+        <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Add Team Member</h1>
       </div>
 
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-lg bg-white p-6 shadow">
-        {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-7 shadow-sm border border-gray-100">
+        {error && <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">{error}</p>}
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Name</label>
-          <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Name</label>
+          <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Position</label>
-          <input type="text" value={form.position} onChange={(e) => set('position', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" placeholder="e.g. Lead Designer" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Position</label>
+          <input type="text" value={form.position} onChange={(e) => set('position', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" placeholder="e.g. Lead Designer" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Bio</label>
-          <textarea value={form.bio} onChange={(e) => set('bio', e.target.value)} rows={3} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Bio</label>
+          <textarea value={form.bio} onChange={(e) => set('bio', e.target.value)} rows={3} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Image URL</label>
-          <input type="text" value={form.image} onChange={(e) => set('image', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Image URL</label>
+          <input type="text" value={form.image} onChange={(e) => set('image', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">LinkedIn</label>
-            <input type="text" value={form.linkedin} onChange={(e) => set('linkedin', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">LinkedIn</label>
+            <input type="text" value={form.linkedin} onChange={(e) => set('linkedin', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Twitter</label>
-            <input type="text" value={form.twitter} onChange={(e) => set('twitter', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Twitter</label>
+            <input type="text" value={form.twitter} onChange={(e) => set('twitter', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Instagram</label>
-            <input type="text" value={form.instagram} onChange={(e) => set('instagram', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Instagram</label>
+            <input type="text" value={form.instagram} onChange={(e) => set('instagram', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Facebook</label>
-            <input type="text" value={form.facebook} onChange={(e) => set('facebook', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Facebook</label>
+            <input type="text" value={form.facebook} onChange={(e) => set('facebook', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
         </div>
         <div className="flex gap-5">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Order</label>
-            <input type="number" value={form.order} onChange={(e) => set('order', Number(e.target.value))} className="w-28 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Order</label>
+            <input type="number" value={form.order} onChange={(e) => set('order', Number(e.target.value))} className="w-28 rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
           <div className="flex items-end pb-2">
             <label className="flex items-center gap-2 text-sm text-gray-700">
-              <input type="checkbox" checked={form.isActive} onChange={(e) => set('isActive', e.target.checked)} className="h-4 w-4 rounded border-gray-300" />
+              <input type="checkbox" checked={form.isActive} onChange={(e) => set('isActive', e.target.checked)} className="h-4 w-4 rounded border-gray-400 text-primary focus:ring-primary" />
               Active
             </label>
           </div>
@@ -97,7 +100,7 @@ export default function AddTeamMemberPage() {
             <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center"><ArrowRight className="h-3.5 w-3.5" /></span>
             <span className="relative z-10 ml-2.5">{loading ? 'Saving...' : 'Save Member'}</span>
           </button>
-          <Link href="/admin/team" className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-100 hover:text-gray-900">Cancel</Link>
+          <Link href="/admin/team" className="rounded-md border border-gray-400 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-100 hover:text-gray-900">Cancel</Link>
         </div>
       </form>
     </div>

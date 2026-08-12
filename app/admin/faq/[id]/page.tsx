@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, HelpCircle } from 'lucide-react';
 
 export default function EditFaqPage() {
   const router = useRouter();
@@ -52,32 +52,35 @@ export default function EditFaqPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-3">
-        <Link href="/admin/faq" className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:bg-gray-100"><ArrowLeft className="h-4 w-4" /></Link>
-        <h1 className="text-2xl font-bold">Edit FAQ</h1>
+      <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-5">
+        <Link href="/admin/faq" className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:border-primary hover:text-primary hover:bg-primary/5"><ArrowLeft className="h-4 w-4" /></Link>
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <HelpCircle className="h-5 w-5" />
+        </div>
+        <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Edit FAQ</h1>
       </div>
-      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-lg bg-white p-6 shadow">
-        {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>}
+      <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-7 shadow-sm border border-gray-100">
+        {error && <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">{error}</p>}
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Question</label>
-          <input type="text" value={form.question} onChange={(e) => set('question', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Question</label>
+          <input type="text" value={form.question} onChange={(e) => set('question', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Answer</label>
-          <textarea value={form.answer} onChange={(e) => set('answer', e.target.value)} rows={4} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Answer</label>
+          <textarea value={form.answer} onChange={(e) => set('answer', e.target.value)} rows={4} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Category</label>
-          <input type="text" value={form.category} onChange={(e) => set('category', e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">Category</label>
+          <input type="text" value={form.category} onChange={(e) => set('category', e.target.value)} className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
         </div>
         <div className="flex gap-5">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Order</label>
-            <input type="number" value={form.order} onChange={(e) => set('order', Number(e.target.value))} className="w-28 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none" />
+            <label className="mb-1.5 block text-sm font-medium text-gray-600">Order</label>
+            <input type="number" value={form.order} onChange={(e) => set('order', Number(e.target.value))} className="w-28 rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20" />
           </div>
           <div className="flex items-end pb-2">
             <label className="flex items-center gap-2 text-sm text-gray-700">
-              <input type="checkbox" checked={form.isActive} onChange={(e) => set('isActive', e.target.checked)} className="h-4 w-4 rounded border-gray-300" />
+              <input type="checkbox" checked={form.isActive} onChange={(e) => set('isActive', e.target.checked)} className="h-4 w-4 rounded border-gray-400 text-primary focus:ring-primary" />
               Active
             </label>
           </div>
@@ -88,7 +91,7 @@ export default function EditFaqPage() {
             <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center"><ArrowRight className="h-3.5 w-3.5" /></span>
             <span className="relative z-10 ml-2.5">{loading ? 'Saving...' : 'Update FAQ'}</span>
           </button>
-          <Link href="/admin/faq" className="rounded-md border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-100 hover:text-gray-900">Cancel</Link>
+          <Link href="/admin/faq" className="rounded-md border border-gray-400 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-100 hover:text-gray-900">Cancel</Link>
         </div>
       </form>
     </div>

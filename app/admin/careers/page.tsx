@@ -1,7 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, GraduationCap } from 'lucide-react';
+import PageHeader from '@/components/admin/PageHeader';
+import StatusBadge from '@/components/admin/StatusBadge';
 
 interface Job { id: string; title: string; department: string | null; location: string | null; type: string | null; isActive: boolean; }
 
@@ -33,35 +35,40 @@ export default function AdminCareersPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Careers</h1>
+      <PageHeader
+        icon={GraduationCap}
+        title="Careers"
+        subtitle="Manage open job listings."
+        count={jobs.length}
+        action={
         <Link href="/admin/careers/new" data-cursor-hover className="group relative inline-flex items-center overflow-hidden rounded-full bg-primary py-1.5 pl-2.5 pr-5 text-xs font-semibold text-white">
           <span aria-hidden className="absolute inset-y-0 left-2.5 z-0 my-auto h-7 w-7 rounded-full bg-accent transition-all duration-500 ease-out group-hover:w-[calc(100%-20px)] group-active:w-[calc(100%-20px)]" />
           <span className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center"><ArrowRight className="h-3.5 w-3.5" /></span>
           <span className="relative z-10 ml-2.5">Add Job</span>
         </Link>
-      </div>
+        }
+      />
       {loading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-600">{error}</p>}
       {!loading && !error && (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-100 text-gray-600">
+            <thead className="bg-primary/[0.04] text-gray-500 text-[11px] font-semibold uppercase tracking-wider">
               <tr><th className="px-4 py-3">Title</th><th className="px-4 py-3">Department</th><th className="px-4 py-3">Location</th><th className="px-4 py-3">Type</th><th className="px-4 py-3">Active</th><th className="px-4 py-3 text-right">Actions</th></tr>
             </thead>
             <tbody>
-              {jobs.length === 0 && <tr><td colSpan={6} className="px-4 py-6 text-center text-gray-400">No jobs yet.</td></tr>}
+              {jobs.length === 0 && <tr><td colSpan={6} className="px-4 py-12 text-center text-sm text-gray-400">No jobs yet.</td></tr>}
               {jobs.map((j) => (
-                <tr key={j.id} className="border-t">
+                <tr key={j.id} className="border-t border-gray-100 hover:bg-primary/[0.03] transition-colors">
                   <td className="px-4 py-3 font-medium">{j.title}</td>
                   <td className="px-4 py-3 text-gray-500">{j.department || '-'}</td>
                   <td className="px-4 py-3 text-gray-500">{j.location || '-'}</td>
                   <td className="px-4 py-3 text-gray-500">{j.type || '-'}</td>
-                  <td className="px-4 py-3">{j.isActive ? <span className="text-green-600">Yes</span> : <span className="text-gray-400">No</span>}</td>
+                  <td className="px-4 py-3">{j.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</td>
                   <td className="px-4 py-3 text-right space-x-3">
-                    <Link href={`/admin/careers/${j.id}`} className="text-blue-600 hover:underline">Edit</Link>
-                    <Link href={`/admin/careers/${j.id}/applications`} className="text-purple-600 hover:underline">Applications</Link>
-                    <button onClick={() => handleDelete(j.id, j.title)} className="text-red-600 hover:underline">Delete</button>
+                    <Link href={`/admin/careers/${j.id}`} className="text-primary hover:text-accent transition-colors">Edit</Link>
+                    <Link href={`/admin/careers/${j.id}/applications`} className="text-violet-600 hover:text-violet-700 transition-colors">Applications</Link>
+                    <button onClick={() => handleDelete(j.id, j.title)} className="text-red-500 hover:text-red-700 transition-colors">Delete</button>
                   </td>
                 </tr>
               ))}
