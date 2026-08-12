@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, FolderKanban } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function EditPortfolioPage() {
   const router = useRouter();
@@ -18,14 +19,12 @@ export default function EditPortfolioPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('admin_token');
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/${id}`, { });
         if (!res.ok) throw new Error('Failed to load portfolio item');
         const data = await res.json();
         setForm({
           title: data.title || '', slug: data.slug || '', client: data.client || '', category: data.category || '',
-          description: data.description || '', image: data.image || '', order: data.order ?? 0, isActive: data.isActive ?? true,
-        });
+          description: data.description || '', image: data.image || '', order: data.order ?? 0, isActive: data.isActive ?? true });
       } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setFetching(false); }
     };
     fetchItem();
@@ -37,12 +36,10 @@ export default function EditPortfolioPage() {
     if (!form.title.trim() || !form.slug.trim() || !form.description.trim()) { setError('Title, slug and description are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ ...form, order: Number(form.order) }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, order: Number(form.order) }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update portfolio item'); }
       router.push('/admin/portfolio');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

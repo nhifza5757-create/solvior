@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Newspaper } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function EditBlogPostPage() {
   const router = useRouter();
@@ -18,14 +19,12 @@ export default function EditBlogPostPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('admin_token');
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/${id}`, { });
         if (!res.ok) throw new Error('Failed to load blog post');
         const data = await res.json();
         setForm({
           title: data.title || '', slug: data.slug || '', excerpt: data.excerpt || '', content: data.content || '',
-          image: data.image || '', category: data.category || '', author: data.author || '', isPublished: data.isPublished ?? false,
-        });
+          image: data.image || '', category: data.category || '', author: data.author || '', isPublished: data.isPublished ?? false });
       } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setFetching(false); }
     };
     fetchItem();
@@ -37,12 +36,10 @@ export default function EditBlogPostPage() {
     if (!form.title.trim() || !form.slug.trim() || !form.content.trim()) { setError('Title, slug and content are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(form),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update blog post'); }
       router.push('/admin/blog');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

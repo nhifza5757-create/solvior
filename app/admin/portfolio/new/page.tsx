@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, FolderKanban } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function AddPortfolioPage() {
   const router = useRouter();
@@ -23,12 +24,10 @@ export default function AddPortfolioPage() {
     if (!form.title.trim() || !form.slug.trim() || !form.description.trim()) { setError('Title, slug and description are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ ...form, order: Number(form.order) }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, order: Number(form.order) }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to create portfolio item'); }
       router.push('/admin/portfolio');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

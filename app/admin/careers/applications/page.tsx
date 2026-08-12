@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, GraduationCap } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 type AppStatus = 'PENDING' | 'REVIEWED' | 'SHORTLISTED' | 'REJECTED' | 'HIRED';
 
@@ -37,8 +38,7 @@ export default function AdminJobApplicationsPage() {
   const fetchApps = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/applications`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/applications`, { });
       if (!res.ok) throw new Error('Failed to load applications');
       setApps(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -47,12 +47,10 @@ export default function AdminJobApplicationsPage() {
 
   const handleStatusChange = async (id: string, status: AppStatus) => {
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/applications/${id}/status`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/applications/${id}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ status }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }) });
       if (!res.ok) throw new Error('Failed to update status');
       setApps((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, GraduationCap } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface Job { id: string; title: string; department: string | null; location: string | null; type: string | null; isActive: boolean; }
 
@@ -15,8 +16,7 @@ export default function AdminCareersPage() {
   const fetchJobs = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/admin`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/admin`, { });
       if (!res.ok) throw new Error('Failed to load jobs');
       setJobs(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -26,8 +26,7 @@ export default function AdminCareersPage() {
   const handleDelete = async (id: string, title: string) => {
     if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/${id}`, { method: 'DELETE', });
       if (!res.ok) throw new Error('Failed to delete');
       fetchJobs();
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

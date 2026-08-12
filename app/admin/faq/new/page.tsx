@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, HelpCircle } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function AddFaqPage() {
   const router = useRouter();
@@ -17,12 +18,10 @@ export default function AddFaqPage() {
     if (!form.question.trim() || !form.answer.trim()) { setError('Question and answer are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/faq`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ ...form, order: Number(form.order) }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, order: Number(form.order) }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to create FAQ'); }
       router.push('/admin/faq');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

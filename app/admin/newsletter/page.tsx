@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { MailPlus } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface Subscriber { id: string; email: string; isActive: boolean; subscribedAt: string; }
 
@@ -14,8 +15,7 @@ export default function AdminNewsletterPage() {
   const fetchSubs = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/newsletter`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/newsletter`, { });
       if (!res.ok) throw new Error('Failed to load subscribers');
       setSubs(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -25,8 +25,7 @@ export default function AdminNewsletterPage() {
   const handleDelete = async (id: string, email: string) => {
     if (!window.confirm(`Remove "${email}" from the newsletter list?`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/newsletter/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/newsletter/${id}`, { method: 'DELETE', });
       if (!res.ok) throw new Error('Failed to delete');
       fetchSubs();
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Mail } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
+import { adminFetch } from '@/lib/adminFetch';
 
 type ContactStatus = 'NEW' | 'READ' | 'REPLIED' | 'ARCHIVED';
 
@@ -26,8 +27,7 @@ export default function AdminContactPage() {
   const fetchItems = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, { });
       if (!res.ok) throw new Error('Failed to load messages');
       setItems(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -36,12 +36,10 @@ export default function AdminContactPage() {
 
   const handleStatusChange = async (id: string, status: ContactStatus) => {
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ status }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }) });
       if (!res.ok) throw new Error('Failed to update status');
       setItems((prev) => prev.map((i) => (i.id === id ? { ...i, status } : i)));
     } catch (err: any) { alert(err.message || 'Something went wrong'); }
@@ -50,8 +48,7 @@ export default function AdminContactPage() {
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Delete message from "${name}"? This cannot be undone.`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/${id}`, { method: 'DELETE', });
       if (!res.ok) throw new Error('Failed to delete');
       fetchItems();
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

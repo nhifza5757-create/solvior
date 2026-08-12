@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, HelpCircle } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface Faq { id: string; question: string; category: string | null; order: number; isActive: boolean; }
 
@@ -15,8 +16,7 @@ export default function AdminFaqPage() {
   const fetchItems = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/admin`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/admin`, { });
       if (!res.ok) throw new Error('Failed to load FAQs');
       setItems(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -26,8 +26,7 @@ export default function AdminFaqPage() {
   const handleDelete = async (id: string, question: string) => {
     if (!window.confirm(`Delete "${question}"? This cannot be undone.`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`, { method: 'DELETE', });
       if (!res.ok) throw new Error('Failed to delete');
       fetchItems();
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

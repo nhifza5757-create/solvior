@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Users } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function EditTeamMemberPage() {
   const router = useRouter();
@@ -18,15 +19,13 @@ export default function EditTeamMemberPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('admin_token');
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/team/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/team/${id}`, { });
         if (!res.ok) throw new Error('Failed to load team member');
         const data = await res.json();
         setForm({
           name: data.name || '', position: data.position || '', bio: data.bio || '', image: data.image || '',
           linkedin: data.linkedin || '', twitter: data.twitter || '', instagram: data.instagram || '', facebook: data.facebook || '',
-          order: data.order ?? 0, isActive: data.isActive ?? true,
-        });
+          order: data.order ?? 0, isActive: data.isActive ?? true });
       } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setFetching(false); }
     };
     fetchItem();
@@ -38,12 +37,10 @@ export default function EditTeamMemberPage() {
     if (!form.name.trim() || !form.position.trim()) { setError('Name and position are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/team/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/team/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ ...form, order: Number(form.order) }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, order: Number(form.order) }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update team member'); }
       router.push('/admin/team');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, DollarSign } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface PricingPlan { id: string; name: string; price: string; billingCycle: string; isPopular: boolean; order: number; isActive: boolean; }
 
@@ -15,8 +16,7 @@ export default function AdminPricingPage() {
   const fetchPlans = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/admin`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/admin`, { });
       if (!res.ok) throw new Error('Failed to load pricing plans');
       setPlans(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -26,8 +26,7 @@ export default function AdminPricingPage() {
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/${id}`, { method: 'DELETE', });
       if (!res.ok) throw new Error('Failed to delete');
       fetchPlans();
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

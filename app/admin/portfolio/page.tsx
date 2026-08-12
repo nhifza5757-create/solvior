@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, FolderKanban } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface Portfolio { id: string; title: string; slug: string; category: string | null; order: number; isActive: boolean; }
 
@@ -15,8 +16,7 @@ export default function AdminPortfolioPage() {
   const fetchItems = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/admin`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/admin`, { });
       if (!res.ok) throw new Error('Failed to load portfolio items');
       setItems(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -26,8 +26,7 @@ export default function AdminPortfolioPage() {
   const handleDelete = async (id: string, title: string) => {
     if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/portfolios/${id}`, { method: 'DELETE', });
       if (!res.ok) throw new Error('Failed to delete');
       fetchItems();
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

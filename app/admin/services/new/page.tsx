@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Briefcase } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function AddServicePage() {
   const router = useRouter();
@@ -40,21 +41,16 @@ export default function AddServicePage() {
 
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/services`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/services`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+          'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: title.trim(),
           slug: slug.trim(),
           shortDesc: shortDesc.trim() || null,
           order: Number(order),
-          isActive,
-        }),
-      });
+          isActive }) });
 
       if (!res.ok) {
         const data = await res.json().catch(() => null);

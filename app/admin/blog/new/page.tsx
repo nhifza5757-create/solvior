@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Newspaper } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function AddBlogPostPage() {
   const router = useRouter();
@@ -23,12 +24,10 @@ export default function AddBlogPostPage() {
     if (!form.title.trim() || !form.slug.trim() || !form.content.trim()) { setError('Title, slug and content are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(form),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to create blog post'); }
       router.push('/admin/blog');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

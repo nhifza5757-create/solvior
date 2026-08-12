@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, MessageSquareQuote } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function EditTestimonialPage() {
   const router = useRouter();
@@ -18,14 +19,12 @@ export default function EditTestimonialPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('admin_token');
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/${id}`, { });
         if (!res.ok) throw new Error('Failed to load testimonial');
         const data = await res.json();
         setForm({
           name: data.name || '', position: data.position || '', company: data.company || '', content: data.content || '',
-          rating: data.rating ?? 5, image: data.image || '', order: data.order ?? 0, isActive: data.isActive ?? true,
-        });
+          rating: data.rating ?? 5, image: data.image || '', order: data.order ?? 0, isActive: data.isActive ?? true });
       } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setFetching(false); }
     };
     fetchItem();
@@ -37,12 +36,10 @@ export default function EditTestimonialPage() {
     if (!form.name.trim() || !form.content.trim()) { setError('Name and content are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ ...form, rating: Number(form.rating), order: Number(form.order) }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, rating: Number(form.rating), order: Number(form.order) }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update testimonial'); }
       router.push('/admin/testimonials');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

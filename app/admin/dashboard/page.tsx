@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Briefcase, Users, FolderKanban, Newspaper, GraduationCap,
-  MessageSquareQuote, DollarSign, HelpCircle, Mail, MailPlus, ArrowRight, ArrowUpRight, Plus,
-} from 'lucide-react';
+  MessageSquareQuote, DollarSign, HelpCircle, Mail, MailPlus, ArrowRight, ArrowUpRight, Plus } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface StatCard { label: string; href: string; count: number | null; icon: React.ElementType; }
 interface ContactMsg { id: string; name: string; email: string; subject: string | null; status: string; createdAt: string; }
@@ -53,14 +53,13 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     setToday(new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
 
-    const token = localStorage.getItem('admin_token');
-    const headers = { Authorization: `Bearer ${token}` };
+    const headers = {  };
 
     const fetchStats = async () => {
       const results = await Promise.all(
         MODULES.map(async (m) => {
           try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${m.endpoint}`, { headers });
+            const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/${m.endpoint}`, { headers });
             if (!res.ok) return { ...m, count: 0, raw: [] as any[] };
             const data = await res.json();
             const count = Array.isArray(data) ? data.length : (data?.total ?? 0);

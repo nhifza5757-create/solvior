@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Briefcase } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface Service {
   id: string;
@@ -24,12 +25,10 @@ export default function AdminServicesPage() {
     setLoading(true);
     setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(
+      const res = await adminFetch(
         `${process.env.NEXT_PUBLIC_API_URL}/services/admin`,
         {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+          }
       );
       if (!res.ok) throw new Error('Failed to load services');
       const data = await res.json();
@@ -50,13 +49,11 @@ export default function AdminServicesPage() {
     if (!confirmed) return;
 
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(
+      const res = await adminFetch(
         `${process.env.NEXT_PUBLIC_API_URL}/services/${id}`,
         {
           method: 'DELETE',
-          headers: { Authorization: `Bearer ${token}` },
-        }
+          }
       );
       if (!res.ok) throw new Error('Failed to delete');
       // Refresh list after delete

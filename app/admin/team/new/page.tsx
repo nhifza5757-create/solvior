@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Users } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function AddTeamMemberPage() {
   const router = useRouter();
   const [form, setForm] = useState({
-    name: '', position: '', bio: '', image: '', linkedin: '', twitter: '', instagram: '', facebook: '', order: 0, isActive: true,
-  });
+    name: '', position: '', bio: '', image: '', linkedin: '', twitter: '', instagram: '', facebook: '', order: 0, isActive: true });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const set = (key: string, value: any) => setForm((f) => ({ ...f, [key]: value }));
@@ -20,12 +20,10 @@ export default function AddTeamMemberPage() {
     if (!form.name.trim() || !form.position.trim()) { setError('Name and position are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/team`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/team`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ ...form, order: Number(form.order) }),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, order: Number(form.order) }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to create team member'); }
       router.push('/admin/team');
     } catch (err: any) {

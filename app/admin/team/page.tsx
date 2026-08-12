@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Users } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface TeamMember {
   id: string;
@@ -23,10 +24,8 @@ export default function AdminTeamPage() {
     setLoading(true);
     setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/team/admin`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/team/admin`, {
+        });
       if (!res.ok) throw new Error('Failed to load team members');
       setMembers(await res.json());
     } catch (err: any) {
@@ -41,11 +40,9 @@ export default function AdminTeamPage() {
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/team/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/team/${id}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      });
+        });
       if (!res.ok) throw new Error('Failed to delete');
       fetchMembers();
     } catch (err: any) {

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, Newspaper } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
+import { adminFetch } from '@/lib/adminFetch';
 
 interface BlogPost { id: string; title: string; slug: string; category: string | null; isPublished: boolean; createdAt: string; }
 
@@ -15,8 +16,7 @@ export default function AdminBlogPage() {
   const fetchPosts = async () => {
     setLoading(true); setError('');
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/admin`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/admin`, { });
       if (!res.ok) throw new Error('Failed to load blog posts');
       setPosts(await res.json());
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
@@ -26,8 +26,7 @@ export default function AdminBlogPage() {
   const handleDelete = async (id: string, title: string) => {
     if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/${id}`, { method: 'DELETE', });
       if (!res.ok) throw new Error('Failed to delete');
       fetchPosts();
     } catch (err: any) { alert(err.message || 'Something went wrong'); }

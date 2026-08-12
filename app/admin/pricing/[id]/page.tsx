@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, DollarSign } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function EditPricingPlanPage() {
   const router = useRouter();
@@ -18,15 +19,13 @@ export default function EditPricingPlanPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('admin_token');
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/${id}`, { });
         if (!res.ok) throw new Error('Failed to load pricing plan');
         const data = await res.json();
         setForm({
           name: data.name || '', price: String(data.price ?? ''), billingCycle: data.billingCycle || 'monthly',
           featuresText: Array.isArray(data.features) ? data.features.join('\n') : '',
-          isPopular: data.isPopular ?? false, order: data.order ?? 0, isActive: data.isActive ?? true,
-        });
+          isPopular: data.isPopular ?? false, order: data.order ?? 0, isActive: data.isActive ?? true });
       } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setFetching(false); }
     };
     fetchItem();
@@ -38,16 +37,13 @@ export default function EditPricingPlanPage() {
     if (!form.name.trim() || !form.price.trim()) { setError('Name and price are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
       const features = form.featuresText.split('\n').map((f) => f.trim()).filter(Boolean);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: form.name, price: Number(form.price), billingCycle: form.billingCycle,
-          features, isPopular: form.isPopular, order: Number(form.order), isActive: form.isActive,
-        }),
-      });
+          features, isPopular: form.isPopular, order: Number(form.order), isActive: form.isActive }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update pricing plan'); }
       router.push('/admin/pricing');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

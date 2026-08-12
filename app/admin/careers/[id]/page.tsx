@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, GraduationCap } from 'lucide-react';
+import { adminFetch } from '@/lib/adminFetch';
 
 export default function EditJobPage() {
   const router = useRouter();
@@ -18,14 +19,12 @@ export default function EditJobPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const token = localStorage.getItem('admin_token');
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/${id}`, { });
         if (!res.ok) throw new Error('Failed to load job');
         const data = await res.json();
         setForm({
           title: data.title || '', slug: data.slug || '', department: data.department || '', location: data.location || '',
-          type: data.type || '', description: data.description || '', requirements: data.requirements || '', isActive: data.isActive ?? true,
-        });
+          type: data.type || '', description: data.description || '', requirements: data.requirements || '', isActive: data.isActive ?? true });
       } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setFetching(false); }
     };
     fetchItem();
@@ -37,12 +36,10 @@ export default function EditJobPage() {
     if (!form.title.trim() || !form.slug.trim() || !form.description.trim()) { setError('Title, slug and description are required.'); return; }
     setLoading(true);
     try {
-      const token = localStorage.getItem('admin_token');
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/${id}`, {
+      const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(form),
-      });
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update job'); }
       router.push('/admin/careers');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
