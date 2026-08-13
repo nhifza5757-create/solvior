@@ -19,9 +19,11 @@ export default function EditTestimonialPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/${id}`, { });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/testimonials/admin`, { });
         if (!res.ok) throw new Error('Failed to load testimonial');
-        const data = await res.json();
+        const list = await res.json();
+        const data = list.find((t: any) => t.id === id);
+        if (!data) throw new Error('Testimonial not found');
         setForm({
           name: data.name || '', position: data.position || '', company: data.company || '', content: data.content || '',
           rating: data.rating ?? 5, image: data.image || '', order: data.order ?? 0, isActive: data.isActive ?? true });

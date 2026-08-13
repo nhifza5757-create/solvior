@@ -19,9 +19,11 @@ export default function EditPricingPlanPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/${id}`, { });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/pricing/admin`, { });
         if (!res.ok) throw new Error('Failed to load pricing plan');
-        const data = await res.json();
+        const list = await res.json();
+        const data = list.find((p: any) => p.id === id);
+        if (!data) throw new Error('Pricing plan not found');
         setForm({
           name: data.name || '', price: String(data.price ?? ''), billingCycle: data.billingCycle || 'monthly',
           featuresText: Array.isArray(data.features) ? data.features.join('\n') : '',

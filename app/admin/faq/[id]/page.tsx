@@ -19,9 +19,11 @@ export default function EditFaqPage() {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/${id}`, { });
+        const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/faq/admin`, { });
         if (!res.ok) throw new Error('Failed to load FAQ');
-        const data = await res.json();
+        const list = await res.json();
+        const data = list.find((f: any) => f.id === id);
+        if (!data) throw new Error('FAQ not found');
         setForm({
           question: data.question || '', answer: data.answer || '', category: data.category || '',
           order: data.order ?? 0, isActive: data.isActive ?? true });
