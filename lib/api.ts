@@ -106,3 +106,58 @@ export function getFaqs() {
 export function getBlogPosts() {
   return fetchFromApi<BlogPost[]>('/blog');
 }
+
+export interface Job {
+  id: string;
+  title: string;
+  slug: string;
+  department: string | null;
+  location: string | null;
+  type: string | null;
+  description: string;
+  requirements: string | null;
+  isActive: boolean;
+}
+
+export function getJobs() {
+  return fetchFromApi<Job[]>('/careers/jobs');
+}
+
+export function getJobBySlug(slug: string) {
+  return fetchFromApi<Job>(`/careers/jobs/slug/${slug}`);
+}
+
+export interface JobApplicationPayload {
+  name: string;
+  email: string;
+  phone?: string;
+  resumeUrl: string;
+  coverLetter?: string;
+}
+
+export async function submitJobApplication(jobId: string, payload: JobApplicationPayload) {
+  const res = await fetch(`${API_URL}/careers/jobs/${jobId}/apply`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    throw new Error(data?.message || 'Failed to submit application');
+  }
+  return res.json();
+}
+
+export async function uploadResume(file: File): Promise<{ url: string; publicId: string }> {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`${API_URL}/upload/resume`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => null);
+    throw new Error(data?.message || 'Failed to upload resume');
+  }
+  return res.json();
+}

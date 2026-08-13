@@ -72,7 +72,7 @@ export default function AdminCareersPage() {
                 </div>
                 <div className="mt-3 flex justify-end space-x-3">
                   <Link href={`/admin/careers/${j.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
-                  <Link href={`/admin/careers/${j.id}/applications`} onClick={(e) => e.stopPropagation()} className="text-violet-600 hover:text-violet-700 transition-colors text-sm">Applications</Link>
+                  <Link href="/admin/careers/applications" onClick={(e) => e.stopPropagation()} className="text-violet-600 hover:text-violet-700 transition-colors text-sm">Applications</Link>
                   <button onClick={(e) => { e.stopPropagation(); handleDelete(j.id, j.title); }} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function AdminCareersPage() {
                 <div className="shrink-0">{j.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</div>
                 <div className="flex shrink-0 items-center gap-4 pl-2">
                   <Link href={`/admin/careers/${j.id}`} onClick={(e) => e.stopPropagation()} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
-                  <Link href={`/admin/careers/${j.id}/applications`} onClick={(e) => e.stopPropagation()} className="text-sm text-violet-600 hover:text-violet-700 transition-colors">Applications</Link>
+                  <Link href="/admin/careers/applications" onClick={(e) => e.stopPropagation()} className="text-sm text-violet-600 hover:text-violet-700 transition-colors">Applications</Link>
                   <button onClick={(e) => { e.stopPropagation(); handleDelete(j.id, j.title); }} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
                 </div>
               </div>
