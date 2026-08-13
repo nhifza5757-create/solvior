@@ -64,11 +64,19 @@ export default function AdminSettingsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+      <div
+        className="relative mb-6 flex items-center gap-3.5 overflow-hidden rounded-2xl bg-cover bg-center px-5 py-4 sm:px-6"
+        style={{ backgroundImage: "url('/images/hero/h4-hero-stat-bg.jpg')" }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, #0a1426E6 0%, #132038D9 55%, #0075ffB3 160%)' }}
+        />
+        <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/5" />
+        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#4da3ff] ring-1 ring-white/15">
           <KeyRound className="h-5 w-5" />
         </div>
-        <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">
+        <h1 className="relative text-xl font-display font-semibold text-white tracking-tight">
           Change Password
         </h1>
       </div>

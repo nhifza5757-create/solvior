@@ -58,17 +58,30 @@ export default function AdminJobApplicationsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-5">
-        <Link href="/admin/careers" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:border-primary hover:text-primary hover:bg-primary/5"><ArrowLeft className="h-4 w-4" /></Link>
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+      <div
+        className="relative mb-6 flex items-center gap-3.5 overflow-hidden rounded-2xl bg-cover bg-center px-5 py-4 sm:px-6"
+        style={{ backgroundImage: "url('/images/hero/h4-hero-stat-bg.jpg')" }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, #0a1426E6 0%, #132038D9 55%, #0075ffB3 160%)' }}
+        />
+        <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/5" />
+        <Link
+          href="/admin/careers"
+          className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white hover:bg-white/10"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Link>
+        <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#4da3ff] ring-1 ring-white/15">
           <GraduationCap className="h-5 w-5" />
         </div>
-        <div>
+        <div className="relative">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Job Applications</h1>
-            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">{apps.length}</span>
+            <h1 className="text-xl font-display font-semibold text-white tracking-tight">Job Applications</h1>
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-medium text-white/80 ring-1 ring-white/10">{apps.length}</span>
           </div>
-          <p className="mt-0.5 text-sm text-gray-500">Applicants who applied to your job listings.</p>
+          <p className="mt-0.5 text-sm text-white/60">Applicants who applied to your job listings.</p>
         </div>
       </div>
 
@@ -86,7 +99,7 @@ export default function AdminJobApplicationsPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {apps.map((a) => (
-              <div key={a.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div key={a.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <p className="font-medium text-gray-900 truncate">{a.name}</p>
                 <p className="mt-0.5 text-xs text-gray-500 truncate">{a.email}</p>
                 <p className="mt-0.5 text-xs text-gray-500 truncate">{a.phone || '-'}</p>
@@ -109,7 +122,7 @@ export default function AdminJobApplicationsPage() {
           {/* Desktop horizontal card view */}
           <div className="hidden md:block space-y-3">
             {apps.map((a) => (
-              <div key={a.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={a.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-gray-900 truncate">{a.name}</p>
                   <p className="mt-0.5 text-sm text-gray-500 truncate">{a.email}</p>

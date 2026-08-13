@@ -50,12 +50,25 @@ export default function EditServicePage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-5">
-        <Link href="/admin/services" className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:border-primary hover:text-primary hover:bg-primary/5"><ArrowLeft className="h-4 w-4" /></Link>
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+      <div
+        className="relative mb-6 flex items-center gap-3.5 overflow-hidden rounded-2xl bg-cover bg-center px-5 py-4 sm:px-6"
+        style={{ backgroundImage: "url('/images/hero/h4-hero-stat-bg.jpg')" }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'linear-gradient(135deg, #0a1426E6 0%, #132038D9 55%, #0075ffB3 160%)' }}
+        />
+        <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/5" />
+        <Link
+          href="/admin/services"
+          className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white hover:bg-white/10"
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Link>
+        <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#4da3ff] ring-1 ring-white/15">
           <Briefcase className="h-5 w-5" />
         </div>
-        <h1 className="text-xl font-display font-semibold text-gray-900 tracking-tight">Edit Service</h1>
+        <h1 className="relative text-xl font-display font-semibold text-white tracking-tight">Edit Service</h1>
       </div>
       <form onSubmit={handleSubmit} className="max-w-xl space-y-5 rounded-xl bg-white p-4 shadow-sm border border-gray-100 sm:p-7">
         {error && <p className="rounded-lg bg-red-50 border border-red-100 px-3.5 py-2.5 text-sm text-red-600">{error}</p>}

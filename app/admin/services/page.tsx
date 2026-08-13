@@ -107,7 +107,7 @@ export default function AdminServicesPage() {
               <div
                 key={service.id}
                 onClick={() => router.push(`/admin/services/${service.id}`)}
-                className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
+                className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
@@ -144,7 +144,7 @@ export default function AdminServicesPage() {
               <div
                 key={service.id}
                 onClick={() => router.push(`/admin/services/${service.id}`)}
-                className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
+                className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5"
               >
                 <span className="w-8 shrink-0 text-sm text-gray-400">{service.order}</span>
                 <div className="min-w-0 flex-1">

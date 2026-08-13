@@ -3,13 +3,13 @@ type Tone = 'success' | 'neutral' | 'primary';
 const TONES: Record<Tone, string> = {
   success: 'bg-emerald-50 text-emerald-700',
   neutral: 'bg-gray-100 text-gray-500',
-  primary: 'bg-primary/10 text-primary',
+  primary: 'bg-[#0075ff]/10 text-[#0075ff]',
 };
 
 const DOTS: Record<Tone, string> = {
   success: 'bg-emerald-500',
   neutral: 'bg-gray-400',
-  primary: 'bg-primary',
+  primary: 'bg-[#0075ff]',
 };
 
 export default function StatusBadge({

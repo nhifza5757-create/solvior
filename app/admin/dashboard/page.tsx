@@ -278,7 +278,7 @@ export default function AdminDashboardPage() {
       {/* Header band */}
       <div
         className="relative mb-6 overflow-hidden rounded-2xl bg-primary bg-cover bg-center px-5 py-6 sm:mb-8 sm:px-8 sm:py-8"
-        style={{ backgroundImage: "url('/images/home-4/cta/h4-cta-bg.webp')" }}
+        style={{ backgroundImage: "url('/images/hero/h4-hero-stat-bg.jpg')" }}
       >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/85 to-accent/70" />
         <div className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/10" />

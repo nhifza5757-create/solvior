@@ -62,7 +62,7 @@ export default function AdminPricingPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {plans.map((p) => (
-              <div key={p.id} onClick={() => router.push(`/admin/pricing/${p.id}`)} className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={p.id} onClick={() => router.push(`/admin/pricing/${p.id}`)} className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export default function AdminPricingPage() {
           {/* Desktop horizontal card view */}
           <div className="hidden md:block space-y-3">
             {plans.map((p) => (
-              <div key={p.id} onClick={() => router.push(`/admin/pricing/${p.id}`)} className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={p.id} onClick={() => router.push(`/admin/pricing/${p.id}`)} className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <span className="w-8 shrink-0 text-sm text-gray-400">{p.order}</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">

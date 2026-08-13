@@ -56,7 +56,7 @@ export default function AdminNewsletterPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {subs.map((s) => (
-              <div key={s.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div key={s.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="font-medium text-gray-900 truncate">{s.email}</p>
@@ -74,7 +74,7 @@ export default function AdminNewsletterPage() {
           {/* Desktop horizontal card view */}
           <div className="hidden md:block space-y-3">
             {subs.map((s) => (
-              <div key={s.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={s.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <p className="min-w-0 flex-1 truncate font-medium text-gray-900">{s.email}</p>
                 <span className="shrink-0 text-sm text-gray-500">{new Date(s.subscribedAt).toLocaleDateString()}</span>
                 <div className="shrink-0">{s.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Unsubscribed" tone="neutral" />}</div>

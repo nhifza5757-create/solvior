@@ -84,7 +84,7 @@ export default function AdminContactPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {items.map((c) => (
-              <div key={c.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div key={c.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <p className="font-medium text-gray-900 truncate">{c.name}</p>
                 <p className="mt-0.5 text-xs text-gray-500 truncate">{c.email}</p>
                 <p className="mt-0.5 text-xs text-gray-500 truncate">{c.subject || '-'}</p>
@@ -107,7 +107,7 @@ export default function AdminContactPage() {
           {/* Desktop horizontal card view */}
           <div className="hidden md:block space-y-3">
             {items.map((c) => (
-              <div key={c.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={c.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-[#0075ff]/30 hover:shadow-md hover:-translate-y-0.5">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-gray-900 truncate">{c.name}</p>
                   <p className="mt-0.5 text-sm text-gray-500 truncate">{c.email}</p>
