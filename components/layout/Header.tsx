@@ -325,7 +325,7 @@ export default function Header() {
           <Link
   href="/contact"
   data-cursor-hover
-  className={`group relative hidden sm:inline-flex items-center overflow-hidden rounded-full py-2 pl-3 pr-7 text-sm font-semibold ${
+  className={`group relative hidden sm:inline-flex items-center overflow-hidden rounded-full py-1.5 pl-2.5 pr-6 text-sm font-semibold ${
     isDark 
       ? "bg-white text-[#0a1426]" 
       : "bg-[#0a1426] text-white"
@@ -333,12 +333,12 @@ export default function Header() {
 >
   <span
     aria-hidden
-    className="absolute inset-y-0 left-3 z-0 my-auto h-9 w-9 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-24px)] group-active:w-[calc(100%-24px)]"
+    className="absolute inset-y-0 left-2.5 z-0 my-auto h-8 w-8 rounded-full bg-[#0075ff] transition-all duration-500 ease-out group-hover:w-[calc(100%-20px)] group-active:w-[calc(100%-20px)]"
   />
-  <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white">
-    <ArrowRight className="h-4 w-4" />
+  <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center text-white">
+    <ArrowRight className="h-3.5 w-3.5" />
   </span>
-  <span className="relative z-10 ml-3">
+  <span className="relative z-10 ml-2.5">
     Get a quote
   </span>
 </Link>

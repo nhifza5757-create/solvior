@@ -1,14 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
   LayoutDashboard, Briefcase, Users, FolderKanban, Newspaper,
   MessageSquareQuote, DollarSign, HelpCircle, GraduationCap,
-  Mail, MailPlus, LogOut, Menu, X,
+  Mail, MailPlus, LogOut, LayoutGrid, X,
 } from 'lucide-react';
+import { useHeaderTheme } from '@/context/HeaderThemeContext';
 
 const navItems = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
@@ -29,6 +30,39 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const [checking, setChecking] = useState(true);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [topBarVisible, setTopBarVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const { setForceLight } = useHeaderTheme();
+
+  // Hide the mobile top bar on scroll down, reveal it on scroll up —
+  // same behavior as the public site's Header.tsx.
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 80) {
+        setTopBarVisible(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        setTopBarVisible(false);
+      } else {
+        setTopBarVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // The site's blue announcement top bar (rendered by Header.tsx, outside the
+  // <header> tag) only renders when forceLight is false. Setting it here for
+  // the whole /admin/* section keeps that bar from ever appearing on any
+  // admin page, not just login.
+  useEffect(() => {
+    setForceLight(true);
+    return () => setForceLight(false);
+  }, [setForceLight]);
 
   useEffect(() => {
     // Login page doesn't need auth check
@@ -102,7 +136,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {hideHeader}
       <div className="min-h-screen bg-gray-50 lg:flex">
         {/* Mobile top bar — visible below lg, holds the hamburger toggle */}
-        <div className="sticky top-0 z-30 flex items-center justify-between border-b border-gray-200 bg-[#0b0f1a] px-4 py-3 lg:hidden">
+        <div
+          className={`sticky top-0 z-30 flex items-center justify-between border-b border-gray-200 bg-[#0b0f1a] px-4 py-3 transition-transform duration-300 lg:hidden ${
+            topBarVisible ? 'translate-y-0' : '-translate-y-full'
+          }`}
+        >
           <Image
             src="/images/primary-logo.webp"
             alt="Solvior"
@@ -116,7 +154,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             aria-label="Open menu"
             className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-300 transition-colors hover:bg-white/10 hover:text-white"
           >
-            <Menu className="h-5 w-5" />
+            <LayoutGrid className="h-5 w-5" />
           </button>
         </div>
 
