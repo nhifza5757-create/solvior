@@ -7,7 +7,7 @@ import Image from 'next/image';
 import {
   LayoutDashboard, Briefcase, Users, FolderKanban, Newspaper,
   MessageSquareQuote, DollarSign, HelpCircle, GraduationCap,
-  Mail, MailPlus, LogOut, LayoutGrid, X,
+  Mail, MailPlus, LogOut, LayoutGrid, X, KeyRound,
 } from 'lucide-react';
 import { useHeaderTheme } from '@/context/HeaderThemeContext';
 
@@ -23,6 +23,7 @@ const navItems = [
   { label: 'Careers', href: '/admin/careers', icon: GraduationCap },
   { label: 'Contact Messages', href: '/admin/contact', icon: Mail },
   { label: 'Newsletter', href: '/admin/newsletter', icon: MailPlus },
+  { label: 'Change Password', href: '/admin/settings', icon: KeyRound },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
