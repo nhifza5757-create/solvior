@@ -36,10 +36,11 @@ export default function EditJobPage() {
     if (!form.title.trim() || !form.slug.trim() || !form.description.trim()) { setError('Title, slug and description are required.'); return; }
     setLoading(true);
     try {
+      const { slug, ...payload } = form;
       const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/careers/jobs/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form) });
+        body: JSON.stringify(payload) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update job'); }
       router.push('/admin/careers');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

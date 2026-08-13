@@ -20,10 +20,20 @@ export default function AddTeamMemberPage() {
     if (!form.name.trim() || !form.position.trim()) { setError('Name and position are required.'); return; }
     setLoading(true);
     try {
+      const payload = {
+        ...form,
+        order: Number(form.order),
+        bio: form.bio.trim() || undefined,
+        image: form.image.trim() || undefined,
+        linkedin: form.linkedin.trim() || undefined,
+        twitter: form.twitter.trim() || undefined,
+        instagram: form.instagram.trim() || undefined,
+        facebook: form.facebook.trim() || undefined,
+      };
       const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/team`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, order: Number(form.order) }) });
+        body: JSON.stringify(payload) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to create team member'); }
       router.push('/admin/team');
     } catch (err: any) {

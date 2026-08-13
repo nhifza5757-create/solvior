@@ -11,6 +11,7 @@ export default function AddServicePage() {
 
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
+  const [description, setDescription] = useState('');
   const [shortDesc, setShortDesc] = useState('');
   const [order, setOrder] = useState(0);
   const [isActive, setIsActive] = useState(true);
@@ -34,8 +35,8 @@ export default function AddServicePage() {
     e.preventDefault();
     setError('');
 
-    if (!title.trim() || !slug.trim()) {
-      setError('Title and slug are required.');
+    if (!title.trim() || !slug.trim() || !description.trim()) {
+      setError('Title, slug and description are required.');
       return;
     }
 
@@ -47,7 +48,7 @@ export default function AddServicePage() {
           'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: title.trim(),
-          slug: slug.trim(),
+          description: description.trim(),
           shortDesc: shortDesc.trim() || null,
           order: Number(order),
           isActive }) });
@@ -113,6 +114,19 @@ export default function AddServicePage() {
             onChange={(e) => setSlug(e.target.value)}
             className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             placeholder="e.g. web-development"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-gray-600">
+            Description
+          </label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={5}
+            className="w-full rounded-lg border border-gray-400 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 transition-colors hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            placeholder="Full description shown on the service detail page"
           />
         </div>
 

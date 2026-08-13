@@ -36,10 +36,11 @@ export default function EditServicePage() {
     if (!form.title.trim() || !form.slug.trim() || !form.description.trim()) { setError('Title, slug and description are required.'); return; }
     setLoading(true);
     try {
+      const { slug, ...payload } = form;
       const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/services/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, order: Number(form.order) }) });
+        body: JSON.stringify({ ...payload, order: Number(form.order) }) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update service'); }
       router.push('/admin/services');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }

@@ -36,10 +36,11 @@ export default function EditBlogPostPage() {
     if (!form.title.trim() || !form.slug.trim() || !form.content.trim()) { setError('Title, slug and content are required.'); return; }
     setLoading(true);
     try {
+      const { slug, ...payload } = form;
       const res = await adminFetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/posts/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form) });
+        body: JSON.stringify(payload) });
       if (!res.ok) { const data = await res.json().catch(() => null); throw new Error(data?.message || 'Failed to update blog post'); }
       router.push('/admin/blog');
     } catch (err: any) { setError(err.message || 'Something went wrong'); } finally { setLoading(false); }
