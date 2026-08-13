@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, DollarSign } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
@@ -9,6 +10,7 @@ import { adminFetch } from '@/lib/adminFetch';
 interface PricingPlan { id: string; name: string; price: string; billingCycle: string; isPopular: boolean; order: number; isActive: boolean; }
 
 export default function AdminPricingPage() {
+  const router = useRouter();
   const [plans, setPlans] = useState<PricingPlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -60,7 +62,7 @@ export default function AdminPricingPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {plans.map((p) => (
-              <div key={p.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div key={p.id} onClick={() => router.push(`/admin/pricing/${p.id}`)} className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
@@ -74,8 +76,8 @@ export default function AdminPricingPage() {
                 <div className="mt-3 flex items-center justify-between">
                   <span className="text-xs text-gray-400">Order {p.order}</span>
                   <div className="space-x-3">
-                    <Link href={`/admin/pricing/${p.id}`} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
-                    <button onClick={() => handleDelete(p.id, p.name)} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
+                    <Link href={`/admin/pricing/${p.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
+                    <button onClick={(e) => { e.stopPropagation(); handleDelete(p.id, p.name); }} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
                   </div>
                 </div>
               </div>
@@ -85,7 +87,7 @@ export default function AdminPricingPage() {
           {/* Desktop horizontal card view */}
           <div className="hidden md:block space-y-3">
             {plans.map((p) => (
-              <div key={p.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={p.id} onClick={() => router.push(`/admin/pricing/${p.id}`)} className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
                 <span className="w-8 shrink-0 text-sm text-gray-400">{p.order}</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
@@ -96,8 +98,8 @@ export default function AdminPricingPage() {
                 </div>
                 <div className="shrink-0">{p.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</div>
                 <div className="flex shrink-0 items-center gap-4 pl-2">
-                  <Link href={`/admin/pricing/${p.id}`} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
-                  <button onClick={() => handleDelete(p.id, p.name)} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
+                  <Link href={`/admin/pricing/${p.id}`} onClick={(e) => e.stopPropagation()} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
+                  <button onClick={(e) => { e.stopPropagation(); handleDelete(p.id, p.name); }} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
                 </div>
               </div>
             ))}

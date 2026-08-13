@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, Briefcase } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
@@ -17,6 +18,7 @@ interface Service {
 }
 
 export default function AdminServicesPage() {
+  const router = useRouter();
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -102,7 +104,11 @@ export default function AdminServicesPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {services.map((service) => (
-              <div key={service.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div
+                key={service.id}
+                onClick={() => router.push(`/admin/services/${service.id}`)}
+                className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="font-medium text-gray-900 truncate">{service.title}</p>
@@ -115,12 +121,13 @@ export default function AdminServicesPage() {
                   <div className="space-x-3">
                     <Link
                       href={`/admin/services/${service.id}`}
+                      onClick={(e) => e.stopPropagation()}
                       className="text-primary hover:text-accent transition-colors text-sm"
                     >
                       Edit
                     </Link>
                     <button
-                      onClick={() => handleDelete(service.id, service.title)}
+                      onClick={(e) => { e.stopPropagation(); handleDelete(service.id, service.title); }}
                       className="text-red-500 hover:text-red-700 transition-colors text-sm"
                     >
                       Delete
@@ -136,7 +143,8 @@ export default function AdminServicesPage() {
             {services.map((service) => (
               <div
                 key={service.id}
-                className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
+                onClick={() => router.push(`/admin/services/${service.id}`)}
+                className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md"
               >
                 <span className="w-8 shrink-0 text-sm text-gray-400">{service.order}</span>
                 <div className="min-w-0 flex-1">
@@ -149,12 +157,13 @@ export default function AdminServicesPage() {
                 <div className="flex shrink-0 items-center gap-4 pl-2">
                   <Link
                     href={`/admin/services/${service.id}`}
+                    onClick={(e) => e.stopPropagation()}
                     className="text-sm text-primary hover:text-accent transition-colors"
                   >
                     Edit
                   </Link>
                   <button
-                    onClick={() => handleDelete(service.id, service.title)}
+                    onClick={(e) => { e.stopPropagation(); handleDelete(service.id, service.title); }}
                     className="text-sm text-red-500 hover:text-red-700 transition-colors"
                   >
                     Delete

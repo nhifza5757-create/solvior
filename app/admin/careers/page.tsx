@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, GraduationCap } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
@@ -9,6 +10,7 @@ import { adminFetch } from '@/lib/adminFetch';
 interface Job { id: string; title: string; department: string | null; location: string | null; type: string | null; isActive: boolean; }
 
 export default function AdminCareersPage() {
+  const router = useRouter();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -60,7 +62,7 @@ export default function AdminCareersPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {jobs.map((j) => (
-              <div key={j.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div key={j.id} onClick={() => router.push(`/admin/careers/${j.id}`)} className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="font-medium text-gray-900 truncate">{j.title}</p>
@@ -69,9 +71,9 @@ export default function AdminCareersPage() {
                   {j.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}
                 </div>
                 <div className="mt-3 flex justify-end space-x-3">
-                  <Link href={`/admin/careers/${j.id}`} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
-                  <Link href={`/admin/careers/${j.id}/applications`} className="text-violet-600 hover:text-violet-700 transition-colors text-sm">Applications</Link>
-                  <button onClick={() => handleDelete(j.id, j.title)} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
+                  <Link href={`/admin/careers/${j.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
+                  <Link href={`/admin/careers/${j.id}/applications`} onClick={(e) => e.stopPropagation()} className="text-violet-600 hover:text-violet-700 transition-colors text-sm">Applications</Link>
+                  <button onClick={(e) => { e.stopPropagation(); handleDelete(j.id, j.title); }} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
                 </div>
               </div>
             ))}
@@ -80,16 +82,16 @@ export default function AdminCareersPage() {
           {/* Desktop horizontal card view */}
           <div className="hidden md:block space-y-3">
             {jobs.map((j) => (
-              <div key={j.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={j.id} onClick={() => router.push(`/admin/careers/${j.id}`)} className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-gray-900 truncate">{j.title}</p>
                   <p className="mt-0.5 text-sm text-gray-500 truncate">{j.department || '-'} &middot; {j.location || '-'} &middot; {j.type || '-'}</p>
                 </div>
                 <div className="shrink-0">{j.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</div>
                 <div className="flex shrink-0 items-center gap-4 pl-2">
-                  <Link href={`/admin/careers/${j.id}`} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
-                  <Link href={`/admin/careers/${j.id}/applications`} className="text-sm text-violet-600 hover:text-violet-700 transition-colors">Applications</Link>
-                  <button onClick={() => handleDelete(j.id, j.title)} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
+                  <Link href={`/admin/careers/${j.id}`} onClick={(e) => e.stopPropagation()} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
+                  <Link href={`/admin/careers/${j.id}/applications`} onClick={(e) => e.stopPropagation()} className="text-sm text-violet-600 hover:text-violet-700 transition-colors">Applications</Link>
+                  <button onClick={(e) => { e.stopPropagation(); handleDelete(j.id, j.title); }} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
                 </div>
               </div>
             ))}

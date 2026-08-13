@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, Users } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
 import StatusBadge from '@/components/admin/StatusBadge';
@@ -16,6 +17,7 @@ interface TeamMember {
 }
 
 export default function AdminTeamPage() {
+  const router = useRouter();
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -80,7 +82,7 @@ export default function AdminTeamPage() {
           {/* Mobile card view */}
           <div className="space-y-3 md:hidden">
             {members.map((m) => (
-              <div key={m.id} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div key={m.id} onClick={() => router.push(`/admin/team/${m.id}`)} className="cursor-pointer rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="font-medium text-gray-900 truncate">{m.name}</p>
@@ -91,8 +93,8 @@ export default function AdminTeamPage() {
                 <div className="mt-3 flex items-center justify-between">
                   <span className="text-xs text-gray-400">Order {m.order}</span>
                   <div className="space-x-3">
-                    <Link href={`/admin/team/${m.id}`} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
-                    <button onClick={() => handleDelete(m.id, m.name)} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
+                    <Link href={`/admin/team/${m.id}`} onClick={(e) => e.stopPropagation()} className="text-primary hover:text-accent transition-colors text-sm">Edit</Link>
+                    <button onClick={(e) => { e.stopPropagation(); handleDelete(m.id, m.name); }} className="text-red-500 hover:text-red-700 transition-colors text-sm">Delete</button>
                   </div>
                 </div>
               </div>
@@ -102,7 +104,7 @@ export default function AdminTeamPage() {
           {/* Desktop horizontal card view */}
           <div className="hidden md:block space-y-3">
             {members.map((m) => (
-              <div key={m.id} className="flex items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
+              <div key={m.id} onClick={() => router.push(`/admin/team/${m.id}`)} className="flex cursor-pointer items-center gap-6 rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition-all hover:border-primary/20 hover:shadow-md">
                 <span className="w-8 shrink-0 text-sm text-gray-400">{m.order}</span>
                 <div className="min-w-0 flex-1">
                   <p className="font-medium text-gray-900 truncate">{m.name}</p>
@@ -110,8 +112,8 @@ export default function AdminTeamPage() {
                 </div>
                 <div className="shrink-0">{m.isActive ? <StatusBadge label="Active" tone="success" /> : <StatusBadge label="Inactive" tone="neutral" />}</div>
                 <div className="flex shrink-0 items-center gap-4 pl-2">
-                  <Link href={`/admin/team/${m.id}`} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
-                  <button onClick={() => handleDelete(m.id, m.name)} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
+                  <Link href={`/admin/team/${m.id}`} onClick={(e) => e.stopPropagation()} className="text-sm text-primary hover:text-accent transition-colors">Edit</Link>
+                  <button onClick={(e) => { e.stopPropagation(); handleDelete(m.id, m.name); }} className="text-sm text-red-500 hover:text-red-700 transition-colors">Delete</button>
                 </div>
               </div>
             ))}
