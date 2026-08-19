@@ -14,7 +14,6 @@ import {
   Navigation,
   Check,
 } from "lucide-react";
-import { siteConfig } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
 
 const HERO_BG = "/images/project/pheader-bg.webp";
@@ -53,6 +52,8 @@ export default function ContactPage() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -60,18 +61,36 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    const subject = encodeURIComponent(`New inquiry from ${form.name || "website"}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nService: ${form.service}\n\nMessage:\n${form.message}`
-    );
-    window.location.href = `mailto:${siteConfig.email}?subject=${subject}&body=${body}`;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: form.service,
+          message: form.message,
+        }),
+      });
 
-    setSubmitted(true);
-    setForm({ name: "", email: "", phone: "", service: "", message: "" });
-    setTimeout(() => setSubmitted(false), 5000);
+      if (!res.ok) {
+        throw new Error("Failed to send message. Please try again.");
+      }
+
+      setSubmitted(true);
+      setForm({ name: "", email: "", phone: "", service: "", message: "" });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -285,11 +304,14 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {error && <p className="text-sm text-red-500">{error}</p>}
+
                 <div className="flex items-center gap-4">
                   <button
                     type="submit"
+                    disabled={loading}
                     data-cursor-hover
-                    className="group relative inline-flex items-center overflow-hidden rounded-full bg-primary-dark py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-lg active:shadow-lg"
+                    className="group relative inline-flex items-center overflow-hidden rounded-full bg-primary-dark py-2 pl-3 pr-7 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 active:-translate-y-0.5 hover:shadow-lg active:shadow-lg disabled:opacity-60 disabled:hover:translate-y-0"
                   >
                     <span
                       aria-hidden
@@ -298,12 +320,14 @@ export default function ContactPage() {
                     <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center text-white transition-transform duration-500 group-hover:translate-x-1 group-active:translate-x-1 group-hover:-rotate-45 group-active:-rotate-45">
                       <ArrowRight className="h-4 w-4" />
                     </span>
-                    <span className="relative z-10 ml-3">Send message</span>
+                    <span className="relative z-10 ml-3">
+                      {loading ? "Sending..." : "Send message"}
+                    </span>
                   </button>
 
                   {submitted && (
                     <span className="flex items-center gap-1.5 text-sm font-medium text-accent">
-                      <Check className="h-4 w-4" /> Opening your email client...
+                      <Check className="h-4 w-4" /> Message sent successfully!
                     </span>
                   )}
                 </div>
