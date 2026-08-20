@@ -7,12 +7,35 @@ import Reveal from "@/components/ui/Reveal";
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email) return;
-    setSubmitted(true);
-    setEmail("");
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/newsletter`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.message || "Failed to subscribe. Please try again.");
+      }
+
+      setSubmitted(true);
+      setEmail("");
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -44,12 +67,14 @@ export default function Newsletter() {
             />
             <button
               type="submit"
+              disabled={loading}
               data-cursor-hover
-              className="rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white active:bg-white hover:text-primary-dark active:text-primary-dark"
+              className="rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white active:bg-white hover:text-primary-dark active:text-primary-dark disabled:opacity-60"
             >
-              Subscribe
+              {loading ? "Subscribing..." : "Subscribe"}
             </button>
           </form>
+          {error && <p className="mt-4 text-sm text-red-300">{error}</p>}
           {submitted && (
             <p className="mt-4 text-sm text-white/80">Thanks — you&apos;re subscribed!</p>
           )}
